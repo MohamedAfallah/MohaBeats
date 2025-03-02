@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrincipal"
+    tools:context=".ui.view.MainActivity">
+
+    <TextView
+        android:id="@+id/lblTiempo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/abril_fatface"
+        android:textColor="@color/blancoAgradables"
+        android:textSize="15sp"
+        android:padding="12sp"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.29"
+        android:text="" />
+
+    <EditText
+        android:id="@+id/txtUsuario"
+        android:layout_width="327dp"
+        android:layout_height="47dp"
+        android:ems="10"
+        android:inputType="text"
+        android:textColor="@color/blancoAgradables"
+        android:background="@color/fondosSecundarios"
+        android:fontFamily="@font/abril_fatface"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/txtContrasena"
+        android:layout_width="327dp"
+        android:layout_height="47dp"
+        android:ems="10"
+        android:inputType="textPassword"
+        android:textColor="@color/blancoAgradables"
+        android:background="@color/fondosSecundarios"
+        android:fontFamily="@font/abril_fatface"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.663" />
+
+    <TextView
+        android:id="@+id/lblContrasena"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/abril_fatface"
+        android:text="@string/lblContrasena"
+        android:textColor="@color/blancoAgradables"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.132"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.576" />
+
+    <TextView
+        android:id="@+id/lblUsuario"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/abril_fatface"
+        android:text="@string/lblUsuario"
+        android:textColor="@color/blancoAgradables"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.121"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.423" />
+
+    <Button
+        android:id="@+id/btnIniciar"
+        android:layout_width="325dp"
+        android:layout_height="48dp"
+        android:backgroundTint="@color/colorDetalles"
+        android:fontFamily="@font/abril_fatface"
+        android:text="@string/lblIniciarSesion"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.796" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="117dp"
+        android:layout_height="108dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.506"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.054"
+        app:srcCompat="@drawable/moha_beats_removebg_preview" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
