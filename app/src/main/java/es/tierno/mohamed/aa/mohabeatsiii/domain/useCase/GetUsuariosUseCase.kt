@@ -6,6 +6,7 @@ import es.tierno.mohamed.aa.mohabeatsiii.data.provider.UsuarioProvider
 import es.tierno.mohamed.aa.mohabeatsiii.domain.model.Usuario
 import javax.inject.Inject
 
+//caso de uso para obtener el listado de usuario y para verificar el login
 class GetUsuariosUseCase@Inject constructor(
     private val repositorio: UsuarioRepositorio
 ) {

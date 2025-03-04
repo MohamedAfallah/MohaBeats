@@ -6,6 +6,7 @@ import es.tierno.mohamed.aa.mohabeatsiii.data.db.entidades.UsuarioEntity
 import es.tierno.mohamed.aa.mohabeatsiii.domain.model.Usuario
 import javax.inject.Inject
 
+//repositorio para el control de usuarios
 class UsuarioRepositorio@Inject constructor (
     private val usuarioDao: UsuarioDao) {
     suspend fun getUsuarios(): List<Usuario>{

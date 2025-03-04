@@ -7,6 +7,7 @@ import es.tierno.mohamed.aa.mohabeatsiii.data.db.entidades.MusicaEntity
 
 import javax.inject.Inject
 
+//Repositorio para el control de data de las canciones
 class MusicaRepositorio@Inject constructor (
     private val musicaDao: MusicaDao) {
 

@@ -28,6 +28,7 @@ class CancionesFrag : Fragment() {
     ): View? {
         _binding = FragmentCancionesBinding.inflate(inflater, container, false)
 
+        //Observar el ViewModel
         musicaViewModel.musica.observe(viewLifecycleOwner, Observer { canciones ->
             canciones?.let {
                 initRecyclerView(it)
@@ -41,11 +42,13 @@ class CancionesFrag : Fragment() {
         return binding.root
     }
 
+    //Iniciar el recyclerView de canciones
     private fun initRecyclerView(canciones : List<Musica>) {
         binding.recyclerViewCanciones.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerViewCanciones.adapter = Adapter(canciones)
     }
 
+    //Liberar la referencia del binding cuando se destruye el fragmento.wwww
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

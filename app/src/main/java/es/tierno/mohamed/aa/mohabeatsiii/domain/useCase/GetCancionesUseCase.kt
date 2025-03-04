@@ -6,6 +6,7 @@ import es.tierno.mohamed.aa.mohabeatsiii.data.provider.MusicaProvider
 import es.tierno.mohamed.aa.mohabeatsiii.domain.model.Musica
 import javax.inject.Inject
 
+//Caso de uso para obtener las canciones
 class GetCancionesUseCase @Inject constructor(
     private val repositorio: MusicaRepositorio
 ){

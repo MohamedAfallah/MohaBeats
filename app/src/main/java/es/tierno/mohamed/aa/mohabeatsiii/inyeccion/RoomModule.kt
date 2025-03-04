@@ -10,6 +10,7 @@ import dagger.hilt.components.SingletonComponent
 import es.tierno.mohamed.aa.mohabeatsiii.data.db.MohaBeatsDataBase
 import javax.inject.Singleton
 
+// La inyeccion del Room
 @Module
 @InstallIn(SingletonComponent::class)
 object RoomModule {
@@ -26,4 +27,8 @@ object RoomModule {
     @Singleton
     @Provides
     fun providesGetUsuarios(db: MohaBeatsDataBase) = db.usuarioDao()
+
+    @Singleton
+    @Provides
+    fun providesGetFavoritos(db: MohaBeatsDataBase) = db.musicaFavoritaDao()
 }

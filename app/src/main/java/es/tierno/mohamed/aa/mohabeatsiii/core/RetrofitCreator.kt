@@ -5,6 +5,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitCreator {
     private const val BASE_URL = "https://www.el-tiempo.net/api/json/v2/"
+
+    //Primero paso para poder conectarse a una API
     fun getRetrofit() : Retrofit{
         return Retrofit.Builder().baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create()).build()

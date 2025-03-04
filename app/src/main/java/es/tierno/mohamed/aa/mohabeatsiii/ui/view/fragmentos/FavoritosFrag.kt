@@ -5,14 +5,23 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import dagger.hilt.android.AndroidEntryPoint
 import es.tierno.mohamed.aa.mohabeatsiii.databinding.FragmentFavoritosBinding
 import es.tierno.mohamed.aa.mohabeatsiii.domain.model.Musica
 import es.tierno.mohamed.aa.mohabeatsiii.ui.view.fragmentos.recyclerView.Adapter
+import es.tierno.mohamed.aa.mohabeatsiii.ui.viewModel.FavoritosViewModel
+import es.tierno.mohamed.aa.mohabeatsiii.ui.viewModel.MusicaViewModel
 
+@AndroidEntryPoint
 class FavoritosFrag : Fragment() {
     private var _binding: FragmentFavoritosBinding? = null
     private val binding get() = _binding!!
+
+    private val favoritosViewModel : FavoritosViewModel
+        get() = ViewModelProvider(this).get(FavoritosViewModel::class.java)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -20,17 +29,20 @@ class FavoritosFrag : Fragment() {
     ): View? {
         _binding = FragmentFavoritosBinding.inflate(inflater, container, false)
 
-        initRecyclerView()
+        val usuarioId = arguments?.getInt("usuarioId", -1) ?: -1
+
+        favoritosViewModel.musicaFavorita.observe(viewLifecycleOwner, Observer { canciones ->
+            canciones?.let {
+                initRecyclerView(it)
+            }
+        })
+
+        favoritosViewModel.onCreate(usuarioId)
 
         return binding.root
     }
 
-    private fun initRecyclerView() {
-        val canciones = listOf(
-            Musica("Blinding Lights", "The Weeknd", "https://example.com/blinding_lights.mp3"),
-            Musica("Shape of You", "Ed Sheeran", "https://example.com/shape_of_you.mp3"),
-        )
-
+    private fun initRecyclerView(canciones : List<Musica>) {
         binding.recyclerViewFavoritos.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerViewFavoritos.adapter = Adapter(canciones)
     }
