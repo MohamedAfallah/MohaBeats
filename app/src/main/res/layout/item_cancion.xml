@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <ImageView
+        android:id="@+id/imagenCancion"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:paddingLeft="15dp"
+        tools:background="@color/colorPrincipal"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <TextView
+        android:id="@+id/nombreCancion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:fontFamily="@font/abril_fatface"
+        android:textSize="15dp"
+        android:textColor="@color/blancoAgradables"
+        tools:text="Mohamed"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/imagenCancion"/>
+    <TextView
+        android:id="@+id/nombreArtista"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:fontFamily="@font/abril_fatface"
+        android:textSize="15dp"
+        android:textColor="@color/blancoAgradables"
+        tools:text="Mohamed"
+        app:layout_constraintTop_toBottomOf="@id/nombreCancion"
+        app:layout_constraintStart_toEndOf="@id/imagenCancion"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

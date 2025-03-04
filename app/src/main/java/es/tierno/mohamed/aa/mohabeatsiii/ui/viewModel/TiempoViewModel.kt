@@ -3,12 +3,14 @@ package es.tierno.mohamed.aa.mohabeatsiii.ui.viewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import es.tierno.mohamed.aa.mohabeatsiii.data.model.Tiempo
-import es.tierno.mohamed.aa.mohabeatsiii.domaine.tiempoUseCase.GetTiempoUseCase
+import es.tierno.mohamed.aa.mohabeatsiii.data.model.TiempoModel
+import es.tierno.mohamed.aa.mohabeatsiii.domain.useCase.GetTiempoUseCase
 import kotlinx.coroutines.launch
 
+
+
 class TiempoViewModel() : ViewModel() {
-    var tiempo = MutableLiveData<Tiempo>()
+    var tiempo = MutableLiveData<TiempoModel>()
 
     private val getTiempoUseCase = GetTiempoUseCase()
 

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrincipal"
-    tools:context=".ui.view.MainActivity">
+    tools:context=".ui.view.actividades.MainActivity">
 
     <TextView
         android:id="@+id/lblTiempo"
@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/abril_fatface"
         android:textColor="@color/blancoAgradables"
-        android:textSize="15sp"
+        android:textSize="25sp"
         android:padding="12sp"
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"

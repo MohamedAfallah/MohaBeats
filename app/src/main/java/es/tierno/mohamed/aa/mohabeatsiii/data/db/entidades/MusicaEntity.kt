@@ -3,10 +3,13 @@ package es.tierno.mohamed.aa.mohabeatsiii.data.db.entidades
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import es.tierno.mohamed.aa.mohabeatsiii.data.model.MusicaModel
 
 @Entity(tableName = "musica")
 data class MusicaEntity (@PrimaryKey(autoGenerate = true)
                         @ColumnInfo(name = "id") val id: Int = 0,
                         @ColumnInfo(name = "nombre") val nombre:String,
                         @ColumnInfo(name = "artidita") val artista:String,
-                        @ColumnInfo(name = "url") val url:String )
+                        @ColumnInfo(name = "url") val url:String ){
+
+}

@@ -3,4 +3,7 @@
     <string name="lblUsuario">Usuario</string>
     <string name="lblContrasena">Contraseña</string>
     <string name="lblIniciarSesion">Iniciar Sesión</string>
+    <string name="favoritos">Favoritos</string>
+    <string name="canciones">Canciones</string>
+    <string name="perfil">Perfil</string>
 </resources>
