@@ -12,4 +12,6 @@
     <string name="fechaNacimiento">Fecha Nacimiento</string>
     <string name="crearCuenta">Crear Cuenta</string>
     <string name="lblNoInicio">Continuar como invitado</string>
+    <string name="explorar">Explorar</string>
+    <string name="buscarTexto">Busca una canción o categoría...</string>
 </resources>

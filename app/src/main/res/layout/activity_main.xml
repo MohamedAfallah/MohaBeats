@@ -42,9 +42,10 @@
         android:id="@+id/btnInvitado"
         android:layout_width="325dp"
         android:layout_height="48dp"
-        android:backgroundTint="@color/colorDetalles"
+        android:background="@drawable/bordes_boton"
         android:fontFamily="@font/abril_fatface"
         android:text="@string/lblNoInicio"
+        android:textColor="@color/blancoAgradables"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -52,6 +53,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.912" />
+
+
 
     <TextView
         android:id="@+id/lblDenegado"
