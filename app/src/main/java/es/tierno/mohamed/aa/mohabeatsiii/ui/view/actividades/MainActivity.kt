@@ -47,12 +47,6 @@ class MainActivity : AppCompatActivity() {
             usuarios = usuariosList
         })
 
-        tiempoViewModel.tiempo.observe(this, Observer {
-            val resultado = tiempoViewModel.tiempo.value?.tiempoHoy.toString()
-            binding.lblTiempo.text = "Hoy Hace un Día\n" + dividirString(resultado, "=", ".")
-        })
-
-
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_CONTACTS) == PackageManager.PERMISSION_GRANTED) {
             Toast.makeText(this, "Permiso ya concedido", Toast.LENGTH_SHORT).show()
         } else {
@@ -68,6 +62,11 @@ class MainActivity : AppCompatActivity() {
             } else {
                 binding.lblDenegado.text = "Usuario o contraseña incorrectos."
             }
+        }
+
+        binding.lblRegistrarse.setOnClickListener {
+            val intent = Intent(this, CrearCuenta::class.java)
+            startActivity(intent)
         }
     }
 
@@ -97,5 +96,9 @@ class MainActivity : AppCompatActivity() {
         }
 
         return false
+    }
+
+    fun accederCreacionCuenta(){
+
     }
 }

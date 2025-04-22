@@ -6,4 +6,10 @@
     <string name="favoritos">Favoritos</string>
     <string name="canciones">Canciones</string>
     <string name="perfil">Perfil</string>
+    <string name="lblRegistrarse">¡Crea una cuenta!</string>
+    <string name="nombreCompleto">Nombre Completo</string>
+    <string name="correo">Correo Electrónico</string>
+    <string name="fechaNacimiento">Fecha Nacimiento</string>
+    <string name="crearCuenta">Crear Cuenta</string>
+    <string name="lblNoInicio">Continuar como invitado</string>
 </resources>

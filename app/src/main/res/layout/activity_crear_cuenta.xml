@@ -6,72 +6,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrincipal"
-    tools:context=".ui.view.actividades.MainActivity">
-
-    <Button
-        android:id="@+id/btnIniciar"
-        android:layout_width="325dp"
-        android:layout_height="48dp"
-        android:backgroundTint="@color/colorDetalles"
-        android:fontFamily="@font/abril_fatface"
-        android:text="@string/lblIniciarSesion"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.465"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.819" />
-
-    <TextView
-        android:id="@+id/lblRegistrarse"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/abril_fatface"
-        android:text="@string/lblRegistrarse"
-        android:textColor="@color/colorDetalles"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.718" />
-
-    <Button
-        android:id="@+id/btnInvitado"
-        android:layout_width="325dp"
-        android:layout_height="48dp"
-        android:backgroundTint="@color/colorDetalles"
-        android:fontFamily="@font/abril_fatface"
-        android:text="@string/lblNoInicio"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.465"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.912" />
-
-    <TextView
-        android:id="@+id/lblDenegado"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/abril_fatface"
-        android:padding="12sp"
-        android:text=""
-        android:textAlignment="center"
-        android:textColor="@color/rojo"
-        android:textSize="15sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.244" />
+    tools:context=".ui.view.actividades.CrearCuenta">
 
     <EditText
-        android:id="@+id/txtUsuario"
+        android:id="@+id/txtCorreo"
         android:layout_width="327dp"
         android:layout_height="47dp"
         android:background="@color/fondosSecundarios"
@@ -81,24 +19,10 @@
         android:textColor="@color/blancoAgradables"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.476"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.406" />
-
-    <EditText
-        android:id="@+id/txtContrasena"
-        android:layout_width="327dp"
-        android:layout_height="47dp"
-        android:background="@color/fondosSecundarios"
-        android:ems="10"
-        android:fontFamily="@font/abril_fatface"
-        android:inputType="textPassword"
-        android:textColor="@color/blancoAgradables"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.57" />
+        app:layout_constraintVertical_bias="0.526" />
 
     <TextView
         android:id="@+id/lblContrasena"
@@ -113,7 +37,114 @@
         app:layout_constraintHorizontal_bias="0.132"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.485" />
+        app:layout_constraintVertical_bias="0.766" />
+
+    <EditText
+        android:id="@+id/txtUsuario"
+        android:layout_width="327dp"
+        android:layout_height="47dp"
+        android:background="@color/fondosSecundarios"
+        android:ems="10"
+        android:fontFamily="@font/abril_fatface"
+        android:inputType="text"
+        android:textColor="@color/blancoAgradables"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.695" />
+
+    <TextView
+        android:id="@+id/lblCorreo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/abril_fatface"
+        android:text="@string/correo"
+        android:textColor="@color/blancoAgradables"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.171"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.452" />
+
+    <EditText
+        android:id="@+id/txtContrasena"
+        android:layout_width="327dp"
+        android:layout_height="47dp"
+        android:background="@color/fondosSecundarios"
+        android:ems="10"
+        android:fontFamily="@font/abril_fatface"
+        android:inputType="textPassword"
+        android:textColor="@color/blancoAgradables"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.859" />
+
+    <TextView
+        android:id="@+id/lblNombreCompleto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/abril_fatface"
+        android:text="@string/nombreCompleto"
+        android:textColor="@color/blancoAgradables"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.173"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.165" />
+
+    <EditText
+        android:id="@+id/txtNombreCompleto"
+        android:layout_width="327dp"
+        android:layout_height="47dp"
+        android:background="@color/fondosSecundarios"
+        android:ems="10"
+        android:fontFamily="@font/abril_fatface"
+        android:inputType="text"
+        android:textColor="@color/blancoAgradables"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.476"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.223" />
+
+    <TextView
+        android:id="@+id/lblFechaNacimiento"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/abril_fatface"
+        android:text="@string/fechaNacimiento"
+        android:textColor="@color/blancoAgradables"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.174"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.308" />
+
+    <EditText
+        android:id="@+id/txtFechaNacimiento"
+        android:layout_width="327dp"
+        android:layout_height="47dp"
+        android:background="@color/fondosSecundarios"
+        android:ems="10"
+        android:fontFamily="@font/abril_fatface"
+        android:inputType="date"
+        android:textColor="@color/blancoAgradables"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.476"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.371" />
 
     <TextView
         android:id="@+id/lblUsuario"
@@ -128,14 +159,29 @@
         app:layout_constraintHorizontal_bias="0.121"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.332" />
+        app:layout_constraintVertical_bias="0.614" />
+
+    <Button
+        android:id="@+id/btnCrearCuenta"
+        android:layout_width="325dp"
+        android:layout_height="48dp"
+        android:backgroundTint="@color/colorDetalles"
+        android:fontFamily="@font/abril_fatface"
+        android:text="@string/crearCuenta"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.465"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.951" />
 
     <TextView
-        android:id="@+id/lblIniciar"
+        android:id="@+id/lblCrear"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/abril_fatface"
-        android:text="@string/lblIniciarSesion"
+        android:text="@string/crearCuenta"
         android:textColor="@color/colorDetalles"
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -156,6 +202,5 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.044"
         app:srcCompat="@drawable/moha_beats_removebg_preview" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
