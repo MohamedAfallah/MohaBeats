@@ -84,6 +84,18 @@ Actualmente estoy en una fase de actualización y ampliación de funcionalidades
 
 Estoy terminando de integrar el chatbot y sigo en búsqueda de una API de música adecuada para añadir la funcionalidad de reproducción de canciones, además de continuar explorando nuevas funcionalidades que puedan enriquecer el proyecto.
 
+## **Desarrollo del ChatBot**
+
+Actualmente me encuentro trabajando en la implementación de un chatbot de inteligencia artificial que actuará como asistente dentro de la aplicación.  
+
+Para asegurar su correcto funcionamiento y optimizar su integración, estoy desarrollando y probando el chatbot en un proyecto externo de pruebas. De este modo, puedo validar su rendimiento, comportamiento y capacidades de respuesta antes de incorporarlo de manera definitiva en MohaBeats.
+
+Esta fase de pruebas me permite ajustar detalles técnicos y de experiencia de usuario, asegurando que cuando se integre en la aplicación principal, funcione de manera fluida, eficiente y acorde a la calidad esperada.
+
+Una vez finalizadas las pruebas y verificado el buen desempeño del chatbot, procederé a su integración total en el proyecto, ampliando así las funcionalidades disponibles para los usuarios.
+
+![chatBot](https://github.com/user-attachments/assets/b6067511-0385-4645-9c05-bcafdb0de114)
+
 ## **Bibliografía**
 
 - **Documentación oficial de Firebase**: Para aprender a utilizar Firebase para la autenticación y almacenamiento de datos.
