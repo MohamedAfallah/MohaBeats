@@ -1,98 +1,91 @@
 [GITHUB](https://github.com/rifi45/MohaBeats)
 
-# Importante
-Al iniciar la aplicación, puedes acceder con uno de estos dos usuarios. 
-usuario: "moha" o "ali"
-contraseña para los dos: "123"
-## Moha Beats
-La aplicacion consiste en un resproductor de musica el cual tiene unas canciones, usuarios, y las canciones favoritas de un usuario. 
-El usuario que inicia sesion puede consultar las canciones que hay, y sus favoritas.
+# **Mohamed Afallah**
+## **2ª DAM**
+## **Proyecto Final**
 
-## Diseño
-**Diagmara de clases**
-```mermaid
-classDiagram
-    class Usuario {
-        +int id
-        +string nombre
-        +string usuario
-        +string contraseña
-    }
-    
-    class Musica {
-        +int id
-        +string nombre
-        +string artista
-        +string url_foto
-    }
-    
-    Usuario "1" -- "0..*" Musica : "tiene"
-```
+### Índice
 
-**Modelo Entidades**
-```mermaid
-erDiagram
-    USUARIO {
-        int id
-        string usuario
-        string nombre
-        string contrasena
-    }
-    MUSICA {
-        int id
-        string nombre
-        string artista
-        string url_foto
-    }
-    FAVORITOS {
-        int id_usuario
-        int id_musica
-    }
-    USUARIO ||--o{ FAVORITOS : ""
-    MUSICA ||--o{ FAVORITOS : ""
-```
+- [Título](#título)
+- [Definición del problema](#definición-del-problema)
+- [Esquema del planteamiento](#esquema-del-planteamiento)
+- [Objetivos](#objetivos)
+- [Procedimiento](#procedimiento)
+- [Descripción de las actividades](#descripción-de-las-actividades)
+- [Situación actual del proyecto](#situación-actual-del-proyecto)
+- [Bibliografía](#bibliografía)
 
-## Elementos Utilizados
-- **Arquitectura Clean**
-- **MVVM**
-- **RetroFit**
-- **Glide** Librería
-- **Dagger Hilt**
-- **Room**
-- **ViewBinding**
-- **Fragmentos**
-- **Petición de Permisos**
-## Capturas de la ejecucion
-Al iniciar la aplicacion el usuario tendrá que iniciar sesión
-![](img/1.png)
+# **Reproductor de Música: MohaBeats**
 
-Aqui aparecen las canciones un usuario.
-![](img/2.png)
+## **Título**
 
-Aqui estan las canciones favoritas de moha
-![](img/3.png)
+El título que he elegido para mi aplicación es **MohaBeats**.
 
-Aqui estan las canciones favoritas de ali
-![](img/favoritos_ali.png)
+## **Definición del problema**
 
-Esta pagina de perfil no es funcional
-![](img/4.png)
+En el contexto actual, la mayoría de las aplicaciones de música permiten a los usuarios escuchar canciones en línea, pero pocas ofrecen una experiencia personalizada donde el usuario pueda guardar canciones favoritas, gestionarlas y poder interactuar con el contenido de manera sencilla. Además, la integración con dispositivos Bluetooth para escuchar música de manera más cómoda y la capacidad de buscar canciones o acceder a una base de datos en la nube de manera eficiente, es algo que no todas las aplicaciones ofrecen de manera fluida.
 
-## Informácion Técnica
-```
-Android Studio Ladybug | 2024.2.1 Patch 2
-Runtime version: 21.0.3+-12282718-b509.11 amd64
-VM: OpenJDK 64-Bit Server VM by JetBrains s.r.o.
-Windows 11.0
-kotlin = "2.0.21"
-```
+Mi proyecto, **MohaBeats**, pretende cubrir estas carencias, brindando al usuario una plataforma fácil de usar, moderna y con múltiples opciones de personalización.
 
-Emulador: Pixel 4 API 30
+## **Esquema del planteamiento**
 
-## innovaciones y problemas
-Para el tema de la innovaciones, he metido una dependencia glide para poder cargar imagenes de la nube, las imagenes de cada pelicula son recuperadas por una url.
-problemas: el problema que he tenido que es a la hora de implemetar el ViewModel en los fragmentos el viewModels() me salía en rojo, tuve que hacerlo de otra manera utilizando el get. Los Toasts no me funcionan no sé porque pero los sigo teniendo ahí.
+El objetivo principal de este proyecto es desarrollar una aplicación que permita a los usuarios reproducir música de manera fluida y cómoda.  
+La aplicación contará con funcionalidades como la capacidad de iniciar sesión o registrarse, lo cual permitirá guardar las canciones favoritas del usuario.  
+Además, se permitirá la búsqueda de canciones, añadir o quitar canciones de favoritos, y la integración con Bluetooth para que los usuarios puedan escuchar música en otros dispositivos.
 
-## Conclusiones
-Realizar la aplicación siguiendo una arquitectura es mucho mas eficaz y ordenado.
-Es dificil de asimilarlo al principio, pero luego se entiende muy bien, sobre todo si te ha tocado hacer cambios importantes en la aplicacion ahi es cuando se ve el verdadero valor de una arquitectura que separa todo.
+A lo largo del proyecto, se utilizarán tecnologías modernas como Firebase para el almacenamiento de datos y autenticación.
+
+## **Objetivos**
+
+- **Desarrollar una aplicación funcional** para reproducir música en tiempo real.
+- **Permitir al usuario iniciar sesión o registrarse** para gestionar sus canciones favoritas.
+- **Utilizar Firebase** para la autenticación de usuarios y almacenamiento de datos en la nube.
+- **Diseñar una interfaz atractiva y amigable**.
+- **Incorporar funcionalidades de búsqueda** para que el usuario pueda encontrar canciones específicas.
+- **Desarrollar una función de favoritos**, para que los usuarios puedan agregar o quitar canciones de su lista personal.
+- **Habilitar la conexión con dispositivos Bluetooth**, para facilitar la reproducción de música en otros dispositivos.
+
+## **Procedimiento**
+
+1. **Investigación y planificación**: Investigación inicial sobre Firebase para la autenticación de usuarios y el almacenamiento de datos.
+
+2. **Desarrollo de la autenticación**: Implementación de la funcionalidad de inicio de sesión y registro de usuarios.
+
+3. **Desarrollo de la interfaz de usuario**: Creación de las vistas principales de la aplicación, comenzando con la pantalla de inicio, reproducción de música y favoritos.
+
+4. **Implementación de la conexión con Firebase**: Gestión de autenticaciones y almacenamiento de preferencias de usuario.
+
+5. **Funcionalidades adicionales**: Integración de Bluetooth y exploración de nuevas características.
+
+6. **Pruebas y optimización**: Pruebas continuas para asegurar el correcto funcionamiento y la optimización de la aplicación.
+
+## **Descripción de las actividades**
+
+- **Desarrollo de la interfaz de usuario**: Inicialmente, construí las vistas principales de la aplicación.  
+A medida que ha avanzado el proyecto, he ido cambiando y mejorando el diseño, adaptándolo a una nueva estructura visual más moderna y eficiente.
+
+- **Implementación de un chatbot**: Actualmente sigo trabajando en la integración de un chatbot de inteligencia artificial que interactúe con los usuarios como asistente dentro de la aplicación.
+
+- **Integración con Firebase**: Firebase ya gestiona la autenticación y el almacenamiento de información de los usuarios.
+
+- **Conexión Bluetooth**: Planeo implementar la conexión Bluetooth para que los usuarios puedan escuchar música en dispositivos externos.
+
+- **Actualización y nuevas funcionalidades**:  
+El proyecto se encuentra en una fase de actualización activa, donde estoy añadiendo muchas nuevas funcionalidades para mejorar la experiencia del usuario y ofrecer más servicios dentro de la aplicación.
+
+- **Investigación de nuevas APIs**:  
+Todavía no he empezado a integrar el sistema de reproducción de canciones debido a que no he encontrado una API que me convenza para gestionar la música de la forma que quiero.  
+Sigo investigando posibles APIs que se adapten a las necesidades de la aplicación.
+
+## **Situación actual del proyecto**
+
+El proyecto ya no se encuentra en fase de diseño.  
+Actualmente estoy en una fase de actualización y ampliación de funcionalidades, trabajando activamente en mejorar tanto la estructura de la aplicación como en implementar nuevas características.  
+
+Estoy terminando de integrar el chatbot y sigo en búsqueda de una API de música adecuada para añadir la funcionalidad de reproducción de canciones, además de continuar explorando nuevas funcionalidades que puedan enriquecer el proyecto.
+
+## **Bibliografía**
+
+- **Documentación oficial de Firebase**: Para aprender a utilizar Firebase para la autenticación y almacenamiento de datos.
+- **Guías de OpenAI y APIs de IA**: Para implementar el chatbot.
+- **Documentación general de Android**: Para la implementación de nuevas funcionalidades.
