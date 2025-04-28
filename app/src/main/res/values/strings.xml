@@ -14,4 +14,6 @@
     <string name="lblNoInicio">Continuar como invitado</string>
     <string name="explorar">Explorar</string>
     <string name="buscarTexto">Busca una canción o categoría...</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

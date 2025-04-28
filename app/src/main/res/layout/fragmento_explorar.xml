@@ -4,47 +4,35 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="250dp"
     android:background="@color/colorPrincipal"
-    tools:context=".ui.view.fragmentos.CancionesFrag">
+    tools:context=".ui.view.fragmentos.ExplorarFrag">
 
     <TextView
-        android:id="@+id/textoCanciones"
+        android:id="@+id/textoExplorar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/abril_fatface"
-        android:text="@string/canciones"
+        android:text="@string/explorar"
         android:textAlignment="center"
         android:textColor="@color/blancoAgradables"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@id/recyclerViewCanciones"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.32" />
+        app:layout_constraintVertical_bias="0.022" />
 
     <View
-        android:id="@+id/view"
-        android:layout_width="99dp"
+        android:id="@+id/view2"
+        android:layout_width="88dp"
         android:layout_height="2dp"
         android:background="@color/colorDetalles"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.052" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewCanciones"
-        android:layout_width="408dp"
-        android:layout_height="673dp"
-        android:paddingTop="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.333"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="0.133" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
