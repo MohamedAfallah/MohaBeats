@@ -15,6 +15,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object RoomModule {
     const val NOMBRE_DB = "moha_beats"
+
     @Singleton
     @Provides
     fun provideRoom(@ApplicationContext context: Context) = Room.databaseBuilder(context,

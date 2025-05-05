@@ -1,11 +1,10 @@
 package es.tierno.mohamed.aa.mohabeatsiii.data
 
 import es.tierno.mohamed.aa.mohabeatsiii.data.network.OpenAiServicio
+import javax.inject.Inject
 
 //Repositorio para la devolucion del tiempo que hace
-class ChatRepositorio {
-    private val api = OpenAiServicio()
-
+class ChatRepositorio @Inject constructor(private val api : OpenAiServicio) {
     suspend fun getRespuesta(mensajeUsuario: String): String? {
         return api.consultar(mensajeUsuario)
     }
