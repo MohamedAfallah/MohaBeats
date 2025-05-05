@@ -17,6 +17,9 @@
         android:theme="@style/Theme.MohaBeatsIII"
         tools:targetApi="31">
         <activity
+            android:name=".ui.view.actividades.ChatBot"
+            android:exported="false" />
+        <activity
             android:name=".ui.view.actividades.CrearCuenta"
             android:exported="false" />
         <activity

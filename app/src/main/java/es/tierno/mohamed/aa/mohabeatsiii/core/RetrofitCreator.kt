@@ -4,7 +4,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitCreator {
-    private const val BASE_URL = "https://www.el-tiempo.net/api/json/v2/"
+    private const val BASE_URL = "https://api.openai.com/v1/"
 
     //Primero paso para poder conectarse a una API
     fun getRetrofit() : Retrofit{
