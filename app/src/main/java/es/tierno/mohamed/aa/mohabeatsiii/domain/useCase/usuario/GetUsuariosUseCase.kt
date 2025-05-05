@@ -1,9 +1,5 @@
-package es.tierno.mohamed.aa.mohabeatsiii.domain.useCase
+package es.tierno.mohamed.aa.mohabeatsiii.domain.useCase.usuario
 
-import es.tierno.mohamed.aa.mohabeatsiii.data.UsuarioRepositorio
-import es.tierno.mohamed.aa.mohabeatsiii.data.mapper.toUsuario
-import es.tierno.mohamed.aa.mohabeatsiii.data.provider.UsuarioProvider
-import es.tierno.mohamed.aa.mohabeatsiii.domain.model.Usuario
 import javax.inject.Inject
 
 //caso de uso para obtener el listado de usuario y para verificar el login

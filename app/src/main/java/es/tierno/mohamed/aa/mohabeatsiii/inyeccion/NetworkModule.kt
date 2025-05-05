@@ -4,7 +4,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import es.tierno.mohamed.aa.mohabeatsiii.data.network.OpenAiServicio
+import es.tierno.mohamed.aa.mohabeatsiii.data.network.open_ai.OpenAiServicio
 
 @Module
 @InstallIn(SingletonComponent::class)

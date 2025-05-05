@@ -1,4 +1,4 @@
-package es.tierno.mohamed.aa.mohabeatsiii.data.network
+package es.tierno.mohamed.aa.mohabeatsiii.data.network.open_ai
 
 import es.tierno.mohamed.aa.mohabeatsiii.core.RetrofitCreator
 import es.tierno.mohamed.aa.mohabeatsiii.data.model.chat_bot_model.ChatPeticionModel
