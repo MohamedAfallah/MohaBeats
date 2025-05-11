@@ -5,7 +5,7 @@
 ## **Proyecto Final**
 
 ### Índice
-
+- [Novedades](#novedades)
 - [Título](#título)
 - [Definición del problema](#definición-del-problema)
 - [Esquema del planteamiento](#esquema-del-planteamiento)
@@ -17,6 +17,13 @@
 
 # **Reproductor de Música: MohaBeats**
 
+## **Novedades** 
+He desarrollado la parte de IA, solo me falta conseguir una API key para ponerla en marcha.
+He creado todas las plantillas y clases necesarias para seguir con el proyecto.
+He empezado la memoria del proyecto y voy avanzando.
+He aplicado la inyección de dependencias a las nuevas clases funcionales.
+
+Para la próxima entrega, habré terminado toda la interfaz de usuario, la parte de IA y la lógica de gestión de favoritos, playlists y edición de perfil. Me faltará la conexión con una API de canciones y ver qué cosas nuevas añadir para enriquecer la aplicación.
 ## **Título**
 
 El título que he elegido para mi aplicación es **MohaBeats**.
