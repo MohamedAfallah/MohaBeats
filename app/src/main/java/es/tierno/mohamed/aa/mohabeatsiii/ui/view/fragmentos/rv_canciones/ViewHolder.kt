@@ -1,0 +1,57 @@
+package es.tierno.mohamed.aa.mohabeatsiii.ui.view.fragmentos.rv_canciones
+
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
+import android.view.View
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
+import com.airbnb.lottie.LottieAnimationView
+import com.bumptech.glide.Glide
+import es.tierno.mohamed.aa.mohabeatsiii.R
+import es.tierno.mohamed.aa.mohabeatsiii.domain.model.Musica
+
+class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    private val imagen = view.findViewById<ImageView>(R.id.imagenCancion)
+    private val nombre = view.findViewById<TextView>(R.id.nombreCancion)
+    private val artista = view.findViewById<TextView>(R.id.nombreArtista)
+    private val favorito = view.findViewById<ImageView>(R.id.iconFavorito)
+    private val lottieFavorito = view.findViewById<LottieAnimationView>(R.id.lottieFavorito)
+
+    private var esFavorito = false
+
+    fun render(cancion: Musica) {
+        nombre.text = cancion.nombre
+        artista.text = cancion.artista
+        Glide.with(imagen.context).load(cancion.url).into(imagen)
+
+        // Configurar el ícono inicial
+        actualizarIcono()
+
+        // Manejar clic en el ícono de favorito
+        favorito.setOnClickListener {
+            esFavorito = !esFavorito
+            actualizarIcono()
+
+            // Mostrar el Lottie y reproducir animación
+            lottieFavorito.visibility = View.VISIBLE
+            lottieFavorito.playAnimation()
+
+            // Ocultar el Lottie cuando termina la animación
+            lottieFavorito.addAnimatorListener(object : AnimatorListenerAdapter() {
+                override fun onAnimationEnd(animation: Animator) {
+                    lottieFavorito.visibility = View.GONE
+                }
+            })
+        }
+    }
+
+    private fun actualizarIcono() {
+        val icono = if (esFavorito) {
+            R.drawable.ic_favorito_true
+        } else {
+            R.drawable.ic_favorito
+        }
+        favorito.setImageResource(icono)
+    }
+}

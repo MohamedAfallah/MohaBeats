@@ -1,0 +1,57 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrincipal"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:fontFamily="@font/abril_fatface"
+        android:text="@string/chat_bot"
+        android:textColor="@color/colorDetalles"
+        android:textSize="28sp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewMessages"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginBottom="8dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/editTextMessage"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:hint="@string/escribe_un_mensaje"
+            android:background="@drawable/bg_edit_text"
+            android:padding="12dp"
+            android:layout_marginEnd="8dp"
+            android:textColor="@color/blancoAgradables"
+            app:hintTextColor="@color/grisSuave"
+            android:elevation="4dp" />
+
+        <ImageView
+            android:id="@+id/buttonSend"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@drawable/ic_send"
+            android:contentDescription="@string/enviar_mensaje"
+            android:backgroundTint="@color/colorDetalles"
+            app:tint="@color/colorPrincipal"
+            android:background="@drawable/bg_send_button"
+            android:padding="12dp"
+            android:elevation="8dp" />
+    </LinearLayout>
+
+</LinearLayout>
+
