@@ -1,8 +1,6 @@
 package es.tierno.mohamed.aa.mohabeatsiii.data.network.musica_api
 
 import es.tierno.mohamed.aa.mohabeatsiii.data.model.BusquedaModel
-import es.tierno.mohamed.aa.mohabeatsiii.data.model.MusicaModel
-import es.tierno.mohamed.aa.mohabeatsiii.domain.model.Busqueda
 import retrofit2.http.GET
 import retrofit2.http.Query
 import retrofit2.Response

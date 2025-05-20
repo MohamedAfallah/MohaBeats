@@ -12,11 +12,13 @@
         android:layout_height="64dp"
         android:background="@drawable/bordes_redondeados"
         android:clipToOutline="true"
+        android:contentDescription="@string/descripcionImg"
         android:scaleType="centerCrop"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintVertical_bias="0.5" />
+        app:layout_constraintVertical_bias="0.5"
+        tools:ignore="UnusedAttribute" />
 
     <TextView
         android:id="@+id/nombreCancion"
@@ -49,6 +51,7 @@
         android:id="@+id/iconReproducir"
         android:layout_width="33dp"
         android:layout_height="32dp"
+        android:contentDescription="@string/descripcionImg"
         android:src="@drawable/ic_reproducir"
         app:layout_constraintEnd_toStartOf="@id/iconFavorito"
         app:layout_constraintTop_toTopOf="parent"
@@ -59,6 +62,7 @@
         android:id="@+id/iconFavorito"
         android:layout_width="33dp"
         android:layout_height="32dp"
+        android:contentDescription="@string/descripcionImg"
         android:src="@drawable/ic_favorito"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
