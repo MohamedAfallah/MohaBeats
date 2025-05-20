@@ -1,0 +1,37 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="200dp"
+    android:layout_height="280dp"
+    android:layout_margin="8dp"
+    android:background="@drawable/card_background"
+    android:elevation="4dp">
+
+    <!-- Imagen de fondo -->
+    <ImageView
+        android:id="@+id/imageCard"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:contentDescription="Imagen de la carta" />
+
+    <!-- Capa de color semitransparente -->
+    <View
+        android:id="@+id/colorOverlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#4D000000" /> <!-- Negro al 30% opacidad (0x4D = 77/255 ≈ 30%) -->
+
+    <!-- Nombre en blanco centrado horizontal, debajo vertical -->
+    <TextView
+        android:id="@+id/textName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Nombre Carta"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        android:fontFamily="@font/abril_fatface"
+        android:gravity="center"
+        android:layout_gravity="bottom"
+        android:padding="12dp"
+        android:background="#55000000" /> <!-- Fondo negro más transparente para mejor lectura -->
+
+</FrameLayout>
