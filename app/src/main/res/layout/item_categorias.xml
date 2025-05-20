@@ -1,4 +1,5 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/itemCategoia"
     android:layout_width="200dp"
     android:layout_height="280dp"
     android:layout_margin="8dp"
@@ -7,7 +8,7 @@
 
     <!-- Imagen de fondo -->
     <ImageView
-        android:id="@+id/imageCard"
+        android:id="@+id/imgCarta"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
@@ -15,14 +16,14 @@
 
     <!-- Capa de color semitransparente -->
     <View
-        android:id="@+id/colorOverlay"
+        android:id="@+id/capaColor"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#4D000000" /> <!-- Negro al 30% opacidad (0x4D = 77/255 ≈ 30%) -->
 
     <!-- Nombre en blanco centrado horizontal, debajo vertical -->
     <TextView
-        android:id="@+id/textName"
+        android:id="@+id/nombreCategoria"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Nombre Carta"
