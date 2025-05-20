@@ -3,27 +3,29 @@ package es.tierno.mohamed.aa.mohabeatsiii.data.network.open_ai
 import es.tierno.mohamed.aa.mohabeatsiii.core.RetrofitCreator
 import es.tierno.mohamed.aa.mohabeatsiii.data.model.chat_bot_model.ChatPeticionModel
 import es.tierno.mohamed.aa.mohabeatsiii.data.model.chat_bot_model.MensajesModel
+import es.tierno.mohamed.aa.mohabeatsiii.domain.model.chat_bot.ChatPeticion
+import es.tierno.mohamed.aa.mohabeatsiii.domain.model.chat_bot.Mensaje
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class OpenAiServicio {
-    private val retrofit = RetrofitCreator.getRetrofit()
 
-    suspend fun consultar(mensajeUsuario: String): String? {
+class OpenAiServicio @Inject constructor(){
+    private val retrofit = RetrofitCreator.getRetrofit().create(OpenAiApi::class.java)
+
+    suspend fun consultar(mensajeUsuario: String): List<Mensaje> {
         return withContext(Dispatchers.IO) {
-            val peticion = ChatPeticionModel(
-                model = "gpt-3.5-turbo",
-                messages = listOf(
-                    MensajesModel(role = "user", content = mensajeUsuario)
-                )
-            )
+            try {
+                val peticion = ChatPeticion(messages = listOf(Mensaje(role = "user", mensajes = mensajeUsuario)))
+                val response = retrofit.getRespuesta(peticion)
 
-            val response = retrofit.create(OpenAiApi::class.java).getRespuesta(peticion)
-
-            if (response.isSuccessful) {
-                response.body()?.choices?.firstOrNull()?.message?.content
-            } else {
-                null
+                if (response.isSuccessful) {
+                    response.body()?.message?.let { listOf(it) } ?: emptyList()
+                } else {
+                    emptyList()
+                }
+            } catch (e: Exception) {
+                emptyList()
             }
         }
     }

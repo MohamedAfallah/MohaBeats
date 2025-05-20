@@ -1,206 +1,252 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrincipal"
-    tools:context=".ui.view.actividades.CrearCuenta">
+    android:fillViewport="true">
 
-    <EditText
-        android:id="@+id/txtCorreo"
-        android:layout_width="327dp"
-        android:layout_height="47dp"
-        android:background="@color/fondosSecundarios"
-        android:ems="10"
-        android:fontFamily="@font/abril_fatface"
-        android:inputType="text"
-        android:textColor="@color/blancoAgradables"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.476"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.526" />
-
-    <TextView
-        android:id="@+id/lblContrasena"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/abril_fatface"
-        android:text="@string/lblContrasena"
-        android:textColor="@color/blancoAgradables"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.132"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.741" />
+        android:padding="24dp">
 
-    <EditText
-        android:id="@+id/txtUsuario"
-        android:layout_width="327dp"
-        android:layout_height="47dp"
-        android:background="@color/fondosSecundarios"
-        android:ems="10"
-        android:fontFamily="@font/abril_fatface"
-        android:inputType="text"
-        android:textColor="@color/blancoAgradables"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.671" />
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="150dp"
+            android:layout_height="65dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:srcCompat="@drawable/moha_beats_removebg_preview" />
 
-    <TextView
-        android:id="@+id/lblCorreo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/abril_fatface"
-        android:text="@string/correo"
-        android:textColor="@color/blancoAgradables"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.171"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.452" />
+        <TextView
+            android:id="@+id/lblCrear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/abril_fatface"
+            android:text="@string/crearCuenta"
+            android:textColor="@color/colorDetalles"
+            android:textSize="30sp"
+            app:layout_constraintTop_toBottomOf="@id/imageView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="12dp" />
 
-    <EditText
-        android:id="@+id/txtContrasena"
-        android:layout_width="327dp"
-        android:layout_height="47dp"
-        android:background="@color/fondosSecundarios"
-        android:ems="10"
-        android:fontFamily="@font/abril_fatface"
-        android:inputType="textPassword"
-        android:textColor="@color/blancoAgradables"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.823" />
+        <!-- Nombre Completo -->
+        <TextView
+            android:id="@+id/lblNombreCompleto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/abril_fatface"
+            android:text="@string/nombreCompleto"
+            android:textColor="@color/blancoAgradables"
+            android:textSize="18sp"
+            app:layout_constraintTop_toBottomOf="@id/lblCrear"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="24dp" />
 
-    <TextView
-        android:id="@+id/lblNombreCompleto"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/abril_fatface"
-        android:text="@string/nombreCompleto"
-        android:textColor="@color/blancoAgradables"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.173"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.165" />
+        <EditText
+            android:id="@+id/txtNombreCompleto"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:background="@drawable/rounded_edittext"
+            android:ems="10"
+            android:fontFamily="@font/abril_fatface"
+            android:inputType="textPersonName"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:textColor="@color/blancoAgradables"
+            app:layout_constraintTop_toBottomOf="@id/lblNombreCompleto"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
-    <EditText
-        android:id="@+id/txtNombreCompleto"
-        android:layout_width="327dp"
-        android:layout_height="47dp"
-        android:background="@color/fondosSecundarios"
-        android:ems="10"
-        android:fontFamily="@font/abril_fatface"
-        android:inputType="text"
-        android:textColor="@color/blancoAgradables"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.476"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.223" />
+        <!-- Fecha de nacimiento -->
+        <TextView
+            android:id="@+id/lblFechaNacimiento"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/abril_fatface"
+            android:text="@string/fechaNacimiento"
+            android:textColor="@color/blancoAgradables"
+            android:textSize="18sp"
+            app:layout_constraintTop_toBottomOf="@id/txtNombreCompleto"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="16dp" />
 
-    <TextView
-        android:id="@+id/lblFechaNacimiento"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/abril_fatface"
-        android:text="@string/fechaNacimiento"
-        android:textColor="@color/blancoAgradables"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.174"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.308" />
+        <EditText
+            android:id="@+id/txtFechaNacimiento"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:background="@drawable/rounded_edittext"
+            android:ems="10"
+            android:fontFamily="@font/abril_fatface"
+            android:inputType="date"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:textColor="@color/blancoAgradables"
+            app:layout_constraintTop_toBottomOf="@id/lblFechaNacimiento"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
-    <EditText
-        android:id="@+id/txtFechaNacimiento"
-        android:layout_width="327dp"
-        android:layout_height="47dp"
-        android:background="@color/fondosSecundarios"
-        android:ems="10"
-        android:fontFamily="@font/abril_fatface"
-        android:inputType="date"
-        android:textColor="@color/blancoAgradables"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.476"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.371" />
+        <!-- Correo -->
+        <TextView
+            android:id="@+id/lblCorreo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/abril_fatface"
+            android:text="@string/correo"
+            android:textColor="@color/blancoAgradables"
+            android:textSize="18sp"
+            app:layout_constraintTop_toBottomOf="@id/txtFechaNacimiento"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="16dp" />
 
-    <TextView
-        android:id="@+id/lblUsuario"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/abril_fatface"
-        android:text="@string/lblUsuario"
-        android:textColor="@color/blancoAgradables"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.118"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.591" />
+        <EditText
+            android:id="@+id/txtCorreo"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:background="@drawable/rounded_edittext"
+            android:ems="10"
+            android:fontFamily="@font/abril_fatface"
+            android:inputType="textEmailAddress"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:textColor="@color/blancoAgradables"
+            app:layout_constraintTop_toBottomOf="@id/lblCorreo"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
-    <Button
-        android:id="@+id/btnCrearCuenta"
-        android:layout_width="325dp"
-        android:layout_height="48dp"
-        android:backgroundTint="@color/colorDetalles"
-        android:fontFamily="@font/abril_fatface"
-        android:text="@string/crearCuenta"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.465"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.916" />
+        <!-- Usuario -->
+        <TextView
+            android:id="@+id/lblUsuario"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/abril_fatface"
+            android:text="@string/lblUsuario"
+            android:textColor="@color/blancoAgradables"
+            android:textSize="18sp"
+            app:layout_constraintTop_toBottomOf="@id/txtCorreo"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="16dp" />
 
-    <TextView
-        android:id="@+id/lblCrear"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/abril_fatface"
-        android:text="@string/crearCuenta"
-        android:textColor="@color/colorDetalles"
-        android:textSize="30sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.81"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.036" />
+        <EditText
+            android:id="@+id/txtUsuario"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:background="@drawable/rounded_edittext"
+            android:ems="10"
+            android:fontFamily="@font/abril_fatface"
+            android:inputType="text"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:textColor="@color/blancoAgradables"
+            app:layout_constraintTop_toBottomOf="@id/lblUsuario"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="126dp"
-        android:layout_height="55dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.08"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.026"
-        app:srcCompat="@drawable/moha_beats_removebg_preview" />
+        <!-- Teléfono -->
+        <TextView
+            android:id="@+id/lblTelefono"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/abril_fatface"
+            android:text="Teléfono"
+            android:textColor="@color/blancoAgradables"
+            android:textSize="18sp"
+            app:layout_constraintTop_toBottomOf="@id/txtUsuario"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="16dp" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <EditText
+            android:id="@+id/txtTelefono"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:background="@drawable/rounded_edittext"
+            android:ems="10"
+            android:fontFamily="@font/abril_fatface"
+            android:inputType="phone"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:textColor="@color/blancoAgradables"
+            app:layout_constraintTop_toBottomOf="@id/lblTelefono"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- Contraseña -->
+        <TextView
+            android:id="@+id/lblContrasena"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/abril_fatface"
+            android:text="@string/lblContrasena"
+            android:textColor="@color/blancoAgradables"
+            android:textSize="18sp"
+            app:layout_constraintTop_toBottomOf="@id/txtTelefono"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="16dp" />
+
+        <EditText
+            android:id="@+id/txtContrasena"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:background="@drawable/rounded_edittext"
+            android:ems="10"
+            android:fontFamily="@font/abril_fatface"
+            android:inputType="textPassword"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:textColor="@color/blancoAgradables"
+            app:layout_constraintTop_toBottomOf="@id/lblContrasena"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- Confirmar contraseña -->
+        <TextView
+            android:id="@+id/lblConfirmarContrasena"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/abril_fatface"
+            android:text="Confirmar contraseña"
+            android:textColor="@color/blancoAgradables"
+            android:textSize="18sp"
+            app:layout_constraintTop_toBottomOf="@id/txtContrasena"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="16dp" />
+
+        <EditText
+            android:id="@+id/txtConfirmarContrasena"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:background="@drawable/rounded_edittext"
+            android:ems="10"
+            android:fontFamily="@font/abril_fatface"
+            android:inputType="textPassword"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:textColor="@color/blancoAgradables"
+            app:layout_constraintTop_toBottomOf="@id/lblConfirmarContrasena"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- Botón Crear Cuenta -->
+        <Button
+            android:id="@+id/btnCrearCuenta"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:backgroundTint="@color/colorDetalles"
+            android:fontFamily="@font/abril_fatface"
+            android:text="@string/crearCuenta"
+            android:textSize="22sp"
+            android:textColor="@color/white"
+            app:layout_constraintTop_toBottomOf="@id/txtConfirmarContrasena"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="24dp"
+            android:letterSpacing="0.05" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
+

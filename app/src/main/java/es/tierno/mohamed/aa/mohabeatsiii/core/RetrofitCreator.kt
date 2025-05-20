@@ -4,7 +4,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitCreator {
-    private const val BASE_URL = "https://api.deezer.com/"
+    private const val BASE_URL = "https://itunes.apple.com/"
 
     // Crear una instancia de Retrofit configurada para la API de Deezer
     fun getRetrofit(): Retrofit {

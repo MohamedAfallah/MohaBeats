@@ -36,7 +36,7 @@
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.718" />
+        app:layout_constraintVertical_bias="0.732" />
 
     <Button
         android:id="@+id/btnInvitado"
@@ -55,7 +55,6 @@
         app:layout_constraintVertical_bias="0.912" />
 
 
-
     <TextView
         android:id="@+id/lblDenegado"
         android:layout_width="wrap_content"
@@ -71,13 +70,13 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.244" />
+        app:layout_constraintVertical_bias="0.664" />
 
     <EditText
         android:id="@+id/txtUsuario"
         android:layout_width="327dp"
         android:layout_height="47dp"
-        android:background="@color/fondosSecundarios"
+        android:background="@drawable/rounded_edittext"
         android:ems="10"
         android:fontFamily="@font/abril_fatface"
         android:inputType="text"
@@ -92,7 +91,7 @@
         android:id="@+id/txtContrasena"
         android:layout_width="327dp"
         android:layout_height="47dp"
-        android:background="@color/fondosSecundarios"
+        android:background="@drawable/rounded_edittext"
         android:ems="10"
         android:fontFamily="@font/abril_fatface"
         android:inputType="textPassword"
@@ -102,6 +101,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.57" />
+
 
     <TextView
         android:id="@+id/lblContrasena"
@@ -143,21 +143,20 @@
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.185"
+        app:layout_constraintHorizontal_bias="0.515"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.068" />
+        app:layout_constraintVertical_bias="0.159" />
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="85dp"
-        android:layout_height="72dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="150dp"
+        android:layout_height="65dp"
+        android:layout_marginTop="36dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.861"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.044"
         app:srcCompat="@drawable/moha_beats_removebg_preview" />
 
 

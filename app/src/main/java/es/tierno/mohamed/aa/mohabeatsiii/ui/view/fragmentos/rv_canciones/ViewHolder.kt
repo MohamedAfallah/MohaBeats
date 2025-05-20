@@ -28,21 +28,23 @@ class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         // Configurar el ícono inicial
         actualizarIcono()
 
-        // Manejar clic en el ícono de favorito
         favorito.setOnClickListener {
+            val eraFavorito = esFavorito
             esFavorito = !esFavorito
             actualizarIcono()
 
-            // Mostrar el Lottie y reproducir animación
-            lottieFavorito.visibility = View.VISIBLE
-            lottieFavorito.playAnimation()
+            if (!eraFavorito) {
+                // Solo reproducir animación si antes NO era favorito
+                lottieFavorito.visibility = View.VISIBLE
+                lottieFavorito.playAnimation()
 
-            // Ocultar el Lottie cuando termina la animación
-            lottieFavorito.addAnimatorListener(object : AnimatorListenerAdapter() {
-                override fun onAnimationEnd(animation: Animator) {
-                    lottieFavorito.visibility = View.GONE
-                }
-            })
+                lottieFavorito.addAnimatorListener(object : AnimatorListenerAdapter() {
+                    override fun onAnimationEnd(animation: Animator) {
+                        lottieFavorito.visibility = View.GONE
+                        lottieFavorito.removeAnimatorListener(this) // evitar múltiples listeners
+                    }
+                })
+            }
         }
     }
 
