@@ -1,40 +1,46 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/itemCategoia"
-    android:layout_width="200dp"
-    android:layout_height="280dp"
+    android:layout_width="105dp"
+    android:layout_height="150dp"
     android:layout_margin="8dp"
-    android:background="@drawable/card_background"
-    android:elevation="4dp">
+    android:elevation="4dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="4dp">
 
-    <!-- Imagen de fondo -->
-    <ImageView
-        android:id="@+id/imgCarta"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="centerCrop"
-        android:contentDescription="Imagen de la carta" />
+        android:background="@drawable/card_background">
 
-    <!-- Capa de color semitransparente -->
-    <View
-        android:id="@+id/capaColor"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#4D000000" /> <!-- Negro al 30% opacidad (0x4D = 77/255 ≈ 30%) -->
+        <ImageView
+            android:id="@+id/imgCarta"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:contentDescription="Imagen de la carta"
+            tools:ignore="HardcodedText" />
 
-    <!-- Nombre en blanco centrado horizontal, debajo vertical -->
-    <TextView
-        android:id="@+id/nombreCategoria"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Nombre Carta"
-        android:textColor="#FFFFFF"
-        android:textSize="20sp"
-        android:fontFamily="@font/abril_fatface"
-        android:gravity="center"
-        android:layout_gravity="bottom"
-        android:padding="12dp"
-        android:background="#55000000"
-        tools:ignore="HardcodedText" /> <!-- Fondo negro más transparente para mejor lectura -->
+        <View
+            android:id="@+id/capaColor"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#4D000000" />
 
-</FrameLayout>
+        <TextView
+            android:id="@+id/nombreCategoria"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="@font/abril_fatface"
+            android:gravity="center"
+            android:padding="12dp"
+            android:text="Nombre Carta"
+            android:textColor="#FFFFFF"
+            android:textSize="13sp"
+            tools:ignore="HardcodedText" />
+
+    </FrameLayout>
+
+</androidx.cardview.widget.CardView>

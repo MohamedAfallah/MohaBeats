@@ -13,12 +13,11 @@
     <string name="crearCuenta">Crear Cuenta</string>
     <string name="lblNoInicio">Continuar como invitado</string>
     <string name="explorar">Explorar</string>
-    <string name="buscarTexto">Busca una canción o categoría...</string>
-    <!-- TODO: Remove or change this placeholder text -->
+    <string name="buscarTexto">Busca una canción o categoría…</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="chat_bot">Chat Bot</string>
     <string name="enviar_mensaje">Enviar mensaje</string>
-    <string name="escribe_un_mensaje">Escribe un mensaje...</string>
+    <string name="escribe_un_mensaje">Escribe un mensaje…</string>
     <string name="app_logo">Logo</string>
     <string name="descripcionImg">Esto es una imagen</string>
 </resources>

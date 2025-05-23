@@ -12,17 +12,17 @@ object CategoriasProvider {
             ),
             CategoriasModel(
                 nombre = "Rock",
-                urlImagen = "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80",
+                urlImagen = "https://tse2.mm.bing.net/th?id=OIP.Zd5S2R405-3JVYw7nGY5FAHaEo&pid=Api&P=0&h=180",
                 colorSuperposicion = 0x4D3F51B5
             ),
             CategoriasModel(
                 nombre = "Jazz",
-                urlImagen = "https://images.unsplash.com/photo-1464375117522-1311f9985e1a?auto=format&fit=crop&w=800&q=80",
+                urlImagen = "https://tse1.mm.bing.net/th?id=OIP.ev_XOOlo-Lwg5ErYN8QLAwAAAA&pid=Api&P=0&h=180",
                 colorSuperposicion = 0x4D009688
             ),
             CategoriasModel(
                 nombre = "Hip-Hop",
-                urlImagen = "https://images.unsplash.com/photo-1511459134387-62a2f6b2d4aa?auto=format&fit=crop&w=800&q=80",
+                urlImagen = "https://www.thoughtco.com/thmb/N6-A7tCAizM2xlQBbPXFLWkEMXE=/1883x1801/filters:no_upscale():max_bytes(150000):strip_icc()/2pac-58b8d3125f9b58af5c8e5e12.jpg",
                 colorSuperposicion = 0x4D795548
             ),
             CategoriasModel(
@@ -32,12 +32,12 @@ object CategoriasProvider {
             ),
             CategoriasModel(
                 nombre = "Reggae",
-                urlImagen = "https://images.unsplash.com/photo-1531058020387-3be344556be6?auto=format&fit=crop&w=800&q=80",
+                urlImagen = "https://tse2.mm.bing.net/th?id=OIP.6fSDPIFrjfa6WO8Kf7UfcgHaFj&pid=Api&P=0&h=180",
                 colorSuperposicion = 0x4DCDDC39
             ),
             CategoriasModel(
                 nombre = "Electrónica",
-                urlImagen = "https://images.unsplash.com/photo-1508921912186-1d1a45ebb3c1?auto=format&fit=crop&w=800&q=80",
+                urlImagen = "https://tse1.mm.bing.net/th?id=OIP.3-CAdx76LcFJKiEH6vVJbgHaE8&pid=Api&P=0&h=180",
                 colorSuperposicion = 0x4DFF5722
             )
         )

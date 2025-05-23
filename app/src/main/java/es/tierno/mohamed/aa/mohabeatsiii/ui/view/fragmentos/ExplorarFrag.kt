@@ -43,7 +43,6 @@ class ExplorarFrag : Fragment() {
         binding.recyclerViewCategorias.setPadding(32, 0, 32, 0)
 
         binding.recyclerViewCategorias.adapter = AdapterCategorias(listaCategorias) { categoria ->
-            // Aquí manejas el click en una categoría, por ejemplo:
             Toast.makeText(requireContext(), "Clic en: ${categoria.nombre}", Toast.LENGTH_SHORT).show()
         }
     }
