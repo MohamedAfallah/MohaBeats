@@ -6,14 +6,14 @@ import androidx.recyclerview.widget.RecyclerView
 import es.tierno.mohamed.aa.mohabeatsiii.R
 import es.tierno.mohamed.aa.mohabeatsiii.domain.model.Musica
 
-class Adapter(val cancionesList : List<Musica>) : RecyclerView.Adapter<ViewHolder>() {
+class AdapterCanciones(val cancionesList : List<Musica>) : RecyclerView.Adapter<ViewHolderCanciones>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderCanciones {
         val layoutInflater = LayoutInflater.from(parent.context)
-        return ViewHolder(layoutInflater.inflate(R.layout.item_cancion, parent, false))
+        return ViewHolderCanciones(layoutInflater.inflate(R.layout.item_cancion, parent, false))
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolderCanciones, position: Int) {
         val item = cancionesList[position]
         holder.render(item)
     }

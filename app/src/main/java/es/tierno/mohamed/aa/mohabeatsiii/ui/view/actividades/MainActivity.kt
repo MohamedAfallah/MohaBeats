@@ -1,36 +1,18 @@
 package es.tierno.mohamed.aa.mohabeatsiii.ui.view.actividades
 
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
-import androidx.lifecycle.Observer
-import dagger.hilt.android.AndroidEntryPoint
 import es.tierno.mohamed.aa.mohabeatsiii.databinding.ActivityMainBinding
-import es.tierno.mohamed.aa.mohabeatsiii.domain.model.Usuario
-import es.tierno.mohamed.aa.mohabeatsiii.ui.viewModel.UsuarioViewModel
 
-@AndroidEntryPoint
+
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-
-    private val usuarioViewModel: UsuarioViewModel by viewModels()
-
-    var usuarios: List<Usuario>? = null
-    var usuarioIniciado : Usuario? = null
-
-    private val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
-        if (isGranted) {
-            Toast.makeText(this, "Permiso concedido", Toast.LENGTH_SHORT).show()
-        } else {
-            Toast.makeText(this, "Permiso denegado", Toast.LENGTH_SHORT).show()
-        }
-    }
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,66 +20,48 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        usuarioViewModel.onCreate()
-        usuarioViewModel.usuarios.observe(this, Observer { usuariosList ->
-            usuarios = usuariosList
-        })
+        // Inicializar Firebase Auth
+        auth = FirebaseAuth.getInstance()
 
-        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_CONTACTS) == PackageManager.PERMISSION_GRANTED) {
-            Toast.makeText(this, "Permiso ya concedido", Toast.LENGTH_SHORT).show()
-        } else {
-            requestPermissionLauncher.launch(android.Manifest.permission.READ_CONTACTS)
-        }
-
+        // Listener para botón iniciar sesión
         binding.btnIniciar.setOnClickListener {
-            val intento = Intent(this, PaginaInicial::class.java)
-            startActivity(intento)
+            val email = binding.txtUsuario.text.toString().trim()
+            val password = binding.txtContrasena.text.toString().trim()
 
-            if (usuarios != null && verificarInicio(binding.txtUsuario.text.toString(), binding.txtContrasena.text.toString())) {
-                val intent = Intent(this, PaginaInicial::class.java)
-                //Pasar el id del usuario iniciado para poder recuperar sus peliculas favoritas.
-                intent.putExtra("usuarioId", usuarioIniciado?.id)
-                startActivity(intent)
-            } else {
-                binding.lblDenegado.text = "Usuario o contraseña incorrectos."
+            if (email.isEmpty() || password.isEmpty()) {
+                binding.lblDenegado.text = "Por favor, ingrese correo y contraseña."
+                return@setOnClickListener
             }
+
+            // Intentar iniciar sesión con Firebase
+            auth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this) { task ->
+                    if (task.isSuccessful) {
+                        // Inicio sesión correcto
+                        val user = auth.currentUser
+                        irAPaginaInicial(user)
+                    } else {
+                        // Error de autenticación
+                        binding.lblDenegado.text = "Usuario o contraseña incorrectos."
+                    }
+                }
         }
 
+        // Registro
         binding.lblRegistrarse.setOnClickListener {
-            val intent = Intent(this, CrearCuenta::class.java)
-            startActivity(intent)
+            accederCreacionCuenta()
         }
     }
 
-    //Metodo para dividir el string que devuelve la API
-    fun dividirString(input: String, inicio: String, fin: String): String? {
-        val startIndex = input.indexOf(inicio)
-        val endIndex = input.indexOf(fin)
-
-        return if (startIndex != -1 && endIndex != -1 && startIndex < endIndex) {
-            input.substring(startIndex + inicio.length, endIndex).trim()
-        } else {
-            null
-        }
+    private fun irAPaginaInicial(user: FirebaseUser?) {
+        val intent = Intent(this, PaginaInicial::class.java)
+        intent.putExtra("usuarioId", user?.uid) // Pasar UID de Firebase como id
+        startActivity(intent)
+        finish()
     }
 
-    //Metodo para verificar el inicio de sesion de un usuario
-    fun verificarInicio(usuarioIngresado: String, contrasenaIngresada: String): Boolean {
-        if (usuarios.isNullOrEmpty()) {
-            return false
-        }
-
-        for (usuario in usuarios!!) {
-            if (usuario.usuario == usuarioIngresado && usuario.contrasena == contrasenaIngresada) {
-                usuarioIniciado = usuario
-                return true
-            }
-        }
-
-        return false
-    }
-
-    fun accederCreacionCuenta(){
-
+    private fun accederCreacionCuenta() {
+        val intent = Intent(this, CrearCuenta::class.java)
+        startActivity(intent)
     }
 }

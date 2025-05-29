@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrincipal"
+    tools:context=".ui.view.ReproductorFrag">
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/btnSalirCard"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginStart="24dp"
+        app:cardCornerRadius="0dp"
+        app:cardElevation="0dp"
+        app:strokeWidth="0dp"
+        app:cardBackgroundColor="@android:color/transparent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageView
+            android:id="@+id/btnSalir"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:contentDescription="Botón salir"
+            android:padding="12dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_abajo"
+            tools:ignore="HardcodedText" />
+    </com.google.android.material.card.MaterialCardView>
+
+
+
+    <!-- Imagen del álbum -->
+    <ImageView
+        android:id="@+id/imgAlbumArt"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/bordes_redondeados"
+        app:layout_constraintTop_toBottomOf="@id/btnSalirCard"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:contentDescription="Imagen del álbum"
+        tools:ignore="HardcodedText"
+        tools:src="@drawable/moha_beats_removebg_preview" />
+
+    <!-- Título -->
+    <TextView
+        android:id="@+id/txtTituloCancion"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textColor="@color/blancoAgradables"
+        android:textSize="24sp"
+        android:fontFamily="@font/abril_fatface"
+        android:gravity="center"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="Título de la canción"
+        app:layout_constraintTop_toBottomOf="@id/imgAlbumArt"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"
+        tools:text="Shape of You"
+        tools:ignore="HardcodedText" />
+
+    <!-- Artista -->
+    <TextView
+        android:id="@+id/txtArtista"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorDetalles"
+        android:textSize="18sp"
+        android:fontFamily="@font/abril_fatface"
+        android:gravity="center"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="Nombre del artista"
+        app:layout_constraintTop_toBottomOf="@id/txtTituloCancion"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="Ed Sheeran"
+        tools:ignore="HardcodedText" />
+
+    <!-- SeekBar personalizada -->
+    <SeekBar
+        android:id="@+id/seekBar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:thumbTint="@color/colorDetalles"
+        android:progressTint="@color/blancoAgradables"
+        android:progressBackgroundTint="@color/grisSuave"
+        app:layout_constraintTop_toBottomOf="@id/txtArtista"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:progress="40"
+        tools:max="100" />
+
+    <!-- Controles de reproducción -->
+    <LinearLayout
+        android:id="@+id/layoutControles"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/seekBar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageButton
+            android:id="@+id/btnAnterior"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_anterior"
+            android:contentDescription="Botón canción anterior"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            tools:ignore="HardcodedText" />
+
+        <ImageButton
+            android:id="@+id/btnPlayPause"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_reproducir"
+            android:contentDescription="Botón reproducir / pausar"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            tools:ignore="HardcodedText" />
+
+        <ImageButton
+            android:id="@+id/btnSiguiente"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_siguiente"
+            android:contentDescription="Botón canción siguiente"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            tools:ignore="HardcodedText" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+

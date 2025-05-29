@@ -10,11 +10,11 @@ import dagger.hilt.components.SingletonComponent
 import es.tierno.mohamed.aa.mohabeatsiii.data.db.MohaBeatsDataBase
 import javax.inject.Singleton
 
-// La inyeccion del Room
 @Module
 @InstallIn(SingletonComponent::class)
 object RoomModule {
     const val NOMBRE_DB = "moha_beats"
+
     @Singleton
     @Provides
     fun provideRoom(@ApplicationContext context: Context) = Room.databaseBuilder(context,

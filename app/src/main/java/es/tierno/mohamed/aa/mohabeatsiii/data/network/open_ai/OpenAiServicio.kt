@@ -16,11 +16,19 @@ class OpenAiServicio @Inject constructor(){
     suspend fun consultar(mensajeUsuario: String): List<Mensaje> {
         return withContext(Dispatchers.IO) {
             try {
-                val peticion = ChatPeticion(messages = listOf(Mensaje(role = "user", mensajes = mensajeUsuario)))
+                val peticion = ChatPeticion(messages = listOf(Mensaje(
+                    role = "user",
+                    mensajes = mensajeUsuario + " Responde solo preguntas relacionadas con la música"
+                )))
                 val response = retrofit.getRespuesta(peticion)
 
                 if (response.isSuccessful) {
-                    response.body()?.message?.let { listOf(it) } ?: emptyList()
+                    response.body()?.let { body ->
+                        println("Respuesta OpenAI: $body")
+                    }
+                    response.body()?.choices?.map { choice ->
+                        Mensaje(role = choice.message.role, mensajes = choice.message.content)
+                    } ?: emptyList()
                 } else {
                     emptyList()
                 }
@@ -29,4 +37,5 @@ class OpenAiServicio @Inject constructor(){
             }
         }
     }
+
 }

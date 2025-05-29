@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import es.tierno.mohamed.aa.mohabeatsiii.databinding.FragmentFavoritosBinding
 import es.tierno.mohamed.aa.mohabeatsiii.domain.model.Musica
-import es.tierno.mohamed.aa.mohabeatsiii.ui.view.fragmentos.rv_canciones.Adapter
+import es.tierno.mohamed.aa.mohabeatsiii.ui.view.fragmentos.rv_canciones.AdapterCanciones
 import es.tierno.mohamed.aa.mohabeatsiii.ui.viewModel.FavoritosViewModel
 
 @AndroidEntryPoint
@@ -43,7 +43,7 @@ class FavoritosFrag : Fragment() {
 
     private fun initRecyclerView(canciones : List<Musica>) {
         binding.recyclerViewFavoritos.layoutManager = LinearLayoutManager(requireContext())
-        binding.recyclerViewFavoritos.adapter = Adapter(canciones)
+        binding.recyclerViewFavoritos.adapter = AdapterCanciones(canciones)
     }
 
     override fun onDestroyView() {

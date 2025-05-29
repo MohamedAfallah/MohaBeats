@@ -1,27 +1,19 @@
 package es.tierno.mohamed.aa.mohabeatsiii.data
 
-import es.tierno.mohamed.aa.mohabeatsiii.data.mapper.toUsuario
-import es.tierno.mohamed.aa.mohabeatsiii.data.db.dao.UsuarioDao
-import es.tierno.mohamed.aa.mohabeatsiii.data.db.entidades.UsuarioEntity
+import es.tierno.mohamed.aa.mohabeatsiii.data.db_nube.dao.FirestoreUsuarioDAO
+import es.tierno.mohamed.aa.mohabeatsiii.data.db_nube.usuario.UsuarioDAO
 import es.tierno.mohamed.aa.mohabeatsiii.domain.model.Usuario
 import javax.inject.Inject
 
-//repositorio para el control de usuarios
-class UsuarioRepositorio@Inject constructor (
-    private val usuarioDao: UsuarioDao) {
-    suspend fun getUsuarios(): List<Usuario>{
-        val response = usuarioDao.obtenerUsuarios()
-        return response.map { it.toUsuario() }
+// Repositorio para el control de usuarios desde Firestore
+class UsuarioRepositorio @Inject constructor(
+    private val usuarioDAO: FirestoreUsuarioDAO
+) {
+    suspend fun obtenerUsuario(id: String): Usuario? {
+        return usuarioDAO.obtenerUsuario(id)
     }
 
-    suspend fun insertarUsuarios(usuarios: List<Usuario>) {
-        val usuarioEntities = usuarios.map {
-            UsuarioEntity(
-                nombre = it.nombre,
-                usuario = it.usuario,
-                contrasena = it.contrasena
-            )
-        }
-        usuarioDao.insertarUsuarios(usuarioEntities)
+    suspend fun crearUsuario(usuario: Usuario): String {
+        return usuarioDAO.crearUsuario(usuario)
     }
 }

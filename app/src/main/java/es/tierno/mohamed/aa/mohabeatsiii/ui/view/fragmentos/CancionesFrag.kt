@@ -9,7 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import es.tierno.mohamed.aa.mohabeatsiii.databinding.FragmentCancionesBinding
-import es.tierno.mohamed.aa.mohabeatsiii.ui.view.fragmentos.rv_canciones.Adapter
+import es.tierno.mohamed.aa.mohabeatsiii.ui.view.fragmentos.rv_canciones.AdapterCanciones
 import es.tierno.mohamed.aa.mohabeatsiii.ui.viewModel.MusicaViewModel
 
 @AndroidEntryPoint
@@ -37,7 +37,7 @@ class CancionesFrag : Fragment() {
 
         musicaViewModel.musica.observe(viewLifecycleOwner) { canciones ->
             canciones?.let {
-                binding.recyclerViewCanciones.adapter = Adapter(it)
+                binding.recyclerViewCanciones.adapter = AdapterCanciones(it)
             }
         }
 

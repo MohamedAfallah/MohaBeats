@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="12dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="6dp"
+    app:cardBackgroundColor="@color/fondosSecundarios">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:padding="12dp">
+
+        <ImageView
+            android:id="@+id/imgPlaylist"
+            android:layout_width="76dp"
+            android:layout_height="76dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/moha_beats_removebg_preview"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <TextView
+            android:id="@+id/txtNombrePlaylist"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:text="Mi Playlist"
+            android:textColor="@color/blancoAgradables"
+            android:textSize="18sp"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:fontFamily="@font/abril_fatface"
+            app:layout_constraintStart_toEndOf="@id/imgPlaylist"
+            app:layout_constraintTop_toTopOf="@id/imgPlaylist"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <TextView
+            android:id="@+id/txtCantidadCanciones"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:text="15 canciones"
+            android:textColor="@color/colorDetalles"
+            android:textSize="14sp"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:fontFamily="@font/abril_fatface"
+            app:layout_constraintStart_toEndOf="@id/imgPlaylist"
+            app:layout_constraintTop_toBottomOf="@id/txtNombrePlaylist"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/imgPlaylist" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

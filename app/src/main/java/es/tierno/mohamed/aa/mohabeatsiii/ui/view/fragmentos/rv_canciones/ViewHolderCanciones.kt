@@ -11,7 +11,7 @@ import com.bumptech.glide.Glide
 import es.tierno.mohamed.aa.mohabeatsiii.R
 import es.tierno.mohamed.aa.mohabeatsiii.domain.model.Musica
 
-class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+class ViewHolderCanciones(view: View) : RecyclerView.ViewHolder(view) {
     private val imagen = view.findViewById<ImageView>(R.id.imagenCancion)
     private val nombre = view.findViewById<TextView>(R.id.nombreCancion)
     private val artista = view.findViewById<TextView>(R.id.nombreArtista)
@@ -21,9 +21,9 @@ class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     private var esFavorito = false
 
     fun render(cancion: Musica) {
-        nombre.text = cancion.nombre
-        artista.text = cancion.artista
-        Glide.with(imagen.context).load(cancion.url).into(imagen)
+        nombre.text = cancion.nombreCancion
+        artista.text = cancion.nombreArtista
+        Glide.with(imagen.context).load(cancion.urlImagen).into(imagen)
 
         // Configurar el ícono inicial
         actualizarIcono()

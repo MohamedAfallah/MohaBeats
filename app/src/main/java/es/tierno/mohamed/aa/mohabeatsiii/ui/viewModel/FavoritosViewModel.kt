@@ -17,12 +17,8 @@ class FavoritosViewModel @Inject constructor(
 
     fun onCreate(id : Int){
         viewModelScope.launch{
-            val result = getFavoritosUseCase.invoke(id)
 
-            //Esta parte se tiene que cambiar luego
-            if(true){
-                musicaFavorita.postValue(result)
-            }
+
         }
     }
 }

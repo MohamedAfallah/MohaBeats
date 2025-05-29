@@ -5,6 +5,7 @@ plugins {
     id("com.google.devtools.ksp")
     id("kotlin-kapt")
     id("com.google.dagger.hilt.android")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -53,10 +54,8 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
-    //Librería para poder cargar imagenes en el recyclerView
     implementation ("com.github.bumptech.glide:glide:4.16.0")
 
-    //Librería para las animaciones
     implementation ("com.airbnb.android:lottie:6.1.0")
 
     implementation(libs.retrofit)
@@ -73,6 +72,12 @@ dependencies {
 
     implementation("com.google.dagger:hilt-android:2.51.1")
     kapt("com.google.dagger:hilt-android-compiler:2.51.1")
+
+    implementation(platform("com.google.firebase:firebase-bom:33.14.0"))
+    implementation("com.google.firebase:firebase-firestore-ktx")
+    implementation("com.google.firebase:firebase-analytics")
+
+    implementation("com.google.firebase:firebase-auth-ktx")
 }
 
 kapt {

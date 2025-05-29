@@ -16,12 +16,6 @@ class MusicaViewModel @Inject constructor (
     val musica = MutableLiveData<List<Musica>>()
 
     fun onCreate(){
-        viewModelScope.launch{
-            val result = getCancionesUseCase.invoke()
 
-            if(!result.isNullOrEmpty()){
-                musica.postValue(result)
-            }
-        }
     }
 }

@@ -12,10 +12,10 @@ import retrofit2.http.POST
 interface OpenAiApi {
     @Headers(
         "Content-Type: application/json",
-        "Authorization: Bearer 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"
+        "Authorization: Bearer sk-ec4b87492aa640279c1a0128d2a7a1ad"
     )
     @POST("v1/chat/completions")
     suspend fun getRespuesta(
         @Body request: ChatPeticion
-    ): Response<ChatRespuesta>
+    ): Response<ChatRespuestaModel>
 }

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "420563109513",
+    "project_id": "mohabeats-cb576",
+    "storage_bucket": "mohabeats-cb576.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:420563109513:android:ecf2b867b2816f80c8a858",
+        "android_client_info": {
+          "package_name": "es.tierno.mohamed.aa.mohabeatsiii"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBhx7g6XTxfymfWBNdeoQ1D4Fmn4vM1Rng"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
