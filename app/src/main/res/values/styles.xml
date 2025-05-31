@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Estilo para TextInputLayout con borde naranja -->
+    <style name="FormTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeColor">@color/colorDetalles</item> <!-- borde naranja -->
+        <item name="hintTextColor">@color/blancoAgradables</item> <!-- hint blanco -->
+        <item name="helperTextTextColor">@color/blancoAgradables</item>
+        <item name="errorTextColor">@color/error_dark</item>
+        <item name="android:textColor">@color/blancoAgradables</item>
+        <item name="boxBackgroundColor">@color/fondosSecundarios</item> <!-- fondo gris oscuro -->
+    </style>
+
+    <!-- Estilo para TextInputEditText -->
+    <style name="FormEditText" parent="Widget.MaterialComponents.TextInputEditText.OutlinedBox">
+        <item name="android:textColor">@color/blancoAgradables</item>
+        <item name="android:textColorHint">@color/blancoAgradables</item>
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+
+    <!-- Botón personalizado con texto blanco y fondo naranja -->
+    <style name="ButtonPrimary" parent="Widget.MaterialComponents.Button">
+        <item name="android:backgroundTint">@color/colorDetalles</item>
+        <item name="android:textColor">@color/blancoAgradables</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+
+</resources>

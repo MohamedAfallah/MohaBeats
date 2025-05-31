@@ -6,11 +6,16 @@ import androidx.recyclerview.widget.RecyclerView
 import es.tierno.mohamed.aa.mohabeatsiii.R
 import es.tierno.mohamed.aa.mohabeatsiii.domain.model.Musica
 
-class AdapterCanciones(val cancionesList : List<Musica>) : RecyclerView.Adapter<ViewHolderCanciones>() {
+class AdapterCanciones(
+    private val onReproducirClick: (Musica) -> Unit
+) : RecyclerView.Adapter<ViewHolderCanciones>() {
+
+    private val cancionesList = mutableListOf<Musica>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderCanciones {
         val layoutInflater = LayoutInflater.from(parent.context)
-        return ViewHolderCanciones(layoutInflater.inflate(R.layout.item_cancion, parent, false))
+        val view = layoutInflater.inflate(R.layout.item_cancion, parent, false)
+        return ViewHolderCanciones(view, onReproducirClick)
     }
 
     override fun onBindViewHolder(holder: ViewHolderCanciones, position: Int) {
@@ -18,5 +23,13 @@ class AdapterCanciones(val cancionesList : List<Musica>) : RecyclerView.Adapter<
         holder.render(item)
     }
 
-    override fun getItemCount(): Int =  cancionesList.size
+    override fun getItemCount(): Int = cancionesList.size
+
+    fun actualizarDatos(nuevasCanciones: List<Musica>) {
+        cancionesList.clear()
+        cancionesList.addAll(nuevasCanciones)
+        notifyDataSetChanged()
+    }
 }
+
+

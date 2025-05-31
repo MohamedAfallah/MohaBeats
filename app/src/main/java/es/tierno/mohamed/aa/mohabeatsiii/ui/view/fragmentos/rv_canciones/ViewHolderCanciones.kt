@@ -11,12 +11,17 @@ import com.bumptech.glide.Glide
 import es.tierno.mohamed.aa.mohabeatsiii.R
 import es.tierno.mohamed.aa.mohabeatsiii.domain.model.Musica
 
-class ViewHolderCanciones(view: View) : RecyclerView.ViewHolder(view) {
+class ViewHolderCanciones(
+    view: View,
+    private val onReproducirClick: (Musica) -> Unit // función callback
+) : RecyclerView.ViewHolder(view) {
+
     private val imagen = view.findViewById<ImageView>(R.id.imagenCancion)
     private val nombre = view.findViewById<TextView>(R.id.nombreCancion)
     private val artista = view.findViewById<TextView>(R.id.nombreArtista)
     private val favorito = view.findViewById<ImageView>(R.id.iconFavorito)
     private val lottieFavorito = view.findViewById<LottieAnimationView>(R.id.lottieFavorito)
+    private val iconReproducir = view.findViewById<ImageView>(R.id.iconReproducir)
 
     private var esFavorito = false
 
@@ -25,7 +30,6 @@ class ViewHolderCanciones(view: View) : RecyclerView.ViewHolder(view) {
         artista.text = cancion.nombreArtista
         Glide.with(imagen.context).load(cancion.urlImagen).into(imagen)
 
-        // Configurar el ícono inicial
         actualizarIcono()
 
         favorito.setOnClickListener {
@@ -34,17 +38,21 @@ class ViewHolderCanciones(view: View) : RecyclerView.ViewHolder(view) {
             actualizarIcono()
 
             if (!eraFavorito) {
-                // Solo reproducir animación si antes NO era favorito
                 lottieFavorito.visibility = View.VISIBLE
                 lottieFavorito.playAnimation()
 
                 lottieFavorito.addAnimatorListener(object : AnimatorListenerAdapter() {
                     override fun onAnimationEnd(animation: Animator) {
                         lottieFavorito.visibility = View.GONE
-                        lottieFavorito.removeAnimatorListener(this) // evitar múltiples listeners
+                        lottieFavorito.removeAnimatorListener(this)
                     }
                 })
             }
+        }
+
+        // 🔊 Callback al fragmento
+        iconReproducir.setOnClickListener {
+            onReproducirClick(cancion)
         }
     }
 
@@ -57,3 +65,4 @@ class ViewHolderCanciones(view: View) : RecyclerView.ViewHolder(view) {
         favorito.setImageResource(icono)
     }
 }
+

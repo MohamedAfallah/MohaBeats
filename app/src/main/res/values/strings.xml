@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">MohaBeatsIII</string>
     <string name="lblUsuario">Usuario</string>
@@ -20,4 +21,8 @@
     <string name="escribe_un_mensaje">Escribe un mensaje…</string>
     <string name="app_logo">Logo</string>
     <string name="descripcionImg">Esto es una imagen</string>
+    <string name="telefono">Teléfono</string>
+    <string name="nombre_usuario">Nombre de Usuario</string>
+    <string name="editar_perfil">Editar Perfil</string>
+    <string name="notificaciones">Notificaciones</string>
 </resources>

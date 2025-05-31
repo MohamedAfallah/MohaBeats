@@ -11,9 +11,9 @@ import androidx.constraintlayout.widget.Guideline
 import androidx.fragment.app.Fragment
 import androidx.transition.ChangeBounds
 import androidx.transition.TransitionManager
-import es.tierno.mohamed.aa.mohabeatsiii.R
-import dagger.hilt.android.AndroidEntryPoint
 import es.tierno.mohamed.aa.mohabeatsiii.databinding.FragmentInicioBinding
+import dagger.hilt.android.AndroidEntryPoint
+import es.tierno.mohamed.aa.mohabeatsiii.R
 
 @AndroidEntryPoint
 class InicioFrag : Fragment() {
@@ -72,11 +72,24 @@ class InicioFrag : Fragment() {
         guidelinePercent = newPercent
     }
 
+    fun showFullScreenContainer() {
+        binding.fragExContainer.visibility = View.GONE
+        binding.fragCancionesContainer.visibility = View.GONE
+        binding.fragFullScreenContainer.visibility = View.VISIBLE
+    }
+
+    fun hideFullScreenContainer() {
+        binding.fragExContainer.visibility = View.VISIBLE
+        binding.fragCancionesContainer.visibility = View.VISIBLE
+        binding.fragFullScreenContainer.visibility = View.GONE
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
 }
+
 
 
 

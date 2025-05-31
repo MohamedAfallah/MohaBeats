@@ -47,6 +47,10 @@ class MainActivity : AppCompatActivity() {
                 }
         }
 
+        binding.btnInvitado.setOnClickListener{
+            irAPaginaInicial(null)
+        }
+
         // Registro
         binding.lblRegistrarse.setOnClickListener {
             accederCreacionCuenta()

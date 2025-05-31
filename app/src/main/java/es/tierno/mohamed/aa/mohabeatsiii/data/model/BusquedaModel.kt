@@ -1,5 +1,9 @@
 package es.tierno.mohamed.aa.mohabeatsiii.data.model
 
-data class BusquedaModel (
-    val resultados: List<MusicaModel>
-    )
+import com.google.gson.annotations.SerializedName
+import es.tierno.mohamed.aa.mohabeatsiii.domain.model.Musica
+
+data class BusquedaModel(
+    @SerializedName("resultCount") val total: Int,
+    @SerializedName("results") val resultados: List<MusicaModel>
+)

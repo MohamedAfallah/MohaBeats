@@ -1,20 +1,23 @@
 package es.tierno.mohamed.aa.mohabeatsiii.data
 
-import es.tierno.mohamed.aa.mohabeatsiii.data.db.dao.MusicaDao
+import es.tierno.mohamed.aa.mohabeatsiii.data.network.musica_api.ITunesServicio
 import es.tierno.mohamed.aa.mohabeatsiii.domain.model.Musica
-
-
 import javax.inject.Inject
 
-//Repositorio para el control de data de las canciones
-class MusicaRepositorio@Inject constructor (
-    private val musicaDao: MusicaDao) {
+class MusicaRepositorio @Inject constructor(
+    private val iTunesServicio: ITunesServicio
+) {
 
-    suspend fun getCanciones() {
-
+    suspend fun obtenerCanciones(): List<Musica> {
+        return iTunesServicio.getCanciones() ?: emptyList()
     }
 
-    suspend fun insertarCanciones(musica: List<Musica>) {
+    suspend fun getCancionesPorGenero(generoId : String): List<Musica> {
+        return iTunesServicio.getCancionesPorGenero(generoId) ?: emptyList()
+    }
 
+    suspend fun buscar(dato : String) : List<Musica>{
+        return iTunesServicio.buscar(dato) ?: emptyList()
     }
 }
+

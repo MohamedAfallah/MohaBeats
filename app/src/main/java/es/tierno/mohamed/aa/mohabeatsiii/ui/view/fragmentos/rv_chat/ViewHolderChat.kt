@@ -7,7 +7,7 @@ import es.tierno.mohamed.aa.mohabeatsiii.domain.model.chat_bot.Mensaje
 
 class ViewHolderChat(private val binding: ItemChatMessageBinding) : RecyclerView.ViewHolder(binding.root) {
     fun bind(message: Mensaje) {
-        binding.chatMessage.text = message.mensajes
+        binding.chatMessage.text = message.content
 
         if (message.role == "user") {
             binding.chatMessage.setBackgroundResource(R.drawable.bg_user_message)

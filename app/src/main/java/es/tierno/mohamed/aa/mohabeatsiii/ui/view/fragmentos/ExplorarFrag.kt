@@ -12,7 +12,8 @@ import es.tierno.mohamed.aa.mohabeatsiii.data.provider.CategoriasProvider
 import es.tierno.mohamed.aa.mohabeatsiii.databinding.FragmentExplorarBinding
 import es.tierno.mohamed.aa.mohabeatsiii.ui.view.fragmentos.rv_categorias.AdapterCategorias
 
-class ExplorarFrag : Fragment() {
+class ExplorarFrag : Fragment(), BuscarFrag.BuscarFocusListener {
+
     private var _binding: FragmentExplorarBinding? = null
     private val binding get() = _binding!!
 
@@ -22,9 +23,11 @@ class ExplorarFrag : Fragment() {
     ): View {
         _binding = FragmentExplorarBinding.inflate(inflater, container, false)
 
-        parentFragmentManager.beginTransaction()
-            .replace(R.id.fragBuscarContainer, BuscarFrag())
-            .addToBackStack(null)
+        // Cargar BuscarFrag en el contenedor fragBuscarContainer
+        childFragmentManager.beginTransaction()
+            .replace(R.id.fragBuscarContainer, BuscarFrag().apply {
+                setBuscarFocusListener(this@ExplorarFrag)
+            })
             .commit()
 
         return binding.root
@@ -44,7 +47,29 @@ class ExplorarFrag : Fragment() {
 
         binding.recyclerViewCategorias.adapter = AdapterCategorias(listaCategorias) { categoria ->
             Toast.makeText(requireContext(), "Clic en: ${categoria.nombre}", Toast.LENGTH_SHORT).show()
+
+            val resultadoBusquedaFrag = ResultadoBusquedaFrag.newInstance(categoria)
+
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.fragFullScreenContainer, resultadoBusquedaFrag)
+                .addToBackStack(null)
+                .commit()
+
+            (parentFragment as? InicioFrag)?.showFullScreenContainer()
         }
+    }
+
+    // Implementación de la interface BuscarFocusListener
+    override fun onSearchViewFocused() {
+        // Mostrar ResultadoBusquedaFrag en el contenedor fullscreen
+        val resultadoBusquedaFrag = ResultadoBusquedaFrag()
+
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.fragFullScreenContainer, resultadoBusquedaFrag)
+            .addToBackStack(null)
+            .commit()
+
+        (parentFragment as? InicioFrag)?.showFullScreenContainer()
     }
 
     override fun onDestroyView() {
@@ -52,3 +77,6 @@ class ExplorarFrag : Fragment() {
         _binding = null
     }
 }
+
+
+

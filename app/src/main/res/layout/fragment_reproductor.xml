@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrincipal"
-    tools:context=".ui.view.ReproductorFrag">
+    tools:context=".ui.view.fragmentos.ReproductorFrag">
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/btnSalirCard"

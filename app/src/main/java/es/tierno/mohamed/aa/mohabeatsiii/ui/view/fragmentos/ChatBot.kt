@@ -56,7 +56,7 @@ class ChatBot : Fragment() {
             val messageText = binding.editTextMessage.text.toString().trim()
             if (messageText.isNotEmpty()) {
                 // Agregar mensaje del usuario
-                val newMessage = Mensaje(role = "user", mensajes = messageText)
+                val newMessage = Mensaje(role = "user", content = messageText)
                 messages.add(newMessage)
                 adapterChat.notifyItemInserted(messages.size - 1)
                 binding.recyclerViewMessages.scrollToPosition(messages.size - 1)

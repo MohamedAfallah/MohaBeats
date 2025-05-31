@@ -1,5 +1,6 @@
 package es.tierno.mohamed.aa.mohabeatsiii.ui.view.fragmentos
 
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,16 +17,19 @@ import es.tierno.mohamed.aa.mohabeatsiii.ui.viewModel.FavoritosViewModel
 
 @AndroidEntryPoint
 class FavoritosFrag : Fragment() {
+
     private var _binding: FragmentFavoritosBinding? = null
     private val binding get() = _binding!!
 
-    private val favoritosViewModel : FavoritosViewModel
+    private var mediaPlayer: MediaPlayer? = null
+
+    private val favoritosViewModel: FavoritosViewModel
         get() = ViewModelProvider(this).get(FavoritosViewModel::class.java)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentFavoritosBinding.inflate(inflater, container, false)
 
         val usuarioId = arguments?.getInt("usuarioId", -1) ?: -1
@@ -41,12 +45,31 @@ class FavoritosFrag : Fragment() {
         return binding.root
     }
 
-    private fun initRecyclerView(canciones : List<Musica>) {
+    private fun initRecyclerView(canciones: List<Musica>) {
         binding.recyclerViewFavoritos.layoutManager = LinearLayoutManager(requireContext())
-        binding.recyclerViewFavoritos.adapter = AdapterCanciones(canciones)
+        binding.recyclerViewFavoritos.adapter = AdapterCanciones { cancion ->
+            reproducirCancion(cancion)
+        }.apply {
+            actualizarDatos(canciones)
+        }
+    }
+
+    private fun reproducirCancion(cancion: Musica) {
+        mediaPlayer?.release()
+        mediaPlayer = MediaPlayer().apply {
+            try {
+                setDataSource(cancion.urlPreview)
+                prepare()
+                start()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
     }
 
     override fun onDestroyView() {
+        mediaPlayer?.release()
+        mediaPlayer = null
         super.onDestroyView()
         _binding = null
     }
