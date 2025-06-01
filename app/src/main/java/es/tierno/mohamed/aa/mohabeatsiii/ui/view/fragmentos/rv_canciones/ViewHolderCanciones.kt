@@ -13,7 +13,7 @@ import es.tierno.mohamed.aa.mohabeatsiii.domain.model.Musica
 
 class ViewHolderCanciones(
     view: View,
-    private val onReproducirClick: (Musica) -> Unit // función callback
+    private val onReproducirClick: (Musica) -> Unit // callback para botón de reproducción
 ) : RecyclerView.ViewHolder(view) {
 
     private val imagen = view.findViewById<ImageView>(R.id.imagenCancion)
@@ -32,6 +32,18 @@ class ViewHolderCanciones(
 
         actualizarIcono()
 
+        // Clic en itemView (excepto en los botones específicos)
+        itemView.setOnClickListener {
+            onReproducirClick(cancion)
+        }
+
+        // Clic en botón reproducir
+        iconReproducir.setOnClickListener {
+            // solo se reproduce, no se lanza itemView click
+            onReproducirClick(cancion)
+        }
+
+        // Clic en favorito
         favorito.setOnClickListener {
             val eraFavorito = esFavorito
             esFavorito = !esFavorito
@@ -40,7 +52,6 @@ class ViewHolderCanciones(
             if (!eraFavorito) {
                 lottieFavorito.visibility = View.VISIBLE
                 lottieFavorito.playAnimation()
-
                 lottieFavorito.addAnimatorListener(object : AnimatorListenerAdapter() {
                     override fun onAnimationEnd(animation: Animator) {
                         lottieFavorito.visibility = View.GONE
@@ -48,11 +59,6 @@ class ViewHolderCanciones(
                     }
                 })
             }
-        }
-
-        // 🔊 Callback al fragmento
-        iconReproducir.setOnClickListener {
-            onReproducirClick(cancion)
         }
     }
 

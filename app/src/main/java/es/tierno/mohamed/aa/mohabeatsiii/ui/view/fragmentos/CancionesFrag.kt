@@ -15,6 +15,8 @@ import es.tierno.mohamed.aa.mohabeatsiii.domain.model.Musica
 import es.tierno.mohamed.aa.mohabeatsiii.service.MusicService
 import es.tierno.mohamed.aa.mohabeatsiii.ui.view.fragmentos.rv_canciones.AdapterCanciones
 import es.tierno.mohamed.aa.mohabeatsiii.ui.viewModel.MusicaViewModel
+import es.tierno.mohamed.aa.mohabeatsiii.R
+import es.tierno.mohamed.aa.mohabeatsiii.ui.view.actividades.PaginaInicial
 
 @AndroidEntryPoint
 class CancionesFrag : Fragment() {
@@ -65,18 +67,30 @@ class CancionesFrag : Fragment() {
     }
 
     private fun reproducirCancion(cancion: Musica) {
-        // Obtenemos la lista actual del adapter
-        val listaCanciones = adapter.obtenerDatos() // Método que devuelve la lista actual de canciones en el adapter
-
-        // Encontramos la posición de la canción clicada
+        val listaCanciones = adapter.obtenerDatos()
         val posicion = listaCanciones.indexOf(cancion).coerceAtLeast(0)
 
+        // Iniciar el servicio
         val intent = Intent(requireContext(), MusicService::class.java).apply {
             action = MusicService.ACTION_PLAY
             putParcelableArrayListExtra(MusicService.EXTRA_PLAYLIST, ArrayList(listaCanciones))
             putExtra("EXTRA_START_INDEX", posicion)
         }
         requireContext().startService(intent)
+
+        // Crear el reproductor
+        val reproductorFrag = ReproductorFrag.newInstance(cancion)
+
+        // Acceder a la actividad contenedora (PaginaInicial) y mostrar el reproductor
+        (activity as? PaginaInicial)?.let { paginaInicial ->
+            val contenedor = paginaInicial.findViewById<View>(R.id.reproductorContainer)
+            contenedor?.visibility = View.VISIBLE
+
+            paginaInicial.supportFragmentManager.beginTransaction()
+                .add(R.id.reproductorContainer, reproductorFrag)
+                .addToBackStack(null)
+                .commit()
+        }
     }
 
     override fun onDestroyView() {

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+
+    <!-- Fondo transparente -->
+    <solid android:color="@android:color/transparent" />
+
+    <!-- Borde naranja con 50% de transparencia -->
+    <stroke
+        android:width="3dp"
+        android:color="#80FFA500" />  <!-- #80 es 50% alfa, FFA500 es naranja -->
+
+    <!-- Esquinas redondeadas -->
+    <corners android:radius="20dp" />
+</shape>

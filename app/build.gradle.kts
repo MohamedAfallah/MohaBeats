@@ -79,6 +79,8 @@ dependencies {
 
     implementation("com.google.firebase:firebase-auth-ktx")
     implementation ("androidx.media:media:1.6.0")
+
+    implementation ("androidx.palette:palette:1.0.0")
 }
 
 kapt {

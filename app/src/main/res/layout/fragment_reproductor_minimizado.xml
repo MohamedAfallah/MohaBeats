@@ -6,10 +6,10 @@
     android:id="@+id/reproductorMinimizado"
     android:layout_width="match_parent"
     android:layout_height="80dp"
-    android:background="#4D0D0D0D">
+    android:background="@drawable/bordes_repproductor_min">
 
     <ImageView
-        android:id="@+id/imgAlbumMini"
+        android:id="@+id/imgMusicaMini"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:background="@drawable/bordes_redondeados"
@@ -32,8 +32,8 @@
         android:maxLines="1"
         android:fontFamily="@font/abril_fatface"
         android:layout_marginStart="12dp"
-        app:layout_constraintStart_toEndOf="@id/imgAlbumMini"
-        app:layout_constraintTop_toTopOf="@id/imgAlbumMini"
+        app:layout_constraintStart_toEndOf="@id/imgMusicaMini"
+        app:layout_constraintTop_toTopOf="@id/imgMusicaMini"
         app:layout_constraintEnd_toStartOf="@id/btnPlayPauseMini" />
 
     <TextView
@@ -46,9 +46,9 @@
         android:maxLines="1"
         android:fontFamily="@font/abril_fatface"
         android:layout_marginStart="12dp"
-        app:layout_constraintStart_toEndOf="@id/imgAlbumMini"
+        app:layout_constraintStart_toEndOf="@id/imgMusicaMini"
         app:layout_constraintTop_toBottomOf="@id/txtTituloMini"
-        app:layout_constraintBottom_toBottomOf="@id/imgAlbumMini"
+        app:layout_constraintBottom_toBottomOf="@id/imgMusicaMini"
         app:layout_constraintEnd_toStartOf="@id/btnPlayPauseMini" />
 
     <ImageView

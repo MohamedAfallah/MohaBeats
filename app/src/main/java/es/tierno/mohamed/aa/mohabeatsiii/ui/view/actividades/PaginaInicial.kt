@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import android.view.View
 import dagger.hilt.android.AndroidEntryPoint
 import es.tierno.mohamed.aa.mohabeatsiii.R
 import es.tierno.mohamed.aa.mohabeatsiii.databinding.ActivityPaginaInicialBinding
@@ -11,7 +12,6 @@ import es.tierno.mohamed.aa.mohabeatsiii.ui.view.fragmentos.InicioFrag
 import es.tierno.mohamed.aa.mohabeatsiii.ui.view.fragmentos.ChatBot
 import es.tierno.mohamed.aa.mohabeatsiii.ui.view.fragmentos.FavoritosFrag
 import es.tierno.mohamed.aa.mohabeatsiii.ui.view.fragmentos.PerfilFrag
-
 
 @AndroidEntryPoint
 class PaginaInicial : AppCompatActivity() {
@@ -30,6 +30,11 @@ class PaginaInicial : AppCompatActivity() {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fragContainer, InicioFrag())
                 .commit()
+        }
+
+        // Listener para hacer toggle entre mini y full reproductor
+        binding.reproductorMiniContainer.setOnClickListener {
+            binding.reproductorMiniContainer.visibility = View.GONE
         }
 
         binding.bottomNav.setOnItemSelectedListener { menuItem ->
@@ -51,8 +56,8 @@ class PaginaInicial : AppCompatActivity() {
 
             true
         }
-
     }
+
 
     //Remplazar el fragmento con otro que se ha seleccionado
     private fun replaceFragment(fragment: Fragment) {

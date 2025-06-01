@@ -34,7 +34,6 @@ class AdapterCanciones(
     fun obtenerDatos(): List<Musica> {
         return cancionesList
     }
-
 }
 
 
