@@ -30,6 +30,11 @@ class AdapterCanciones(
         cancionesList.addAll(nuevasCanciones)
         notifyDataSetChanged()
     }
+
+    fun obtenerDatos(): List<Musica> {
+        return cancionesList
+    }
+
 }
 
 

@@ -1,6 +1,6 @@
 package es.tierno.mohamed.aa.mohabeatsiii.ui.view.fragmentos
 
-import android.media.MediaPlayer
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import es.tierno.mohamed.aa.mohabeatsiii.databinding.FragmentBusquedaBinding
 import es.tierno.mohamed.aa.mohabeatsiii.data.model.CategoriasModel
+import es.tierno.mohamed.aa.mohabeatsiii.domain.model.Musica
+import es.tierno.mohamed.aa.mohabeatsiii.service.MusicService
 import es.tierno.mohamed.aa.mohabeatsiii.ui.view.fragmentos.rv_canciones.AdapterCanciones
 import es.tierno.mohamed.aa.mohabeatsiii.ui.viewModel.ResultadoBusquedaViewModel
 
@@ -39,8 +41,6 @@ class ResultadoBusquedaFrag : Fragment() {
     }
 
     private lateinit var adapter: AdapterCanciones
-
-    private var mediaPlayer: MediaPlayer? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,26 +75,25 @@ class ResultadoBusquedaFrag : Fragment() {
         }
     }
 
-    private fun reproducirCancion(cancion: es.tierno.mohamed.aa.mohabeatsiii.domain.model.Musica) {
-        mediaPlayer?.release()
-        mediaPlayer = MediaPlayer().apply {
-            try {
-                setDataSource(cancion.urlPreview)
-                prepare()
-                start()
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
+    private fun reproducirCancion(cancion: Musica) {
+        val intent = Intent(requireContext(), MusicService::class.java).apply {
+            action = MusicService.ACTION_PLAY
+            putExtra(MusicService.EXTRA_URL, cancion.urlPreview)
         }
+        requireContext().startService(intent)
     }
 
     override fun onDestroyView() {
-        mediaPlayer?.release()
-        mediaPlayer = null
         super.onDestroyView()
         _binding = null
     }
 }
+
+
+
+
+
+
 
 
 

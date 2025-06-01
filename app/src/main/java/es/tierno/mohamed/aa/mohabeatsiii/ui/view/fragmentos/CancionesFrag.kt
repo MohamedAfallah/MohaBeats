@@ -1,6 +1,6 @@
 package es.tierno.mohamed.aa.mohabeatsiii.ui.view.fragmentos
 
-import android.media.MediaPlayer
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import es.tierno.mohamed.aa.mohabeatsiii.databinding.FragmentCancionesBinding
 import es.tierno.mohamed.aa.mohabeatsiii.domain.model.Musica
+import es.tierno.mohamed.aa.mohabeatsiii.service.MusicService
 import es.tierno.mohamed.aa.mohabeatsiii.ui.view.fragmentos.rv_canciones.AdapterCanciones
 import es.tierno.mohamed.aa.mohabeatsiii.ui.viewModel.MusicaViewModel
 
@@ -22,7 +23,6 @@ class CancionesFrag : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var adapter: AdapterCanciones
-    private var mediaPlayer: MediaPlayer? = null  // MediaPlayer para reproducir audio
 
     private val musicaViewModel: MusicaViewModel by lazy {
         ViewModelProvider(this).get(MusicaViewModel::class.java)
@@ -39,7 +39,6 @@ class CancionesFrag : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Crear el adapter pasando el callback para reproducir la canción
         adapter = AdapterCanciones { cancion -> reproducirCancion(cancion) }
 
         binding.recyclerViewCanciones.layoutManager = LinearLayoutManager(requireContext())
@@ -50,7 +49,7 @@ class CancionesFrag : Fragment() {
         }
 
         binding.recyclerViewCanciones.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+            override fun onScrolled(recyclerView: androidx.recyclerview.widget.RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 val layoutManager = recyclerView.layoutManager as LinearLayoutManager
                 val totalItemCount = layoutManager.itemCount
@@ -65,29 +64,23 @@ class CancionesFrag : Fragment() {
         musicaViewModel.onCreate()
     }
 
-    // Función para reproducir la canción con MediaPlayer
     private fun reproducirCancion(cancion: Musica) {
-        // Liberar cualquier reproducción previa
-        mediaPlayer?.release()
-        mediaPlayer = MediaPlayer()
+        // Obtenemos la lista actual del adapter
+        val listaCanciones = adapter.obtenerDatos() // Método que devuelve la lista actual de canciones en el adapter
 
-        try {
-            mediaPlayer?.apply {
-                setDataSource(cancion.urlPreview)
-                prepare()
-                start()
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
+        // Encontramos la posición de la canción clicada
+        val posicion = listaCanciones.indexOf(cancion).coerceAtLeast(0)
+
+        val intent = Intent(requireContext(), MusicService::class.java).apply {
+            action = MusicService.ACTION_PLAY
+            putParcelableArrayListExtra(MusicService.EXTRA_PLAYLIST, ArrayList(listaCanciones))
+            putExtra("EXTRA_START_INDEX", posicion)
         }
+        requireContext().startService(intent)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        // Liberar recursos del MediaPlayer
-        mediaPlayer?.release()
-        mediaPlayer = null
         _binding = null
     }
 }
-

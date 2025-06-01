@@ -18,7 +18,7 @@ interface ITunesApi {
     // Obtener canciones aleatorias (esto no existe en la API de iTunes, pero puedes usar búsquedas populares)
     @GET("search")
     suspend fun getCanciones(
-        @Query("term") query: String = "midas alonso",
+        @Query("term") query: String = "morad",
         @Query("media") media: String = "music",
         @Query("entity") entity: String = "song",
         @Query("limit") limit: Int = 50
