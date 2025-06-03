@@ -11,12 +11,12 @@ import androidx.constraintlayout.widget.Guideline
 import androidx.fragment.app.Fragment
 import androidx.transition.ChangeBounds
 import androidx.transition.TransitionManager
-import es.tierno.mohamed.aa.mohabeatsiii.databinding.FragmentInicioBinding
 import dagger.hilt.android.AndroidEntryPoint
 import es.tierno.mohamed.aa.mohabeatsiii.R
+import es.tierno.mohamed.aa.mohabeatsiii.databinding.FragmentInicioBinding
 
 @AndroidEntryPoint
-class InicioFrag : Fragment() {
+class InicioFrag : Fragment(), BuscarFrag.BuscarQueryListener {
 
     private var _binding: FragmentInicioBinding? = null
     private val binding get() = _binding!!
@@ -24,7 +24,6 @@ class InicioFrag : Fragment() {
     private lateinit var guidelineHalf: Guideline
     private lateinit var rootLayout: ConstraintLayout
 
-    // Valor inicial del guideline
     private var guidelinePercent = 0.5f
 
     override fun onCreateView(
@@ -43,6 +42,15 @@ class InicioFrag : Fragment() {
             childFragmentManager.beginTransaction()
                 .replace(binding.fragCancionesContainer.id, CancionesFrag())
                 .commit()
+
+            val buscarFrag = BuscarFrag()
+            buscarFrag.setBuscarQueryListener(this)
+
+            childFragmentManager.beginTransaction()
+                .replace(binding.fragBuscadorContainer.id, buscarFrag)
+                .commit()
+
+            binding.fragBuscadorContainer.visibility = View.VISIBLE
         }
 
         setupTouchListener()
@@ -84,11 +92,31 @@ class InicioFrag : Fragment() {
         binding.fragFullScreenContainer.visibility = View.GONE
     }
 
+    override fun onQueryTextChanged(query: String) {
+        if (query.isNotEmpty()) {
+            // Mostrar el contenedor de resultados
+            binding.resultadoBusquedaTiempoReal.visibility = View.VISIBLE
+
+            // Crear el fragmento con el texto
+            val fragment = ResultadoBusquedaFrag.newInstanceTexto(query)
+
+            // Reemplazarlo en el contenedor
+            childFragmentManager.beginTransaction()
+                .replace(binding.resultadoBusquedaTiempoReal.id, fragment)
+                .commit()
+        } else {
+            // Ocultar si el texto está vacío
+            binding.resultadoBusquedaTiempoReal.visibility = View.GONE
+        }
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
 }
+
+
 
 
 

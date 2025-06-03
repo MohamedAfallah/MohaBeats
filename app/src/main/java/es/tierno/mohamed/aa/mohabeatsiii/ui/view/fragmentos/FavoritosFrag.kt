@@ -7,9 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import es.tierno.mohamed.aa.mohabeatsiii.R
 import es.tierno.mohamed.aa.mohabeatsiii.databinding.FragmentFavoritosBinding
 import es.tierno.mohamed.aa.mohabeatsiii.domain.model.Musica
 import es.tierno.mohamed.aa.mohabeatsiii.service.MusicService
+import es.tierno.mohamed.aa.mohabeatsiii.ui.view.actividades.PaginaInicial
 import es.tierno.mohamed.aa.mohabeatsiii.ui.view.fragmentos.rv_canciones.AdapterCanciones
 
 class FavoritosFrag : Fragment() {
@@ -43,12 +45,31 @@ class FavoritosFrag : Fragment() {
     }
 
     private fun reproducirCancion(cancion: Musica) {
-        val url = cancion.urlPreview ?: return
+        val listaCanciones = adapter.obtenerDatos()
+        val posicion = listaCanciones.indexOf(cancion).coerceAtLeast(0)
+
+        // Iniciar el servicio con lista completa y posición de la canción
         val intent = Intent(requireContext(), MusicService::class.java).apply {
             action = MusicService.ACTION_PLAY
-            putExtra(MusicService.EXTRA_URL, url)
+            putParcelableArrayListExtra(MusicService.EXTRA_PLAYLIST, ArrayList(listaCanciones))
+            putExtra("EXTRA_START_INDEX", posicion)
         }
         requireContext().startService(intent)
+
+        // Ocultar el reproductor mini y mostrar el reproductor normal
+        (activity as? PaginaInicial)?.let { paginaInicial ->
+            val miniContenedor = paginaInicial.findViewById<View>(R.id.reproductorMiniContainer)
+            miniContenedor?.visibility = View.GONE
+
+            val contenedor = paginaInicial.findViewById<View>(R.id.reproductorContainer)
+            contenedor?.visibility = View.VISIBLE
+
+            val reproductorFrag = ReproductorFrag.newInstance(cancion)
+            paginaInicial.supportFragmentManager.beginTransaction()
+                .add(R.id.reproductorContainer, reproductorFrag)
+                .addToBackStack(null)
+                .commit()
+        }
     }
 
     override fun onDestroyView() {
@@ -56,5 +77,6 @@ class FavoritosFrag : Fragment() {
         _binding = null
     }
 }
+
 
 

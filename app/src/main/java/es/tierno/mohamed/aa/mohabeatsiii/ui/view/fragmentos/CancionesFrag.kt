@@ -78,20 +78,22 @@ class CancionesFrag : Fragment() {
         }
         requireContext().startService(intent)
 
-        // Crear el reproductor
-        val reproductorFrag = ReproductorFrag.newInstance(cancion)
-
-        // Acceder a la actividad contenedora (PaginaInicial) y mostrar el reproductor
+        // Ocultar el reproductor mini desde la actividad padre
         (activity as? PaginaInicial)?.let { paginaInicial ->
+            val miniContenedor = paginaInicial.findViewById<View>(R.id.reproductorMiniContainer)
+            miniContenedor?.visibility = View.GONE
+
             val contenedor = paginaInicial.findViewById<View>(R.id.reproductorContainer)
             contenedor?.visibility = View.VISIBLE
 
+            val reproductorFrag = ReproductorFrag.newInstance(cancion)
             paginaInicial.supportFragmentManager.beginTransaction()
                 .add(R.id.reproductorContainer, reproductorFrag)
                 .addToBackStack(null)
                 .commit()
         }
     }
+
 
     override fun onDestroyView() {
         super.onDestroyView()

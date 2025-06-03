@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrincipal"
+    android:windowSoftInputMode="adjustPan"
     tools:context=".ui.view.actividades.PaginaInicial">
 
     <!-- Contenedor del contenido principal -->
@@ -58,6 +59,5 @@
         app:layout_constraintBottom_toTopOf="@id/bottom_nav"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

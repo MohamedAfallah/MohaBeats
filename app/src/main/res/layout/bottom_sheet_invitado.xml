@@ -1,0 +1,57 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    android:background="@drawable/fondo_layout"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <TextView
+        android:id="@+id/titulo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/bienvenido_invitado"
+        android:fontFamily="@font/abril_fatface"
+        android:textColor="@color/colorDetalles"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:layout_gravity="center_horizontal"
+        android:paddingBottom="16dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/mensaje_invitado"
+        android:fontFamily="@font/abril_fatface"
+        android:textColor="@color/grisSuave"
+        android:textSize="14sp"
+        android:paddingBottom="24dp"
+        android:gravity="center"/>
+
+    <Button
+        android:id="@+id/btn_iniciar_sesion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/boton_borde_color_detalles"
+        android:text="@string/lblIniciarSesion"
+        android:fontFamily="@font/abril_fatface"
+        android:textColor="@color/colorDetalles"
+        android:textStyle="bold"
+        android:padding="12dp" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="12dp" />
+
+    <Button
+        android:id="@+id/btn_crear_cuenta"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/boton_borde_color_detalles"
+        android:text="@string/crearCuenta"
+        android:fontFamily="@font/abril_fatface"
+        android:textColor="@color/colorDetalles"
+        android:textStyle="bold"
+        android:padding="12dp" />
+</LinearLayout>
+

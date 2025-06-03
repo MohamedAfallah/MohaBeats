@@ -25,4 +25,7 @@
     <string name="nombre_usuario">Nombre de Usuario</string>
     <string name="editar_perfil">Editar Perfil</string>
     <string name="notificaciones">Notificaciones</string>
+    <string name="mensaje_invitado">Para disfrutar de todas las funciones, inicia sesión o crea una cuenta.</string>
+    <string name="bienvenido_invitado">Bienvenido, invitado</string>
+    <string name="loading_crear">Por favor verifique el correo para terminar la creación de la cuenta</string>
 </resources>

@@ -5,10 +5,7 @@ import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import es.tierno.mohamed.aa.mohabeatsiii.databinding.ActivityMainBinding
-
-
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -39,7 +36,7 @@ class MainActivity : AppCompatActivity() {
                     if (task.isSuccessful) {
                         // Inicio sesión correcto
                         val user = auth.currentUser
-                        irAPaginaInicial(user)
+                        irAPaginaInicial(user?.uid)
                     } else {
                         // Error de autenticación
                         binding.lblDenegado.text = "Usuario o contraseña incorrectos."
@@ -48,7 +45,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.btnInvitado.setOnClickListener{
-            irAPaginaInicial(null)
+            irAPaginaInicial("invitado")
         }
 
         // Registro
@@ -57,9 +54,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun irAPaginaInicial(user: FirebaseUser?) {
+    private fun irAPaginaInicial(user: String?) {
         val intent = Intent(this, PaginaInicial::class.java)
-        intent.putExtra("usuarioId", user?.uid) // Pasar UID de Firebase como id
+        intent.putExtra("usuarioId", user)
         startActivity(intent)
         finish()
     }

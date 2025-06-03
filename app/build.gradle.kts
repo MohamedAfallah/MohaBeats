@@ -81,6 +81,10 @@ dependencies {
     implementation ("androidx.media:media:1.6.0")
 
     implementation ("androidx.palette:palette:1.0.0")
+    implementation ("io.noties.markwon:core:4.6.2")
+
+    implementation ("com.google.android.material:material:1.9.0")
+
 }
 
 kapt {

@@ -8,6 +8,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.airbnb.lottie.LottieAnimationView
+import com.airbnb.lottie.LottieDrawable
 import dagger.hilt.android.AndroidEntryPoint
 import es.tierno.mohamed.aa.mohabeatsiii.databinding.FragmentChatBotBinding
 import es.tierno.mohamed.aa.mohabeatsiii.domain.model.chat_bot.Mensaje
@@ -25,6 +27,7 @@ class ChatBot : Fragment() {
 
     private val messages = mutableListOf<Mensaje>()
     private lateinit var adapterChat: AdapterChat
+    private lateinit var lottieAnimation: LottieAnimationView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,8 +44,15 @@ class ChatBot : Fragment() {
         binding.recyclerViewMessages.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerViewMessages.adapter = adapterChat
 
+        lottieAnimation = binding.lottieAnimation
+        lottieAnimation.visibility = View.GONE
+
         // Observa las respuestas del ViewModel para actualizar UI
         viewModel.respuesta.observe(viewLifecycleOwner, Observer { respuestas ->
+            // Ocultar animación cuando llegan las respuestas
+            lottieAnimation.visibility = View.GONE
+            lottieAnimation.pauseAnimation()
+
             respuestas?.let {
                 for (mensaje in it) {
                     messages.add(mensaje)
@@ -62,6 +72,11 @@ class ChatBot : Fragment() {
                 binding.recyclerViewMessages.scrollToPosition(messages.size - 1)
                 binding.editTextMessage.text.clear()
 
+                // Mostrar animación mientras espera respuesta
+                lottieAnimation.visibility = View.VISIBLE
+                lottieAnimation.repeatCount = LottieDrawable.INFINITE
+                lottieAnimation.playAnimation()
+
                 // Enviar mensaje al ViewModel para obtener respuesta
                 viewModel.onCreate(messageText)
             }
@@ -73,5 +88,3 @@ class ChatBot : Fragment() {
         _binding = null
     }
 }
-
-

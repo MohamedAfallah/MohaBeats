@@ -10,6 +10,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.target.Target
 import es.tierno.mohamed.aa.mohabeatsiii.R
 import es.tierno.mohamed.aa.mohabeatsiii.databinding.FragmentReproductorBinding
 import es.tierno.mohamed.aa.mohabeatsiii.domain.model.Musica
@@ -62,7 +64,6 @@ class ReproductorFrag : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Botón salir para ocultar reproductor completo y mostrar minimizado
         binding.btnSalir.setOnClickListener {
             requireActivity().findViewById<View>(R.id.reproductorContainer)?.visibility = View.GONE
             val miniContainer = requireActivity().findViewById<View>(R.id.reproductorMiniContainer)
@@ -77,7 +78,6 @@ class ReproductorFrag : Fragment() {
             parentFragmentManager.popBackStack()
         }
 
-        // Control de reproducción: play / pause
         binding.btnPlayPause.setOnClickListener {
             musicService?.let {
                 if (it.isPlayingLiveData.value == true) it.pause() else it.play()
@@ -92,21 +92,19 @@ class ReproductorFrag : Fragment() {
             musicService?.previous()
         }
 
-        // Listener para mover seekBar
         binding.seekBar.setOnSeekBarChangeListener(object : android.widget.SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: android.widget.SeekBar?, progress: Int, fromUser: Boolean) {
                 if (fromUser) musicService?.seekTo(progress)
             }
+
             override fun onStartTrackingTouch(seekBar: android.widget.SeekBar?) {}
             override fun onStopTrackingTouch(seekBar: android.widget.SeekBar?) {}
         })
 
-        // Bind al servicio para controlar música
         Intent(requireContext(), MusicService::class.java).also { intent ->
             requireContext().bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE)
         }
 
-        // Mostrar datos si vienen en argumentos
         arguments?.getParcelable<Musica>(ARG_CANCION)?.let { cancion ->
             mostrarDatosCancion(cancion)
         }
@@ -115,9 +113,14 @@ class ReproductorFrag : Fragment() {
     private fun mostrarDatosCancion(cancion: Musica) {
         binding.txtTituloCancion.text = cancion.nombreCancion
         binding.txtArtista.text = cancion.nombreArtista
+
         Glide.with(this)
             .load(cancion.urlImagen)
             .placeholder(R.drawable.moha_beats_removebg_preview)
+            .error(R.drawable.moha_beats_removebg_preview)
+            .diskCacheStrategy(DiskCacheStrategy.ALL)
+            .override(Target.SIZE_ORIGINAL)
+            .fitCenter()
             .into(binding.imgAlbumArt)
     }
 
@@ -129,6 +132,10 @@ class ReproductorFrag : Fragment() {
                 Glide.with(this)
                     .load(it.urlImagen)
                     .placeholder(R.drawable.moha_beats_removebg_preview)
+                    .error(R.drawable.moha_beats_removebg_preview)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .override(Target.SIZE_ORIGINAL)
+                    .fitCenter()
                     .into(binding.imgAlbumArt)
             }
         }
@@ -148,8 +155,6 @@ class ReproductorFrag : Fragment() {
             isBound = false
         }
         _binding = null
-
-        // Ocultar contenedor reproductor al salir para evitar UI residual
         requireActivity().findViewById<View>(R.id.reproductorContainer)?.visibility = View.GONE
     }
 
@@ -165,4 +170,3 @@ class ReproductorFrag : Fragment() {
         }
     }
 }
-

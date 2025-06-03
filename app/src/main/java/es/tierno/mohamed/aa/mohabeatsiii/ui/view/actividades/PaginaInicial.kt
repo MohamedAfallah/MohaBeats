@@ -1,22 +1,22 @@
 package es.tierno.mohamed.aa.mohabeatsiii.ui.view.actividades
 
 import android.os.Bundle
+import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import android.view.View
 import dagger.hilt.android.AndroidEntryPoint
 import es.tierno.mohamed.aa.mohabeatsiii.R
 import es.tierno.mohamed.aa.mohabeatsiii.databinding.ActivityPaginaInicialBinding
-import es.tierno.mohamed.aa.mohabeatsiii.ui.view.fragmentos.InicioFrag
-import es.tierno.mohamed.aa.mohabeatsiii.ui.view.fragmentos.ChatBot
-import es.tierno.mohamed.aa.mohabeatsiii.ui.view.fragmentos.FavoritosFrag
-import es.tierno.mohamed.aa.mohabeatsiii.ui.view.fragmentos.PerfilFrag
+import es.tierno.mohamed.aa.mohabeatsiii.ui.view.bottom_sheet.BottomSheetInvitado
+import es.tierno.mohamed.aa.mohabeatsiii.ui.view.fragmentos.*
 
 @AndroidEntryPoint
 class PaginaInicial : AppCompatActivity() {
+
     private lateinit var binding: ActivityPaginaInicialBinding
-    var usuarioId : Int = 0
+    private var usuarioId: String = ""  // Cambiado a String para poder usar "invitado"
+    private var lastValidItemId = R.id.nav_home
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,45 +24,79 @@ class PaginaInicial : AppCompatActivity() {
         binding = ActivityPaginaInicialBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        usuarioId = intent.getIntExtra("usuarioId", -1)
+        usuarioId = intent.getStringExtra("usuarioId") ?: "invitado"
 
         if (savedInstanceState == null) {
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.fragContainer, InicioFrag())
-                .commit()
+            replaceFragment(InicioFrag())
         }
 
-        // Listener para hacer toggle entre mini y full reproductor
+        binding.bottomNav.setOnNavigationItemSelectedListener { item ->
+            val esInvitado = usuarioId == "invitado"
+
+            when (item.itemId) {
+                R.id.nav_home -> {
+                    replaceFragment(InicioFrag())
+                    lastValidItemId = item.itemId
+                    true
+                }
+                R.id.nav_favoritos -> {
+                    if (esInvitado) {
+                        mostrarBottomSheetInvitado()
+                        binding.bottomNav.menu.findItem(lastValidItemId).isChecked = true
+                        false
+                    } else {
+                        replaceFragment(FavoritosFrag())
+                        lastValidItemId = item.itemId
+                        true
+                    }
+                }
+                R.id.nav_perfil -> {
+                    if (esInvitado) {
+                        mostrarBottomSheetInvitado()
+                        binding.bottomNav.menu.findItem(lastValidItemId).isChecked = true
+                        false
+                    } else {
+                        replaceFragment(PerfilFrag())
+                        lastValidItemId = item.itemId
+                        true
+                    }
+                }
+                R.id.nav_chat -> {
+                    replaceFragment(ChatBot())
+                    lastValidItemId = item.itemId
+                    true
+                }
+                R.id.nav_playlist -> {
+                    if (esInvitado) {
+                        mostrarBottomSheetInvitado()
+                        binding.bottomNav.menu.findItem(lastValidItemId).isChecked = true
+                        false
+                    } else {
+                        replaceFragment(ChatBot()) // Aquí pones la playlist real si la tienes
+                        lastValidItemId = item.itemId
+                        true
+                    }
+                }
+                else -> false
+            }
+        }
+
+        // Ejemplo básico de ocultar el reproductor al hacer clic
         binding.reproductorMiniContainer.setOnClickListener {
             binding.reproductorMiniContainer.visibility = View.GONE
         }
-
-        binding.bottomNav.setOnItemSelectedListener { menuItem ->
-            val fragment = when (menuItem.itemId) {
-                R.id.nav_home -> InicioFrag()
-                R.id.nav_favoritos -> FavoritosFrag()
-                R.id.nav_perfil -> PerfilFrag()
-                R.id.nav_chat -> ChatBot()
-                R.id.nav_playlist -> ChatBot()
-                else -> null
-            }
-
-            fragment?.let {
-                val bundle = Bundle()
-                bundle.putInt("usuarioId", usuarioId)
-                it.arguments = bundle
-                replaceFragment(it)
-            }
-
-            true
-        }
     }
 
-
-    //Remplazar el fragmento con otro que se ha seleccionado
     private fun replaceFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
             .replace(binding.fragContainer.id, fragment)
             .commit()
+    }
+
+    private fun mostrarBottomSheetInvitado() {
+        // Aquí muestras el BottomSheet para invitado
+        // Por ejemplo:
+        val bottomSheet = BottomSheetInvitado()
+        bottomSheet.show(supportFragmentManager, "BottomSheetInvitado")
     }
 }

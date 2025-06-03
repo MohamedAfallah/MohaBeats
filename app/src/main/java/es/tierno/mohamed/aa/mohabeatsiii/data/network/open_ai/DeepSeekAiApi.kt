@@ -1,20 +1,18 @@
 package es.tierno.mohamed.aa.mohabeatsiii.data.network.open_ai
 
-import es.tierno.mohamed.aa.mohabeatsiii.data.model.chat_bot_model.ChatPeticionModel
 import es.tierno.mohamed.aa.mohabeatsiii.data.model.chat_bot_model.ChatRespuestaModel
 import es.tierno.mohamed.aa.mohabeatsiii.domain.model.chat_bot.ChatPeticion
-import es.tierno.mohamed.aa.mohabeatsiii.domain.model.chat_bot.ChatRespuesta
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.Headers
 import retrofit2.http.POST
 
-interface OpenAiApi {
+interface DeepSeekAiApi {
     @Headers(
         "Content-Type: application/json",
-        "Authorization: Bearer sk-ec4b87492aa640279c1a0128d2a7a1ad"
+        "Authorization: Bearer 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"
     )
-    @POST("v1/chat/completions")
+    @POST("api/v1/chat/completions")
     suspend fun getRespuesta(
         @Body request: ChatPeticion
     ): Response<ChatRespuestaModel>

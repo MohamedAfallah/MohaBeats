@@ -4,11 +4,13 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
+import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.os.IBinder
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import es.tierno.mohamed.aa.mohabeatsiii.R
@@ -43,7 +45,6 @@ class ReproductorMinimizadoFrag : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        // Bind to MusicService
         Intent(requireContext(), MusicService::class.java).also { intent ->
             requireContext().bindService(intent, connection, Context.BIND_AUTO_CREATE)
         }
@@ -72,9 +73,73 @@ class ReproductorMinimizadoFrag : Fragment() {
         binding.txtArtistaMini.text = song.nombreArtista
 
         Glide.with(requireContext())
+            .asBitmap()
             .load(song.urlImagen)
             .placeholder(R.drawable.moha_beats_removebg_preview)
-            .into(binding.imgMusicaMini)
+            .into(object : com.bumptech.glide.request.target.CustomTarget<android.graphics.Bitmap>() {
+                override fun onResourceReady(
+                    resource: android.graphics.Bitmap,
+                    transition: com.bumptech.glide.request.transition.Transition<in android.graphics.Bitmap>?
+                ) {
+                    binding.imgMusicaMini.setImageBitmap(resource)
+
+                    androidx.palette.graphics.Palette.from(resource).generate { palette ->
+                        val swatches = palette?.swatches
+                            ?.sortedByDescending { it.population }
+                            ?.take(2)
+
+                        if (!swatches.isNullOrEmpty()) {
+                            val color1 = swatches[0].rgb
+                            val color2 = swatches.getOrNull(1)?.rgb ?: color1
+
+                            // Creamos un GradientDrawable con borde y esquinas redondeadas:
+                            val gradientDrawable = GradientDrawable(
+                                GradientDrawable.Orientation.TOP_BOTTOM,
+                                intArrayOf(color1, color2)
+                            )
+                            gradientDrawable.cornerRadius = 20f * resources.displayMetrics.density // 20dp a px
+                            gradientDrawable.setStroke(
+                                (3 * resources.displayMetrics.density).toInt(), // 3dp a px
+                                0x80FFA500.toInt() // color #80FFA500 (naranja translúcido) hardcodeado
+                            )
+                            binding.reproductorMinimizado.background = gradientDrawable
+
+                            val textColor = if (isColorLight(color1)) {
+                                ContextCompat.getColor(requireContext(), R.color.colorPrincipal)
+                            } else {
+                                ContextCompat.getColor(requireContext(), android.R.color.white)
+                            }
+                            binding.txtTituloMini.setTextColor(textColor)
+                            binding.txtArtistaMini.setTextColor(ContextCompat.getColor(requireContext(), R.color.colorDetalles))
+                        } else {
+                            // Si paleta vacía, fondo por defecto
+                            binding.reproductorMinimizado.background = ContextCompat.getDrawable(
+                                requireContext(), R.drawable.bordes_repproductor_min
+                            )
+                            val defaultColor = ContextCompat.getColor(requireContext(), R.color.colorPrincipal)
+                            binding.txtTituloMini.setTextColor(defaultColor)
+                            binding.txtArtistaMini.setTextColor(ContextCompat.getColor(requireContext(), R.color.colorDetalles))
+                        }
+                    }
+                }
+
+                override fun onLoadCleared(placeholder: android.graphics.drawable.Drawable?) {
+                    binding.reproductorMinimizado.background = ContextCompat.getDrawable(
+                        requireContext(), R.drawable.bordes_repproductor_min
+                    )
+                    val defaultColor = ContextCompat.getColor(requireContext(), R.color.colorPrincipal)
+                    binding.txtTituloMini.setTextColor(defaultColor)
+                    binding.txtArtistaMini.setTextColor(defaultColor)
+                }
+            })
+    }
+
+    private fun isColorLight(color: Int): Boolean {
+        val r = (color shr 16 and 0xff) / 255.0
+        val g = (color shr 8 and 0xff) / 255.0
+        val b = (color and 0xff) / 255.0
+        val brightness = 0.299 * r + 0.587 * g + 0.114 * b
+        return brightness > 0.7
     }
 
     private fun updatePlayPauseIcon(isPlaying: Boolean) {
@@ -86,7 +151,6 @@ class ReproductorMinimizadoFrag : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Mostrar canción inicial pasada por argumentos (si hay)
         arguments?.getParcelable<Musica>(ARG_CANCION)?.let { cancion ->
             updateSongInfo(cancion)
         }

@@ -1,18 +1,17 @@
 package es.tierno.mohamed.aa.mohabeatsiii.data
 
-import es.tierno.mohamed.aa.mohabeatsiii.data.db.dao.MusicaFavoritaDao
-import es.tierno.mohamed.aa.mohabeatsiii.data.db.entidades.MusicaFavoritaEntity
+import es.tierno.mohamed.aa.mohabeatsiii.data.db_nube.musica.ProviderMusicaDAO
 import javax.inject.Inject
 
 //Repositorio para el control de data de las canciones favoritas
 class FavoritosRepositorio @Inject constructor(
-    private val favoritosDao : MusicaFavoritaDao
+    private val favoritosDao : ProviderMusicaDAO
 ) {
-    suspend fun getFavoritas(id : Int){
-
+    suspend fun getFavoritas(id : String) : List<String>?{
+        return favoritosDao.obtenerIdCanciones(id)
     }
 
-    suspend fun insertarFavoritos(favoritos : List<MusicaFavoritaEntity>){
-
+    suspend fun insertarFavoritos(id: String, id_cancion : String){
+        favoritosDao.insertarAFavoritos(id, id_cancion)
     }
 }

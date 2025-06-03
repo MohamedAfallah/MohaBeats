@@ -12,13 +12,22 @@ class ITunesServicio @Inject constructor(
     private val api: ITunesApi
 ) {
     suspend fun buscar(query: String): List<Musica>? {
-        val response = api.buscar(query)
+        Log.d("ITunesServicio", "Iniciando búsqueda con query: '$query'")
+        val response = api.buscar(query, limit = 50) // límite aumentado para más resultados
+        Log.d("ITunesServicio", "Respuesta recibida, éxito: ${response.isSuccessful}, código: ${response.code()}")
+
         if (response.isSuccessful) {
             val body = response.body()
             if (body != null) {
+                Log.d("ITunesServicio", "Número de resultados recibidos: ${body.resultados.size}")
                 return body.resultados
+            } else {
+                Log.d("ITunesServicio", "El body de la respuesta es null")
             }
+        } else {
+            Log.d("ITunesServicio", "Respuesta no exitosa. Código HTTP: ${response.code()}")
         }
+
         return null
     }
 

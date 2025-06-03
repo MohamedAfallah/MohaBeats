@@ -20,15 +20,4 @@ object RoomModule {
     fun provideRoom(@ApplicationContext context: Context) = Room.databaseBuilder(context,
         MohaBeatsDataBase::class.java, NOMBRE_DB).build()
 
-    @Singleton
-    @Provides
-    fun provideGetCanciones(db: MohaBeatsDataBase) = db.musicaDao()
-
-    @Singleton
-    @Provides
-    fun providesGetUsuarios(db: MohaBeatsDataBase) = db.usuarioDao()
-
-    @Singleton
-    @Provides
-    fun providesGetFavoritos(db: MohaBeatsDataBase) = db.musicaFavoritaDao()
 }

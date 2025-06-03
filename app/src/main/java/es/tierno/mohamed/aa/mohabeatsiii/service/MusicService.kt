@@ -1,8 +1,10 @@
 package es.tierno.mohamed.aa.mohabeatsiii.service
 
 import android.app.Service
+import android.content.Context
 import android.content.Intent
 import android.media.AudioAttributes
+import android.media.AudioManager
 import android.media.MediaPlayer
 import android.os.Binder
 import android.os.IBinder
@@ -16,6 +18,7 @@ class MusicService : Service() {
 
     private val binder = MusicBinder()
     private var mediaPlayer: MediaPlayer? = null
+    private var audioManager: AudioManager? = null
 
     private var playlist: List<Musica> = emptyList()
     private var currentIndex = 0
@@ -56,6 +59,19 @@ class MusicService : Service() {
         Log.d(TAG, "Service created")
         notificacionHelper = NotificacionHelper(this, this)
         notificacionHelper.createNotificationChannel()
+
+        audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
+        requestBluetoothAudio()
+    }
+
+    private fun requestBluetoothAudio() {
+        audioManager?.let { am ->
+            @Suppress("DEPRECATION")
+            am.mode = AudioManager.MODE_NORMAL
+            am.isSpeakerphoneOn = false
+            am.startBluetoothSco()
+            am.isBluetoothScoOn = true
+        }
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -112,7 +128,6 @@ class MusicService : Service() {
             return
         }
 
-        // Actualizamos el LiveData con la canción actual
         _currentSongLiveData.postValue(song)
 
         mediaPlayer?.apply {
@@ -128,6 +143,7 @@ class MusicService : Service() {
             try {
                 setAudioAttributes(
                     AudioAttributes.Builder()
+                        .setUsage(AudioAttributes.USAGE_MEDIA)
                         .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
                         .build()
                 )
@@ -187,6 +203,11 @@ class MusicService : Service() {
         isPrepared = false
         isPaused = false
         _isPlayingLiveData.postValue(false)
+
+        audioManager?.let {
+            it.stopBluetoothSco()
+            it.isBluetoothScoOn = false
+        }
 
         notificacionHelper.cancelNotification()
         stopSelf()

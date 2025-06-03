@@ -10,4 +10,6 @@
     <color name="grisSuave">#D3D3D3</color>
     <color name="error_dark">#B00020</color>
     <color name="fondoEditText">#1A1A1A</color>
+    <color name="colorSecundario">#505050</color> <!-- por ejemplo -->
+
 </resources>
