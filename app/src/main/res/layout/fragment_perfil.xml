@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layoutPerfil"
@@ -17,11 +18,13 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/btnEditar"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="16dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:paddingBottom="16dp">
 
             <TextView
                 android:id="@+id/txtTituloPerfil"
@@ -32,24 +35,26 @@
                 android:text="@string/perfil"
                 android:textAlignment="center"
                 android:textColor="@color/blancoAgradables"
-                android:textSize="24sp"
+                android:textSize="28sp"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
 
-            <!-- Repite para todos los campos -->
-
-            <!-- Nombre Completo -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/layoutNombre"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="32dp"
                 android:hint="@string/nombreCompleto"
                 android:textColorHint="@color/blancoAgradables"
                 app:boxBackgroundColor="@color/fondoEditText"
                 app:boxStrokeColor="@color/colorDetalles"
+                app:boxStrokeWidth="2dp"
+                app:boxCornerRadiusTopStart="8dp"
+                app:boxCornerRadiusTopEnd="8dp"
+                app:boxCornerRadiusBottomStart="8dp"
+                app:boxCornerRadiusBottomEnd="8dp"
                 app:layout_constraintTop_toBottomOf="@id/txtTituloPerfil"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent">
@@ -58,20 +63,26 @@
                     android:id="@+id/edtNombre"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/blancoAgradables" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <!-- Repite el mismo patrón para los siguientes campos -->
+                    android:textColor="@color/blancoAgradables"
+                    android:paddingTop="16dp"
+                    android:paddingBottom="16dp"
+                    android:focusable="false"             android:longClickable="false"        android:cursorVisible="false"/>      </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/layoutCorreo"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="20dp"
                 android:hint="@string/correo"
+                android:textColorHint="@color/blancoAgradables"
                 app:boxBackgroundColor="@color/fondoEditText"
                 app:boxStrokeColor="@color/colorDetalles"
+                app:boxStrokeWidth="2dp"
+                app:boxCornerRadiusTopStart="8dp"
+                app:boxCornerRadiusTopEnd="8dp"
+                app:boxCornerRadiusBottomStart="8dp"
+                app:boxCornerRadiusBottomEnd="8dp"
                 app:layout_constraintTop_toBottomOf="@id/layoutNombre"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent">
@@ -80,18 +91,26 @@
                     android:id="@+id/edtCorreo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/blancoAgradables" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:textColor="@color/blancoAgradables"
+                    android:paddingTop="16dp"
+                    android:paddingBottom="16dp"
+                    android:focusable="false"             android:longClickable="false"        android:cursorVisible="false"/>      </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/layoutFecha"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="20dp"
                 android:hint="@string/fechaNacimiento"
+                android:textColorHint="@color/blancoAgradables"
                 app:boxBackgroundColor="@color/fondoEditText"
                 app:boxStrokeColor="@color/colorDetalles"
+                app:boxStrokeWidth="2dp"
+                app:boxCornerRadiusTopStart="8dp"
+                app:boxCornerRadiusTopEnd="8dp"
+                app:boxCornerRadiusBottomStart="8dp"
+                app:boxCornerRadiusBottomEnd="8dp"
                 app:layout_constraintTop_toBottomOf="@id/layoutCorreo"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent">
@@ -101,7 +120,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:focusable="false"
-                    android:textColor="@color/blancoAgradables" />
+                    android:textColor="@color/blancoAgradables"
+                    android:paddingTop="16dp"
+                    android:paddingBottom="16dp"
+                    android:longClickable="false"
+                    android:cursorVisible="false"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -109,10 +132,16 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="20dp"
                 android:hint="@string/telefono"
+                android:textColorHint="@color/blancoAgradables"
                 app:boxBackgroundColor="@color/fondoEditText"
                 app:boxStrokeColor="@color/colorDetalles"
+                app:boxStrokeWidth="2dp"
+                app:boxCornerRadiusTopStart="8dp"
+                app:boxCornerRadiusTopEnd="8dp"
+                app:boxCornerRadiusBottomStart="8dp"
+                app:boxCornerRadiusBottomEnd="8dp"
                 app:layout_constraintTop_toBottomOf="@id/layoutFecha"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent">
@@ -121,7 +150,12 @@
                     android:id="@+id/edtTelefono"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/blancoAgradables" />
+                    android:textColor="@color/blancoAgradables"
+                    android:paddingTop="16dp"
+                    android:paddingBottom="16dp"
+                    android:focusable="false"
+                    android:longClickable="false"
+                    android:cursorVisible="false"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -129,10 +163,16 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="20dp"
                 android:hint="@string/nombre_usuario"
+                android:textColorHint="@color/blancoAgradables"
                 app:boxBackgroundColor="@color/fondoEditText"
-                app:boxStrokeColor="@color/blancoAgradables"
+                app:boxStrokeColor="@color/colorDetalles"
+                app:boxStrokeWidth="2dp"
+                app:boxCornerRadiusTopStart="8dp"
+                app:boxCornerRadiusTopEnd="8dp"
+                app:boxCornerRadiusBottomStart="8dp"
+                app:boxCornerRadiusBottomEnd="8dp"
                 app:layout_constraintTop_toBottomOf="@id/layoutTelefono"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent">
@@ -141,18 +181,23 @@
                     android:id="@+id/edtUsuario"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/blancoAgradables" />
+                    android:textColor="@color/blancoAgradables"
+                    android:paddingTop="16dp"
+                    android:paddingBottom="16dp"
+                    android:focusable="false"
+                    android:longClickable="false"
+                    android:cursorVisible="false"/>
             </com.google.android.material.textfield.TextInputLayout>
 
-            <!-- Switch notificaciones -->
             <Switch
-                android:id="@+id/switchNotificaciones"
+                android:id="@+id/switchEditar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="32dp"
                 android:fontFamily="@font/abril_fatface"
-                android:text="@string/notificaciones"
+                android:text="@string/editar"
                 android:textColor="@color/blancoAgradables"
+                android:textSize="18sp"
                 android:thumbTint="@color/colorDetalles"
                 android:trackTint="@color/colorDetalles"
                 app:layout_constraintTop_toBottomOf="@id/layoutUsuario"
@@ -168,11 +213,13 @@
         android:fontFamily="@font/abril_fatface"
         android:text="@string/editar_perfil"
         android:textColor="@color/white"
+        android:textSize="18sp"
+        android:paddingVertical="12dp"
+        app:cornerRadius="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.95" />
+        android:visibility="gone" />
 </androidx.constraintlayout.widget.ConstraintLayout>
 
 

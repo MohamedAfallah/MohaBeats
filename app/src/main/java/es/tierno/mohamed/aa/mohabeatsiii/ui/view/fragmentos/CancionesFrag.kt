@@ -2,6 +2,7 @@ package es.tierno.mohamed.aa.mohabeatsiii.ui.view.fragmentos
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,24 +31,72 @@ class CancionesFrag : Fragment() {
         ViewModelProvider(this).get(MusicaViewModel::class.java)
     }
 
+    private var idUsuario: String = ""
+
+    companion object {
+        private const val ARG_ID_USUARIO = "arg_id_usuario"
+        fun newInstance(idUsuario: String): CancionesFrag {
+            val fragment = CancionesFrag()
+            val bundle = Bundle()
+            bundle.putString(ARG_ID_USUARIO, idUsuario)
+            fragment.arguments = bundle
+            return fragment
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentCancionesBinding.inflate(inflater, container, false)
+        Log.d("FavoritosDebug", "CancionesFrag: onCreateView llamado.")
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        Log.d("FavoritosDebug", "CancionesFrag: onViewCreated llamado.")
 
-        adapter = AdapterCanciones { cancion -> reproducirCancion(cancion) }
+        idUsuario = arguments?.getString(ARG_ID_USUARIO) ?: "invitado"
+        Log.d("FavoritosDebug", "CancionesFrag: idUsuario obtenido: $idUsuario")
+
+
+        adapter = AdapterCanciones(
+            idUsuario = idUsuario,
+            onReproducirClick = { cancion ->
+                Log.d("FavoritosDebug", "CancionesFrag: Reproducir click en ${cancion.nombreCancion}")
+                reproducirCancion(cancion)
+            },
+            onFavoritoClick = { cancion, esFavoritoActual ->
+                Log.d("FavoritosDebug", "CancionesFrag: Clic en favorito para canción ${cancion.nombreCancion} (ID: ${cancion.idCancion}). Era favorito: $esFavoritoActual")
+                if (idUsuario.isEmpty() || idUsuario == "invitado") {
+                    Log.d("FavoritosDebug", "CancionesFrag: Usuario invitado o ID vacío. Mostrando BottomSheet.")
+                    (activity as? PaginaInicial)?.mostrarBottomSheetInvitado()
+                } else {
+                    if (esFavoritoActual) {
+                        Log.d("FavoritosDebug", "CancionesFrag: Llamando a eliminarDeFavoritos para ${cancion.idCancion}")
+                        musicaViewModel.eliminarDeFavoritos(idUsuario, cancion.idCancion)
+                    } else {
+                        Log.d("FavoritosDebug", "CancionesFrag: Llamando a anadirAFavoritos para ${cancion.idCancion}")
+                        musicaViewModel.anadirAFavoritos(idUsuario, cancion.idCancion)
+                    }
+                }
+            }
+        )
 
         binding.recyclerViewCanciones.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerViewCanciones.adapter = adapter
 
         musicaViewModel.musicaPaginada.observe(viewLifecycleOwner) { canciones ->
-            adapter.actualizarDatos(canciones)
+            val favoritasIds = musicaViewModel.favoritasIds.value ?: emptySet()
+            Log.d("FavoritosDebug", "CancionesFrag: Observador musicaPaginada -> Recibidas ${canciones.size} canciones. Hay ${favoritasIds.size} favoritos. Actualizando adaptador.")
+            adapter.actualizarDatos(canciones, favoritasIds)
+        }
+
+        musicaViewModel.favoritasIds.observe(viewLifecycleOwner) { nuevasFavoritasIds ->
+            val cancionesActuales = musicaViewModel.musicaPaginada.value ?: emptyList()
+            Log.d("FavoritosDebug", "CancionesFrag: Observador favoritasIds -> Nuevos favoritos: ${nuevasFavoritasIds.size}. Actualizando adaptador.")
+            adapter.actualizarDatos(cancionesActuales, nuevasFavoritasIds)
         }
 
         binding.recyclerViewCanciones.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -58,19 +107,20 @@ class CancionesFrag : Fragment() {
                 val lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition()
 
                 if (lastVisibleItemPosition + 2 >= totalItemCount) {
+                    Log.d("FavoritosDebug", "CancionesFrag: Detectado fin de scroll. Cargando siguiente página.")
                     musicaViewModel.cargarPagina()
                 }
             }
         })
 
-        musicaViewModel.onCreate()
+        musicaViewModel.onCreate(idUsuario)
+        Log.d("FavoritosDebug", "CancionesFrag: musicaViewModel.onCreate(${idUsuario}) llamado.")
     }
 
     private fun reproducirCancion(cancion: Musica) {
         val listaCanciones = adapter.obtenerDatos()
         val posicion = listaCanciones.indexOf(cancion).coerceAtLeast(0)
 
-        // Iniciar el servicio
         val intent = Intent(requireContext(), MusicService::class.java).apply {
             action = MusicService.ACTION_PLAY
             putParcelableArrayListExtra(MusicService.EXTRA_PLAYLIST, ArrayList(listaCanciones))
@@ -78,7 +128,6 @@ class CancionesFrag : Fragment() {
         }
         requireContext().startService(intent)
 
-        // Ocultar el reproductor mini desde la actividad padre
         (activity as? PaginaInicial)?.let { paginaInicial ->
             val miniContenedor = paginaInicial.findViewById<View>(R.id.reproductorMiniContainer)
             miniContenedor?.visibility = View.GONE
@@ -94,9 +143,9 @@ class CancionesFrag : Fragment() {
         }
     }
 
-
     override fun onDestroyView() {
         super.onDestroyView()
+        Log.d("FavoritosDebug", "CancionesFrag: onDestroyView llamado.")
         _binding = null
     }
 }

@@ -28,4 +28,16 @@
     <string name="mensaje_invitado">Para disfrutar de todas las funciones, inicia sesión o crea una cuenta.</string>
     <string name="bienvenido_invitado">Bienvenido, invitado</string>
     <string name="loading_crear">Por favor verifique el correo para terminar la creación de la cuenta</string>
+    <string name="editar">Editar</string>
+    <string name="txtHistorial">Historial</string>
+    <string name="txtDescargas">Descargas</string>
+
+    <string-array name="menu_opciones">
+        <item>Mis posts</item>
+        <item>Historial</item>
+        <item>Descargas</item>
+        <item>Cerrar Sesión</item>
+    </string-array>
 </resources>
+
+

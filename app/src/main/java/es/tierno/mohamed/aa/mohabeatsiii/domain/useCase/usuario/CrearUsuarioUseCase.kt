@@ -13,7 +13,6 @@ class CrearUsuarioUseCase @Inject constructor(
         val uid = auth.crearUsuario(usuario.correo, usuario.contrasena)
         if (uid.isEmpty()) return ""
 
-        // Crear usuario Firestore con id = uid
         val usuarioConId = usuario.copy(id = uid)
         repositorio.crearUsuario(usuarioConId)
 

@@ -88,7 +88,7 @@ class MusicService : Service() {
                         url != null -> setPlaylist(
                             listOf(
                                 Musica(
-                                    idCancion = 0,
+                                    idCancion = "",
                                     nombreCancion = "Desconocida",
                                     idArtista = 0,
                                     nombreArtista = "Desconocido",

@@ -11,6 +11,9 @@ class FavoritosRepositorio @Inject constructor(
         return favoritosDao.obtenerIdCanciones(id)
     }
 
+    suspend fun eliminarFavoritas(id : String, id_cancion: String){
+        favoritosDao.eliminarFavorito(id, id_cancion)
+    }
     suspend fun insertarFavoritos(id: String, id_cancion : String){
         favoritosDao.insertarAFavoritos(id, id_cancion)
     }

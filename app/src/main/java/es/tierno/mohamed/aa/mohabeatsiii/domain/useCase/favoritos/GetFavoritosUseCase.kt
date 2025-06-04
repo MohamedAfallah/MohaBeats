@@ -8,4 +8,5 @@ import javax.inject.Inject
 class GetFavoritosUseCase @Inject constructor(
     private val repositorio: FavoritosRepositorio
 ) {
+    suspend operator fun invoke(id: String): List<String>? = repositorio.getFavoritas(id)
 }

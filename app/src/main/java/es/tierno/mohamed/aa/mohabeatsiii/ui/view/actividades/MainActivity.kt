@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import es.tierno.mohamed.aa.mohabeatsiii.databinding.ActivityMainBinding
 import com.google.firebase.auth.FirebaseAuth
 
+
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var auth: FirebaseAuth
@@ -17,10 +18,15 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Inicializar Firebase Auth
         auth = FirebaseAuth.getInstance()
 
-        // Listener para botón iniciar sesión
+        val currentUser = auth.currentUser
+        if (currentUser != null) {
+            irAPaginaInicial(currentUser.uid)
+            finish()
+            return
+        }
+
         binding.btnIniciar.setOnClickListener {
             val email = binding.txtUsuario.text.toString().trim()
             val password = binding.txtContrasena.text.toString().trim()
@@ -30,15 +36,12 @@ class MainActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            // Intentar iniciar sesión con Firebase
             auth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
-                        // Inicio sesión correcto
                         val user = auth.currentUser
                         irAPaginaInicial(user?.uid)
                     } else {
-                        // Error de autenticación
                         binding.lblDenegado.text = "Usuario o contraseña incorrectos."
                     }
                 }
@@ -48,7 +51,6 @@ class MainActivity : AppCompatActivity() {
             irAPaginaInicial("invitado")
         }
 
-        // Registro
         binding.lblRegistrarse.setOnClickListener {
             accederCreacionCuenta()
         }

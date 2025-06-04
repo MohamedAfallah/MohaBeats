@@ -7,7 +7,7 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class Musica(
     @SerializedName("trackId")
-    val idCancion: Long,
+    val idCancion: String,
     @SerializedName("trackName")
     val nombreCancion: String,
     @SerializedName("artistId")

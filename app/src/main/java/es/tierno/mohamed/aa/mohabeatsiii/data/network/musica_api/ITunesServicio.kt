@@ -55,4 +55,17 @@ class ITunesServicio @Inject constructor(
 
         return null
     }
+
+    suspend fun getCancion(id_cancion : String):Musica?{
+        val response = api.getCancion(id_cancion)
+
+        if(response.isSuccessful){
+            val body = response.body()
+            if(body != null){
+                return body.resultados.get(0)
+            }
+        }
+
+        return null
+    }
 }

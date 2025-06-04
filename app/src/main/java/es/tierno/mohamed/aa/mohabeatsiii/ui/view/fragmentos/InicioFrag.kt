@@ -25,6 +25,7 @@ class InicioFrag : Fragment(), BuscarFrag.BuscarQueryListener {
     private lateinit var rootLayout: ConstraintLayout
 
     private var guidelinePercent = 0.5f
+    private var idUsuario: String = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,13 +35,15 @@ class InicioFrag : Fragment(), BuscarFrag.BuscarQueryListener {
         rootLayout = binding.root
         guidelineHalf = rootLayout.findViewById(R.id.guidelineHalf)
 
+        idUsuario = arguments?.getString("idUsuario") ?: "invitado"
+
         if (savedInstanceState == null) {
             childFragmentManager.beginTransaction()
-                .replace(binding.fragExContainer.id, ExplorarFrag())
+                .replace(binding.fragExContainer.id, ExplorarFrag.newInstance(idUsuario))
                 .commit()
 
             childFragmentManager.beginTransaction()
-                .replace(binding.fragCancionesContainer.id, CancionesFrag())
+                .replace(binding.fragCancionesContainer.id, CancionesFrag.newInstance(idUsuario))
                 .commit()
 
             val buscarFrag = BuscarFrag()
@@ -94,18 +97,14 @@ class InicioFrag : Fragment(), BuscarFrag.BuscarQueryListener {
 
     override fun onQueryTextChanged(query: String) {
         if (query.isNotEmpty()) {
-            // Mostrar el contenedor de resultados
             binding.resultadoBusquedaTiempoReal.visibility = View.VISIBLE
 
-            // Crear el fragmento con el texto
-            val fragment = ResultadoBusquedaFrag.newInstanceTexto(query)
+            val fragment = ResultadoBusquedaFrag.newInstanceTexto(query, idUsuario)
 
-            // Reemplazarlo en el contenedor
             childFragmentManager.beginTransaction()
                 .replace(binding.resultadoBusquedaTiempoReal.id, fragment)
                 .commit()
         } else {
-            // Ocultar si el texto está vacío
             binding.resultadoBusquedaTiempoReal.visibility = View.GONE
         }
     }
@@ -115,11 +114,3 @@ class InicioFrag : Fragment(), BuscarFrag.BuscarQueryListener {
         _binding = null
     }
 }
-
-
-
-
-
-
-
-

@@ -19,5 +19,9 @@ class MusicaRepositorio @Inject constructor(
     suspend fun buscar(dato : String) : List<Musica>{
         return iTunesServicio.buscar(dato) ?: emptyList()
     }
+
+    suspend fun obtenerCancion(id : String) : Musica?{
+        return iTunesServicio.getCancion(id)
+    }
 }
 

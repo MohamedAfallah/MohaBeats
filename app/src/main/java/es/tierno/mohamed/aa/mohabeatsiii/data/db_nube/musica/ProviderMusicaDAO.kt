@@ -9,30 +9,35 @@ import javax.inject.Inject
 class ProviderMusicaDAO @Inject constructor(
     private val db: FirebaseFirestore
 ) : MusicaDAO{
-
-
     override suspend fun obtenerIdCanciones(id: String): List<String>? {
         return try {
-            val snapshot = db.collection("usuarios")
+            val snapshot = db.collection("favoritos")
                 .document(id)
                 .get()
                 .await()
 
-            snapshot.get("canciones") as? List<String>
+            snapshot.get("id_canciones") as? List<String>
         } catch (e: Exception) {
             e.printStackTrace()
             null
         }
     }
-
     override suspend fun insertarAFavoritos(id: String, id_cancion: String) {
         try {
-            val userRef = db.collection("usuarios").document(id)
-            val data = mapOf("canciones" to FieldValue.arrayUnion(id_cancion))
+            val userRef = db.collection("favoritos").document(id)
+            val data = mapOf("id_canciones" to FieldValue.arrayUnion(id_cancion))
             userRef.set(data, SetOptions.merge()).await()
         } catch (e: Exception) {
             e.printStackTrace()
         }
     }
-
+    override suspend fun eliminarFavorito(id: String, id_cancion: String) {
+        try {
+            val userRef = db.collection("favoritos").document(id)
+            val data = mapOf("id_canciones" to FieldValue.arrayRemove(id_cancion))
+            userRef.set(data, SetOptions.merge()).await()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
 }

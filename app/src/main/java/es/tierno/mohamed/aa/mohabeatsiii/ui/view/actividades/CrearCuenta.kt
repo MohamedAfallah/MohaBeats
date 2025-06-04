@@ -127,7 +127,6 @@ class CrearCuenta : AppCompatActivity() {
             viewModel.error.collectLatest { errorMsg ->
                 errorMsg?.let {
                     ocultarDialogoLoading()
-                    Toast.makeText(this@CrearCuenta, it, Toast.LENGTH_SHORT).show()
                     handler.removeCallbacks(checkEmailVerificationRunnable)
                 }
             }
@@ -136,7 +135,6 @@ class CrearCuenta : AppCompatActivity() {
         lifecycleScope.launch {
             viewModel.idCreado.collectLatest { id ->
                 id?.let {
-                    Toast.makeText(this@CrearCuenta, "Cuenta creada, revisa tu correo para verificarla", Toast.LENGTH_LONG).show()
                     handler.postDelayed(checkEmailVerificationRunnable, checkInterval)
                 }
             }

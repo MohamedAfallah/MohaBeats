@@ -16,6 +16,24 @@ class ExplorarFrag : Fragment() {
     private var _binding: FragmentExplorarBinding? = null
     private val binding get() = _binding!!
 
+    private var idUsuario: String = ""
+
+    companion object {
+        private const val ARG_ID_USUARIO = "arg_id_usuario"
+        fun newInstance(idUsuario: String): ExplorarFrag {
+            val fragment = ExplorarFrag()
+            val bundle = Bundle()
+            bundle.putString(ARG_ID_USUARIO, idUsuario)
+            fragment.arguments = bundle
+            return fragment
+        }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        idUsuario = arguments?.getString(ARG_ID_USUARIO) ?: "invitado"
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -39,7 +57,7 @@ class ExplorarFrag : Fragment() {
 
         binding.recyclerViewCategorias.adapter = AdapterCategorias(listaCategorias) { categoria ->
 
-            val resultadoBusquedaFrag = ResultadoBusquedaFrag.newInstance(categoria)
+            val resultadoBusquedaFrag = ResultadoBusquedaFrag.newInstance(categoria, idUsuario)
 
             parentFragmentManager.beginTransaction()
                 .replace(R.id.fragFullScreenContainer, resultadoBusquedaFrag)
@@ -55,6 +73,3 @@ class ExplorarFrag : Fragment() {
         _binding = null
     }
 }
-
-
-

@@ -32,4 +32,10 @@ interface ITunesApi {
         @Query("genreId") genreId: String,
         @Query("limit") limit: Int = 50
     ): Response<Busqueda>
+
+    @GET("lookup")
+    suspend fun getCancion(
+        @Query("id") trackId: String,
+        @Query("entity") entity: String = "song"
+    ): Response<Busqueda>
 }
