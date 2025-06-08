@@ -1,24 +1,32 @@
 package es.tierno.mohamed.aa.mohabeatsiii.ui.viewModel
 
-import android.util.Log // Importar Log
+import android.app.Application
+import android.app.DownloadManager
+import android.content.Context
+import android.net.Uri
+import android.os.Environment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import es.tierno.mohamed.aa.mohabeatsiii.domain.model.Musica
 import es.tierno.mohamed.aa.mohabeatsiii.domain.useCase.Musica.GetCancionesUseCase
+import es.tierno.mohamed.aa.mohabeatsiii.domain.useCase.descargas.InsertarUnaDescarga
 import es.tierno.mohamed.aa.mohabeatsiii.domain.useCase.favoritos.AnadirCancionUseCase
 import es.tierno.mohamed.aa.mohabeatsiii.domain.useCase.favoritos.EliminarCancionUseCase
 import es.tierno.mohamed.aa.mohabeatsiii.domain.useCase.favoritos.GetFavoritosUseCase
 import kotlinx.coroutines.launch
+import java.io.File
 import javax.inject.Inject
 
 @HiltViewModel
 class MusicaViewModel @Inject constructor (
+    private val app: Application,
     private val getCancionesUseCase: GetCancionesUseCase,
     private val getFavoritosUseCase: GetFavoritosUseCase,
     private val anadirCancionUseCase: AnadirCancionUseCase,
-    private val eliminarCancionUseCase: EliminarCancionUseCase
+    private val eliminarCancionUseCase: EliminarCancionUseCase,
+    private val insertarUnaDescarga: InsertarUnaDescarga
 ) : ViewModel() {
 
     private var todasCanciones = listOf<Musica>()
@@ -30,12 +38,9 @@ class MusicaViewModel @Inject constructor (
 
     fun onCreate(idUsuario: String) {
         viewModelScope.launch {
-            Log.d("FavoritosDebug", "ViewModel: onCreate(${idUsuario}) llamado.")
             try {
                 todasCanciones = getCancionesUseCase()
-                Log.d("FavoritosDebug", "ViewModel: Total de canciones cargadas: ${todasCanciones.size}")
             } catch (e: Exception) {
-                Log.e("FavoritosDebug", "ViewModel: Error al cargar todas las canciones: ${e.message}")
                 todasCanciones = emptyList()
             }
             paginaActual = 0
@@ -51,56 +56,86 @@ class MusicaViewModel @Inject constructor (
             val pagina = todasCanciones.subList(0, toIndex)
             musicaPaginada.postValue(pagina)
             paginaActual++
-            Log.d("FavoritosDebug", "ViewModel: Página cargada: de $fromIndex a $toIndex. Total en musicaPaginada: ${pagina.size}")
-        } else {
-            Log.d("FavoritosDebug", "ViewModel: No hay más páginas para cargar. fromIndex: $fromIndex, toIndex: $toIndex, totalCanciones: ${todasCanciones.size}")
         }
     }
 
     private fun cargarFavoritos(idUsuario: String) {
         viewModelScope.launch {
-            Log.d("FavoritosDebug", "ViewModel: Iniciando cargarFavoritos para usuario: $idUsuario")
             if (idUsuario.isNotEmpty() && idUsuario != "invitado") {
                 try {
                     val ids = getFavoritosUseCase(idUsuario)?.toSet() ?: emptySet()
                     favoritasIds.postValue(ids)
-                    Log.d("FavoritosDebug", "ViewModel: Favoritos cargados. Cantidad: ${ids.size}. IDs: $ids")
                 } catch (e: Exception) {
-                    Log.e("FavoritosDebug", "ViewModel: Error al cargar favoritos de ${idUsuario}: ${e.message}")
-                    favoritasIds.postValue(emptySet()) // Asegura un estado consistente en caso de error
+                    favoritasIds.postValue(emptySet())
                 }
             } else {
                 favoritasIds.postValue(emptySet())
-                Log.d("FavoritosDebug", "ViewModel: Usuario invitado o ID vacío, favoritos establecidos a vacío.")
             }
         }
     }
 
     fun anadirAFavoritos(idUsuario: String, idCancion: String) {
         viewModelScope.launch {
-            Log.d("FavoritosDebug", "ViewModel: Llamando anadirAFavoritos para idCancion: $idCancion por idUsuario: $idUsuario")
             try {
                 anadirCancionUseCase(idUsuario, idCancion)
-                Log.d("FavoritosDebug", "ViewModel: anadirCancionUseCase ejecutado para $idCancion.")
             } catch (e: Exception) {
-                Log.e("FavoritosDebug", "ViewModel: Error en anadirCancionUseCase para $idCancion: ${e.message}")
             }
-            cargarFavoritos(idUsuario) // Esto recarga la lista de favoritos
-            Log.d("FavoritosDebug", "ViewModel: anadirAFavoritos completado, solicitando recarga de favoritos.")
+            cargarFavoritos(idUsuario)
         }
     }
 
     fun eliminarDeFavoritos(idUsuario: String, idCancion: String) {
         viewModelScope.launch {
-            Log.d("FavoritosDebug", "ViewModel: Llamando eliminarDeFavoritos para idCancion: $idCancion por idUsuario: $idUsuario")
             try {
                 eliminarCancionUseCase(idUsuario, idCancion)
-                Log.d("FavoritosDebug", "ViewModel: eliminarCancionUseCase ejecutado para $idCancion.")
             } catch (e: Exception) {
-                Log.e("FavoritosDebug", "ViewModel: Error en eliminarCancionUseCase para $idCancion: ${e.message}")
             }
-            cargarFavoritos(idUsuario) // Esto recarga la lista de favoritos
-            Log.d("FavoritosDebug", "ViewModel: eliminarDeFavoritos completado, solicitando recarga de favoritos.")
+            cargarFavoritos(idUsuario)
+        }
+    }
+
+    fun descargarCancion(musica: Musica) {
+        viewModelScope.launch {
+            val downloadManager = app.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+
+            musica.urlPreview?.let { audioUrl ->
+                try {
+                    val audioFileName = "${musica.idCancion}_${musica.nombreCancion}.mp3"
+                    val audioFile = File(app.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), audioFileName)
+
+                    val requestAudio = DownloadManager.Request(Uri.parse(audioUrl)).apply {
+                        setTitle("Descargando: ${musica.nombreCancion}")
+                        setDescription("De ${musica.nombreArtista}")
+                        setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+                        setDestinationUri(Uri.fromFile(audioFile)) // Establece el URI de destino del archivo
+                    }
+                    downloadManager.enqueue(requestAudio)
+                    musica.rutaLocalCancion = audioFile.absolutePath // Guarda la ruta absoluta
+                } catch (e: Exception) {
+                }
+            }
+
+            musica.urlImagen.let { imageUrl ->
+                try {
+                    val imageFileName = "${musica.idCancion}_${musica.nombreCancion}_artwork.jpg"
+                    val imageFile = File(app.getExternalFilesDir(Environment.DIRECTORY_PICTURES), imageFileName)
+
+                    val requestImage = DownloadManager.Request(Uri.parse(imageUrl)).apply {
+                        setTitle("Descargando imagen de: ${musica.nombreCancion}")
+                        setDescription("Artwork de ${musica.nombreArtista}")
+                        setNotificationVisibility(DownloadManager.Request.VISIBILITY_HIDDEN)
+                        setDestinationUri(Uri.fromFile(imageFile)) // Establece el URI de destino del archivo
+                    }
+                    downloadManager.enqueue(requestImage)
+                    musica.rutaLocalImg = imageFile.absolutePath // Guarda la ruta absoluta
+                } catch (e: Exception) {
+                }
+            }
+
+            try {
+                insertarUnaDescarga.invoke(musica)
+            } catch (e: Exception) {
+            }
         }
     }
 }

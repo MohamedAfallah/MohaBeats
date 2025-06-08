@@ -7,7 +7,7 @@ import es.tierno.mohamed.aa.mohabeatsiii.data.db.dao.CancionesDescargasDAO
 
 @Database(
     entities = [ CancionDescargadaEntidad::class],
-    version = 2,
+    version = 4,
     exportSchema = false
 )
 abstract class MohaBeatsDataBase : RoomDatabase() {

@@ -3,9 +3,10 @@ package es.tierno.mohamed.aa.mohabeatsiii.ui.view.fragmentos.rv_canciones
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.view.View
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.content.ContextCompat // Añadir este import
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.lottie.LottieAnimationView
 import com.bumptech.glide.Glide
@@ -15,7 +16,10 @@ import es.tierno.mohamed.aa.mohabeatsiii.domain.model.Musica
 class ViewHolderCanciones(
     view: View,
     private val onReproducirClick: (Musica) -> Unit,
-    private val onFavoritoClick: (Musica, Boolean) -> Unit // Nuevo callback: canción y su estado actual (antes del clic)
+    private val onFavoritoClick: (Musica, Boolean) -> Unit,
+    private val onDescargarClick: (Musica) -> Unit,
+    private val onAnadirClick: (Musica) -> Unit,
+    private val onEliminarClick: (Musica) -> Unit
 ) : RecyclerView.ViewHolder(view) {
 
     private val imagen = view.findViewById<ImageView>(R.id.imagenCancion)
@@ -23,11 +27,21 @@ class ViewHolderCanciones(
     private val artista = view.findViewById<TextView>(R.id.nombreArtista)
     private val favoritoIcon = view.findViewById<ImageView>(R.id.iconFavorito)
     private val lottieFavorito = view.findViewById<LottieAnimationView>(R.id.lottieFavorito)
-    private val iconReproducir = view.findViewById<ImageView>(R.id.iconReproducir)
+    private val icDescargar = view.findViewById<LottieAnimationView>(R.id.ic_descargas)
+    private val btnAnadir = view.findViewById<ImageButton>(R.id.btnAnadir)
+    private val btnEliminar = view.findViewById<ImageButton>(R.id.btnEliminar)
+
 
     private var currentCancion: Musica? = null
 
-    fun render(cancion: Musica, esFavoritoInicial: Boolean) {
+    fun render(
+        cancion: Musica,
+        esFavoritoInicial: Boolean,
+        mostrarFavorito: Boolean = true,
+        mostrarDescargar: Boolean = true,
+        mostrarAnadir: Boolean = true,
+        mostrarEliminar: Boolean = true
+    ) {
         currentCancion = cancion
         nombre.text = cancion.nombreCancion
         artista.text = cancion.nombreArtista
@@ -35,18 +49,26 @@ class ViewHolderCanciones(
 
         actualizarIcono(esFavoritoInicial)
 
+        favoritoIcon.visibility = if (mostrarFavorito) View.VISIBLE else View.GONE
+        icDescargar.visibility = if (mostrarDescargar) View.VISIBLE else View.GONE
+        btnAnadir.visibility = if (mostrarAnadir) View.VISIBLE else View.GONE
+        btnEliminar.visibility = if (mostrarEliminar) View.VISIBLE else View.GONE
+
+
         itemView.setOnClickListener {
             onReproducirClick(cancion)
         }
 
-        iconReproducir.setOnClickListener {
-            onReproducirClick(cancion)
+        icDescargar.setOnClickListener {
+            currentCancion?.let {
+                icDescargar.playAnimation()
+                onDescargarClick(it)
+            }
         }
 
         favoritoIcon.setOnClickListener {
             currentCancion?.let {
                 val esFavoritoActual = getEstadoFavoritoDesdeIcono()
-
                 onFavoritoClick(it, esFavoritoActual)
 
                 if (!esFavoritoActual) {
@@ -59,6 +81,18 @@ class ViewHolderCanciones(
                         }
                     })
                 }
+            }
+        }
+
+        btnAnadir.setOnClickListener {
+            currentCancion?.let {
+                onAnadirClick(it)
+            }
+        }
+
+        btnEliminar.setOnClickListener {
+            currentCancion?.let {
+                onEliminarClick(it)
             }
         }
     }
@@ -78,4 +112,3 @@ class ViewHolderCanciones(
         favoritoIcon.setImageResource(icono)
     }
 }
-

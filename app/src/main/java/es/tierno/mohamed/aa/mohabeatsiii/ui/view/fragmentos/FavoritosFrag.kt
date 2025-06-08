@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -44,9 +45,7 @@ class FavoritosFrag : Fragment() {
         idUsuario = arguments?.getString("idUsuario") ?: ""
         Log.d("MohabeatsDebug", "FavoritosFrag: ID de usuario recibido de los argumentos: $idUsuario")
 
-
         adapter = AdapterCanciones(
-            idUsuario = idUsuario,
             onReproducirClick = { cancion -> reproducirCancion(cancion) },
             onFavoritoClick = { cancion, esFavoritoActual ->
                 if (idUsuario.isEmpty() || idUsuario == "invitado") {
@@ -60,7 +59,19 @@ class FavoritosFrag : Fragment() {
                         viewModel.anadirAFavoritos(idUsuario, cancion.idCancion)
                     }
                 }
-            }
+            },
+            onDescargarClick = { cancion ->
+                // Vacio porque no necesitaremos esto para descargar
+            },
+            onAnadirClick = { cancion ->
+
+            }, onEliminarClick = { cancion ->
+
+            },
+            mostrarFavorito = true,
+            mostrarDescargar = false,
+            mostrarAnadir = false,
+            mostrarEliminar = false
         )
 
         binding.recyclerViewFavoritos.layoutManager = LinearLayoutManager(requireContext())

@@ -1,4 +1,13 @@
 package es.tierno.mohamed.aa.mohabeatsiii.domain.useCase.playlist
 
-class EliminarPlayListUseCase {
+import es.tierno.mohamed.aa.mohabeatsiii.data.PlaylistRepositorio
+import javax.inject.Inject
+
+class EliminarPlayListUseCase@Inject
+constructor(
+    private val repositorio:PlaylistRepositorio
+) {
+    suspend operator fun invoke(idPlaylist: String, idUsuario: String) {
+        repositorio.eliminarPlaylist(idPlaylist, idUsuario)
+    }
 }

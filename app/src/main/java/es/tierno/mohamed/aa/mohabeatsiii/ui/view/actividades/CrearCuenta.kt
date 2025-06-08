@@ -1,20 +1,25 @@
 package es.tierno.mohamed.aa.mohabeatsiii.ui.view.actividades
 
+import android.app.DatePickerDialog
 import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.text.Editable
+import android.text.TextWatcher
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import com.airbnb.lottie.LottieAnimationView
 import com.airbnb.lottie.LottieDrawable
+import com.google.android.material.textfield.TextInputLayout
 import dagger.hilt.android.AndroidEntryPoint
 import es.tierno.mohamed.aa.mohabeatsiii.R
 import es.tierno.mohamed.aa.mohabeatsiii.databinding.ActivityCrearCuentaBinding
@@ -22,32 +27,35 @@ import es.tierno.mohamed.aa.mohabeatsiii.domain.model.Usuario
 import es.tierno.mohamed.aa.mohabeatsiii.ui.viewModel.CrearCuentaViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import java.text.ParseException
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
+import java.util.regex.Pattern
 
 @AndroidEntryPoint
 class CrearCuenta : AppCompatActivity() {
 
     private lateinit var binding: ActivityCrearCuentaBinding
-    private var dialogLoading: Dialog? = null
+    private var dialogoCarga: Dialog? = null
     private var textoMensaje: TextView? = null
-    private var lottieAnimation: LottieAnimationView? = null
+    private var animacionLottie: LottieAnimationView? = null
 
     private val viewModel: CrearCuentaViewModel by viewModels()
 
-    private val handler = Handler(Looper.getMainLooper())
-    private val checkInterval = 3000L // 3 segundos
+    private val manejador = Handler(Looper.getMainLooper())
+    private val intervaloVerificacion = 3000L
 
-    private val checkEmailVerificationRunnable = object : Runnable {
+    private val tareaVerificarCorreo = object : Runnable {
         override fun run() {
             viewModel.checkEmailVerified()
-            handler.postDelayed(this, checkInterval)
+            manejador.postDelayed(this, intervaloVerificacion)
         }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         enableEdgeToEdge()
-
         binding = ActivityCrearCuentaBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -57,6 +65,9 @@ class CrearCuenta : AppCompatActivity() {
             insets
         }
 
+        configurarValidacionEntrada()
+        configurarSelectorFecha()
+
         binding.btnCrearCuenta.setOnClickListener {
             crearUsuarioDesdeFormulario()
         }
@@ -64,28 +75,213 @@ class CrearCuenta : AppCompatActivity() {
         observarViewModel()
     }
 
-    private fun mostrarDialogoLoading() {
-        if (dialogLoading == null) {
-            dialogLoading = Dialog(this).apply {
+    override fun onDestroy() {
+        super.onDestroy()
+        manejador.removeCallbacks(tareaVerificarCorreo)
+    }
+
+    private fun configurarValidacionEntrada() {
+        val textWatcherGenerico = { layout: TextInputLayout ->
+            object : TextWatcher {
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    validarCampoRequerido(layout, s.isNullOrEmpty())
+                }
+                override fun afterTextChanged(s: Editable?) {}
+            }
+        }
+
+        binding.txtNombreCompleto.addTextChangedListener(textWatcherGenerico(binding.layoutNombreCompleto))
+        binding.txtUsuario.addTextChangedListener(textWatcherGenerico(binding.layoutUsuario))
+
+        binding.txtTelefono.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                validarTelefono(binding.layoutTelefono, s.toString())
+            }
+            override fun afterTextChanged(s: Editable?) {}
+        })
+
+        binding.txtFechaNacimiento.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                validarFechaNacimiento(binding.layoutFechaNacimiento, s.toString())
+            }
+            override fun afterTextChanged(s: Editable?) {}
+        })
+
+        binding.txtCorreo.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                validarCorreo(binding.layoutCorreo, s.toString())
+            }
+            override fun afterTextChanged(s: Editable?) {}
+        })
+
+        binding.txtContrasena.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                val contrasena = s.toString()
+                validarContrasena(binding.layoutContrasena, contrasena)
+                validarConfirmarContrasena(binding.txtContrasena.text.toString(), binding.txtConfirmarContrasena.text.toString())
+            }
+            override fun afterTextChanged(s: Editable?) {}
+        })
+
+        binding.txtConfirmarContrasena.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                validarConfirmarContrasena(binding.txtContrasena.text.toString(), s.toString())
+            }
+            override fun afterTextChanged(s: Editable?) {}
+        })
+    }
+
+    private fun configurarSelectorFecha() {
+        binding.txtFechaNacimiento.setOnClickListener {
+            val calendario = Calendar.getInstance()
+            val anio = calendario.get(Calendar.YEAR)
+            val mes = calendario.get(Calendar.MONTH)
+            val dia = calendario.get(Calendar.DAY_OF_MONTH)
+
+            val selectorFechaDialogo = DatePickerDialog(
+                this,
+                R.style.DatePickerDialogTheme,
+                { _, anioSeleccionado, mesSeleccionado, diaSeleccionado ->
+                    val fechaSeleccionada = String.format(Locale.getDefault(), "%02d/%02d/%d", diaSeleccionado, mesSeleccionado + 1, anioSeleccionado)
+                    binding.txtFechaNacimiento.setText(fechaSeleccionada)
+                    limpiarErrorCampo(binding.layoutFechaNacimiento)
+                },
+                anio, mes, dia
+            )
+
+            val maxCalendar = Calendar.getInstance()
+            maxCalendar.set(2010, Calendar.DECEMBER, 31)
+            selectorFechaDialogo.datePicker.maxDate = maxCalendar.timeInMillis
+
+            selectorFechaDialogo.show()
+        }
+    }
+
+    private fun validarCampoRequerido(textInputLayout: TextInputLayout, estaVacio: Boolean): Boolean {
+        return if (estaVacio) {
+            establecerErrorCampo(textInputLayout, getString(R.string.error_campo_requerido, textInputLayout.hint))
+            false
+        } else {
+            limpiarErrorCampo(textInputLayout)
+            true
+        }
+    }
+
+    private fun validarCorreo(textInputLayout: TextInputLayout, correo: String): Boolean {
+        if (correo.isEmpty()) {
+            establecerErrorCampo(textInputLayout, getString(R.string.error_correo_requerido))
+            return false
+        }
+        val patronCorreo = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$"
+        return if (!Pattern.matches(patronCorreo, correo)) {
+            establecerErrorCampo(textInputLayout, getString(R.string.error_correo_invalido))
+            false
+        } else {
+            limpiarErrorCampo(textInputLayout)
+            true
+        }
+    }
+
+    private fun validarContrasena(textInputLayout: TextInputLayout, contrasena: String): Boolean {
+        if (contrasena.isEmpty()) {
+            establecerErrorCampo(textInputLayout, getString(R.string.error_contrasena_requerida))
+            return false
+        } else if (contrasena.length < 6) {
+            establecerErrorCampo(textInputLayout, getString(R.string.error_contrasena_corta))
+            return false
+        } else {
+            limpiarErrorCampo(textInputLayout)
+            return true
+        }
+    }
+
+    private fun validarConfirmarContrasena(contrasena: String, confirmarContrasena: String): Boolean {
+        if (confirmarContrasena.isEmpty()) {
+            establecerErrorCampo(binding.layoutConfirmarContrasena, getString(R.string.error_confirmar_contrasena_requerida))
+            return false
+        } else if (contrasena != confirmarContrasena) {
+            establecerErrorCampo(binding.layoutConfirmarContrasena, getString(R.string.error_contrasenas_no_coinciden))
+            return false
+        } else {
+            limpiarErrorCampo(binding.layoutConfirmarContrasena)
+            return true
+        }
+    }
+
+    private fun validarTelefono(textInputLayout: TextInputLayout, telefono: String): Boolean {
+        return if (telefono.length == 9 && telefono.all { it.isDigit() }) {
+            limpiarErrorCampo(textInputLayout)
+            true
+        } else {
+            establecerErrorCampo(textInputLayout, getString(R.string.error_telefono_invalido))
+            false
+        }
+    }
+
+    private fun validarFechaNacimiento(textInputLayout: TextInputLayout, fecha: String): Boolean {
+        if (fecha.isEmpty()) {
+            establecerErrorCampo(textInputLayout, getString(R.string.error_campo_requerido, textInputLayout.hint))
+            return false
+        }
+        val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        return try {
+            val selectedDate = sdf.parse(fecha)
+            val cal = Calendar.getInstance()
+            cal.time = selectedDate ?: return false
+            val year = cal.get(Calendar.YEAR)
+
+            if (year <= 2010) {
+                limpiarErrorCampo(textInputLayout)
+                true
+            } else {
+                establecerErrorCampo(textInputLayout, getString(R.string.error_fecha_nacimiento_invalida))
+                false
+            }
+        } catch (e: ParseException) {
+            establecerErrorCampo(textInputLayout, getString(R.string.error_fecha_nacimiento_invalida))
+            false
+        }
+    }
+
+    private fun establecerErrorCampo(textInputLayout: TextInputLayout, mensajeError: String) {
+        textInputLayout.error = mensajeError
+        textInputLayout.boxStrokeColor = ContextCompat.getColor(this, R.color.rojo)
+        textInputLayout.hintTextColor = ContextCompat.getColorStateList(this, R.color.rojo)
+    }
+
+    private fun limpiarErrorCampo(textInputLayout: TextInputLayout) {
+        textInputLayout.error = null
+        textInputLayout.boxStrokeColor = ContextCompat.getColor(this, R.color.colorDetalles)
+        textInputLayout.hintTextColor = ContextCompat.getColorStateList(this, R.color.colorDetalles)
+    }
+
+    private fun mostrarDialogoCarga() {
+        if (dialogoCarga == null) {
+            dialogoCarga = Dialog(this).apply {
                 setContentView(R.layout.dialog_loading)
                 setCancelable(false)
                 window?.setBackgroundDrawableResource(android.R.color.transparent)
             }
-            // Obtener referencias a las vistas del diálogo para manipularlas
-            textoMensaje = dialogLoading?.findViewById(R.id.textoMensaje)
-            lottieAnimation = dialogLoading?.findViewById(R.id.lottieAnimation)
+            textoMensaje = dialogoCarga?.findViewById(R.id.textoMensaje)
+            animacionLottie = dialogoCarga?.findViewById(R.id.lottieAnimation)
         }
-        textoMensaje?.text = getString(R.string.loading_crear) // Texto inicial
-        lottieAnimation?.apply {
+        textoMensaje?.text = getString(R.string.loading_crear)
+        animacionLottie?.apply {
             setAnimation("loading_animation.json")
             repeatCount = LottieDrawable.INFINITE
             playAnimation()
         }
-        dialogLoading?.show()
+        dialogoCarga?.show()
     }
 
-    private fun ocultarDialogoLoading() {
-        dialogLoading?.dismiss()
+    private fun ocultarDialogoCarga() {
+        dialogoCarga?.dismiss()
     }
 
     private fun crearUsuarioDesdeFormulario() {
@@ -97,14 +293,18 @@ class CrearCuenta : AppCompatActivity() {
         val contrasena = binding.txtContrasena.text.toString()
         val confirmarContrasena = binding.txtConfirmarContrasena.text.toString()
 
-        if (nombre.isEmpty() || fechaNac.isEmpty() || correo.isEmpty() || usuario.isEmpty() ||
-            telefono.isEmpty() || contrasena.isEmpty() || confirmarContrasena.isEmpty()) {
-            Toast.makeText(this, "Por favor, complete todos los campos", Toast.LENGTH_SHORT).show()
-            return
-        }
+        var todosLosCamposValidos = true
 
-        if (contrasena != confirmarContrasena) {
-            Toast.makeText(this, "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show()
+        todosLosCamposValidos = validarCampoRequerido(binding.layoutNombreCompleto, nombre.isEmpty()) && todosLosCamposValidos
+        todosLosCamposValidos = validarFechaNacimiento(binding.layoutFechaNacimiento, fechaNac) && todosLosCamposValidos
+        todosLosCamposValidos = validarCorreo(binding.layoutCorreo, correo) && todosLosCamposValidos
+        todosLosCamposValidos = validarCampoRequerido(binding.layoutUsuario, usuario.isEmpty()) && todosLosCamposValidos
+        todosLosCamposValidos = validarTelefono(binding.layoutTelefono, telefono) && todosLosCamposValidos
+        todosLosCamposValidos = validarContrasena(binding.layoutContrasena, contrasena) && todosLosCamposValidos
+        todosLosCamposValidos = validarConfirmarContrasena(contrasena, confirmarContrasena) && todosLosCamposValidos
+
+        if (!todosLosCamposValidos) {
+            Toast.makeText(this, getString(R.string.error_corregir_formulario), Toast.LENGTH_SHORT).show()
             return
         }
 
@@ -118,7 +318,7 @@ class CrearCuenta : AppCompatActivity() {
             contrasena = contrasena
         )
 
-        mostrarDialogoLoading()
+        mostrarDialogoCarga()
         viewModel.crearUsuario(nuevoUsuario)
     }
 
@@ -126,8 +326,9 @@ class CrearCuenta : AppCompatActivity() {
         lifecycleScope.launch {
             viewModel.error.collectLatest { errorMsg ->
                 errorMsg?.let {
-                    ocultarDialogoLoading()
-                    handler.removeCallbacks(checkEmailVerificationRunnable)
+                    ocultarDialogoCarga()
+                    manejador.removeCallbacks(tareaVerificarCorreo)
+                    Toast.makeText(this@CrearCuenta, it, Toast.LENGTH_LONG).show()
                 }
             }
         }
@@ -135,7 +336,10 @@ class CrearCuenta : AppCompatActivity() {
         lifecycleScope.launch {
             viewModel.idCreado.collectLatest { id ->
                 id?.let {
-                    handler.postDelayed(checkEmailVerificationRunnable, checkInterval)
+                    textoMensaje?.text = getString(R.string.loading_enviando_verificacion)
+                    animacionLottie?.setAnimation("email_sending.json")
+                    animacionLottie?.playAnimation()
+                    manejador.postDelayed(tareaVerificarCorreo, intervaloVerificacion)
                 }
             }
         }
@@ -143,29 +347,25 @@ class CrearCuenta : AppCompatActivity() {
         lifecycleScope.launch {
             viewModel.emailVerificado.collectLatest { verificado ->
                 if (verificado) {
-                    textoMensaje?.text = "Correo verificado con éxito"
-                    lottieAnimation?.apply {
+                    textoMensaje?.text = getString(R.string.success_correo_verificado)
+                    animacionLottie?.apply {
                         setAnimation("verificacion_exitosa.json")
-                        repeatCount = 0 // No repetir
+                        repeatCount = 0
                         playAnimation()
-                    }
-                    handler.removeCallbacks(checkEmailVerificationRunnable)
 
-                    Handler(Looper.getMainLooper()).postDelayed({
-                        ocultarDialogoLoading()
-                        Toast.makeText(this@CrearCuenta, "Iniciando sesión...", Toast.LENGTH_LONG).show()
-                        val intent = Intent(this@CrearCuenta, MainActivity::class.java)
-                        startActivity(intent)
-                        finish()
-                    }, 3000)
+                        Handler(Looper.getMainLooper()).postDelayed({
+                            ocultarDialogoCarga()
+                            val intent = Intent(this@CrearCuenta, MainActivity::class.java)
+                            startActivity(intent)
+                            finish()
+                        }, duration)
+                    }
+                    manejador.removeCallbacks(tareaVerificarCorreo)
+
+                } else {
+                    textoMensaje?.text = getString(R.string.loading_esperando_verificacion)
                 }
             }
         }
     }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        handler.removeCallbacks(checkEmailVerificationRunnable)
-    }
 }
-

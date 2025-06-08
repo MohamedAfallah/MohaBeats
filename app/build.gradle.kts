@@ -64,19 +64,17 @@ dependencies {
 
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.8.7")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.7")
-    // Necesitas estas KTX para usar by viewModels() en fragmentos/actividades
-    implementation("androidx.fragment:fragment-ktx:1.6.2") // O la versión más reciente
-    implementation("androidx.activity:activity-ktx:1.8.2") // O la versión más reciente
+
+    implementation("androidx.fragment:fragment-ktx:1.6.2")
+    implementation("androidx.activity:activity-ktx:1.8.2")
 
 
     implementation("androidx.room:room-runtime:2.6.1")
     implementation("androidx.room:room-ktx:2.6.1")
-    // Room compilador usando KSP
+
     ksp("androidx.room:room-compiler:2.6.1")
 
-    // Hilt
     implementation("com.google.dagger:hilt-android:2.51.1")
-    // ¡Hilt compilador usando KSP! No kapt
     ksp("com.google.dagger:hilt-android-compiler:2.51.1")
 
     implementation(platform("com.google.firebase:firebase-bom:33.14.0"))

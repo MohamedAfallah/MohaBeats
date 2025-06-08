@@ -6,7 +6,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 object DeepSeekAiCreator {
     private const val BASE_URL = "https://openrouter.ai/"
 
-    // Crear una instancia de Retrofit configurada para la API de Deezer
+    // Crear una instancia de Retrofit configurada para la API de deepseek con openrouter
     fun getRetrofit(): Retrofit {
         return Retrofit.Builder()
             .baseUrl(BASE_URL)

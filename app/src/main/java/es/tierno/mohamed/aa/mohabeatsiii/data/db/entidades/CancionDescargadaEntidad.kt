@@ -21,6 +21,6 @@ data class CancionDescargadaEntidad(
     val genero: String,
     val duracionMillis: Long,
     val fechaLanzamiento: String,
-    val localFilePath: String? = null,
-    val localImageUrl: String? = null
+    val rutaLocalCancion: String? = null,
+    val rutaLocalImg: String? = null
 )

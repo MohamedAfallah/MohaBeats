@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="400dp"
+    android:layout_height="600dp"
+    android:orientation="vertical"
+    android:background="@color/colorPrincipal"
+    android:padding="24dp"
+    android:gravity="center_horizontal">
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/animation_view_error"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        app:lottie_fileName="error_animation.json"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        android:layout_marginBottom="16dp"/>
+
+    <TextView
+        android:id="@+id/text_view_dialog_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/blancoAgradables"
+        android:fontFamily="@font/abril_fatface"
+        android:text="@string/error"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="8dp"/>
+
+    <TextView
+        android:id="@+id/text_view_dialog_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/abril_fatface"
+        android:textAlignment="center"
+        android:text="Ha ocurrido un error al cargar la imagen o el texto."
+        android:textSize="16sp"
+        android:textColor="@android:color/darker_gray"
+        android:layout_marginBottom="24dp"
+        tools:ignore="HardcodedText" />
+
+    <Button
+        android:id="@+id/button_dialog_ok"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/ok"
+        android:backgroundTint="@color/colorDetalles"
+        android:textColor="@android:color/white"/>
+
+</LinearLayout>

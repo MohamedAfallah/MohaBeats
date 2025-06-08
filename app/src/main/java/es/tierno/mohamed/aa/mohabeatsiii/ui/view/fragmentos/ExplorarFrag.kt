@@ -10,6 +10,8 @@ import es.tierno.mohamed.aa.mohabeatsiii.R
 import es.tierno.mohamed.aa.mohabeatsiii.data.provider.CategoriasProvider
 import es.tierno.mohamed.aa.mohabeatsiii.databinding.FragmentExplorarBinding
 import es.tierno.mohamed.aa.mohabeatsiii.ui.view.fragmentos.rv_categorias.AdapterCategorias
+import es.tierno.mohamed.aa.mohabeatsiii.ui.view.helper_views.ErrorDialogFragment
+import es.tierno.mohamed.aa.mohabeatsiii.utils.ConexionInternet
 
 class ExplorarFrag : Fragment() {
 
@@ -56,15 +58,20 @@ class ExplorarFrag : Fragment() {
         binding.recyclerViewCategorias.setPadding(32, 0, 32, 0)
 
         binding.recyclerViewCategorias.adapter = AdapterCategorias(listaCategorias) { categoria ->
+            if (ConexionInternet.isNetworkAvailable(requireContext())) {
+                val resultadoBusquedaFrag = ResultadoBusquedaFrag.newInstance(categoria, idUsuario)
 
-            val resultadoBusquedaFrag = ResultadoBusquedaFrag.newInstance(categoria, idUsuario)
+                parentFragmentManager.beginTransaction()
+                    .replace(R.id.fragFullScreenContainer, resultadoBusquedaFrag)
+                    .addToBackStack(null)
+                    .commit()
 
-            parentFragmentManager.beginTransaction()
-                .replace(R.id.fragFullScreenContainer, resultadoBusquedaFrag)
-                .addToBackStack(null)
-                .commit()
-
-            (parentFragment as? InicioFrag)?.showFullScreenContainer()
+                (parentFragment as? InicioFrag)?.showFullScreenContainer()
+            } else {
+                val errorMessage = "Necesitas conexión a internet para explorar las categorías. Por favor, revisa tu conexión."
+                val errorDialog = ErrorDialogFragment.newInstance(errorMessage)
+                errorDialog.show(parentFragmentManager, "ErrorNetworkDialog")
+            }
         }
     }
 

@@ -11,11 +11,11 @@ import es.tierno.mohamed.aa.mohabeatsiii.data.db.entidades.CancionDescargadaEnti
 interface CancionesDescargasDAO {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertCancionDescargada(cancion: CancionDescargadaEntidad)
+    suspend fun insertarCancionDescargada(cancion: CancionDescargadaEntidad)
 
     @Query("SELECT * FROM canciones_descargadas ORDER BY nombreCancion ASC")
-    fun getAllCancionesDescargadas(): Flow<List<CancionDescargadaEntidad>>
+    fun getTodasLasCancionesDescargadas(): Flow<List<CancionDescargadaEntidad>>
 
-    @Query("DELETE FROM canciones_descargadas WHERE id = :cancionId")
-    suspend fun deleteCancionDescargadaById(cancionId: Long)
+    @Query("DELETE FROM canciones_descargadas WHERE idCancion = :cancionId")
+    suspend fun eliminarCancionDescargada(cancionId: String)
 }

@@ -1,9 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
     <style name="Base.Theme.MohaBeatsIII" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
-    </style>
+        <item name="colorPrimary">@color/colorPrincipal</item> <item name="colorOnPrimary">@color/blancoAgradables</item>
 
+        <item name="colorSecondary">@color/colorDetalles</item> <item name="colorOnSecondary">@color/blancoAgradables</item>
+
+        <item name="android:statusBarColor">?attr/colorSecondaryVariant</item>
+    </style>
     <style name="Theme.MohaBeatsIII" parent="Base.Theme.MohaBeatsIII" />
 </resources>

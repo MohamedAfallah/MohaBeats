@@ -7,25 +7,30 @@ import es.tierno.mohamed.aa.mohabeatsiii.R
 import es.tierno.mohamed.aa.mohabeatsiii.domain.model.Musica
 
 class AdapterCanciones(
-    private val idUsuario: String, // Recibe el ID de usuario
     private val onReproducirClick: (Musica) -> Unit,
-    private val onFavoritoClick: (Musica, Boolean) -> Unit // Nuevo callback: canción y su estado actual (antes del clic)
+    private val onFavoritoClick: (Musica, Boolean) -> Unit,
+    private val onDescargarClick: (Musica) -> Unit,
+    private val onAnadirClick: (Musica) -> Unit,
+    private val onEliminarClick: (Musica) -> Unit,
+    private val mostrarFavorito: Boolean,
+    private val mostrarDescargar: Boolean,
+    private val mostrarAnadir: Boolean,
+    private val mostrarEliminar: Boolean
 ) : RecyclerView.Adapter<ViewHolderCanciones>() {
 
     private val cancionesList = mutableListOf<Musica>()
-    private var favoritasIds = emptySet<String>() // Para guardar los IDs de canciones favoritas
+    private var favoritasIds = emptySet<String>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderCanciones {
         val layoutInflater = LayoutInflater.from(parent.context)
         val view = layoutInflater.inflate(R.layout.item_cancion, parent, false)
-        // Pasa el nuevo callback al ViewHolder
-        return ViewHolderCanciones(view, onReproducirClick, onFavoritoClick)
+        return ViewHolderCanciones(view, onReproducirClick, onFavoritoClick, onDescargarClick, onAnadirClick, onEliminarClick)
     }
 
     override fun onBindViewHolder(holder: ViewHolderCanciones, position: Int) {
         val item = cancionesList[position]
         val esFavoritaInicial = favoritasIds.contains(item.idCancion)
-        holder.render(item, esFavoritaInicial) // Pasa el estado inicial
+        holder.render(item, esFavoritaInicial, mostrarFavorito, mostrarDescargar, mostrarAnadir, mostrarEliminar)
     }
 
     override fun getItemCount(): Int = cancionesList.size
@@ -33,7 +38,7 @@ class AdapterCanciones(
     fun actualizarDatos(nuevasCanciones: List<Musica>, nuevasFavoritasIds: Set<String>) {
         cancionesList.clear()
         cancionesList.addAll(nuevasCanciones)
-        favoritasIds = nuevasFavoritasIds // Actualiza el conjunto de IDs favoritas
+        favoritasIds = nuevasFavoritasIds
         notifyDataSetChanged()
     }
 
@@ -41,5 +46,3 @@ class AdapterCanciones(
         return cancionesList
     }
 }
-
-

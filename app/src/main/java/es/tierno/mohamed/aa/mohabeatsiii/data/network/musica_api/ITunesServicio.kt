@@ -13,7 +13,7 @@ class ITunesServicio @Inject constructor(
 ) {
     suspend fun buscar(query: String): List<Musica>? {
         Log.d("ITunesServicio", "Iniciando búsqueda con query: '$query'")
-        val response = api.buscar(query, limit = 50) // límite aumentado para más resultados
+        val response = api.buscar(query, limit = 30)
         Log.d("ITunesServicio", "Respuesta recibida, éxito: ${response.isSuccessful}, código: ${response.code()}")
 
         if (response.isSuccessful) {

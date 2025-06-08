@@ -30,8 +30,7 @@ class FirestoreUsuarioDAO @Inject constructor(
                 "fechaNacimiento" to usuario.fechaNacimiento,
                 "correo" to usuario.correo,
                 "usuario" to usuario.usuario,
-                "telefono" to usuario.telefono,
-                "contrasena" to usuario.contrasena
+                "telefono" to usuario.telefono
             )
             usuariosCollection.document(usuario.id).set(userData).await()
             usuario.id

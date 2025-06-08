@@ -8,13 +8,10 @@ import io.noties.markwon.Markwon
 
 class ViewHolderChat(private val binding: ItemChatMessageBinding) : RecyclerView.ViewHolder(binding.root) {
     fun bind(message: Mensaje) {
-        // Crear una instancia de Markwon para el contexto actual
         val markwon = Markwon.create(binding.root.context)
 
-        // Renderizar el contenido Markdown
         markwon.setMarkdown(binding.chatMessage, message.content)
 
-        // Cambiar estilo según el rol
         if (message.role == "user") {
             binding.chatMessage.setBackgroundResource(R.drawable.bg_user_message)
             binding.chatMessage.setTextColor(binding.root.context.getColor(R.color.blancoAgradables))

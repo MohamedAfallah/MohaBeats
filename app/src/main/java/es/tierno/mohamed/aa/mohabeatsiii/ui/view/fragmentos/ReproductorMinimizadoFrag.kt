@@ -92,15 +92,14 @@ class ReproductorMinimizadoFrag : Fragment() {
                             val color1 = swatches[0].rgb
                             val color2 = swatches.getOrNull(1)?.rgb ?: color1
 
-                            // Creamos un GradientDrawable con borde y esquinas redondeadas:
                             val gradientDrawable = GradientDrawable(
                                 GradientDrawable.Orientation.TOP_BOTTOM,
                                 intArrayOf(color1, color2)
                             )
                             gradientDrawable.cornerRadius = 20f * resources.displayMetrics.density // 20dp a px
                             gradientDrawable.setStroke(
-                                (3 * resources.displayMetrics.density).toInt(), // 3dp a px
-                                0x80FFA500.toInt() // color #80FFA500 (naranja translúcido) hardcodeado
+                                (3 * resources.displayMetrics.density).toInt(),
+                                0x80FFA500.toInt()
                             )
                             binding.reproductorMinimizado.background = gradientDrawable
 
@@ -112,7 +111,6 @@ class ReproductorMinimizadoFrag : Fragment() {
                             binding.txtTituloMini.setTextColor(textColor)
                             binding.txtArtistaMini.setTextColor(ContextCompat.getColor(requireContext(), R.color.colorDetalles))
                         } else {
-                            // Si paleta vacía, fondo por defecto
                             binding.reproductorMinimizado.background = ContextCompat.getDrawable(
                                 requireContext(), R.drawable.bordes_repproductor_min
                             )

@@ -15,10 +15,10 @@ interface ITunesApi {
         @Query("limit") limit: Int = 20
     ): Response<Busqueda>
 
-    // Obtener canciones aleatorias (esto no existe en la API de iTunes, pero puedes usar búsquedas populares)
+    // Obtener canciones aleatorias query =music para simular aleatorio porque la API de ITunes no lo permite
     @GET("search")
     suspend fun getCanciones(
-        @Query("term") query: String = "beny jr",
+        @Query("term") query: String = "music",
         @Query("media") media: String = "music",
         @Query("entity") entity: String = "song",
         @Query("limit") limit: Int = 50
@@ -30,7 +30,7 @@ interface ITunesApi {
         @Query("media") media: String = "music",
         @Query("entity") entity: String = "song",
         @Query("genreId") genreId: String,
-        @Query("limit") limit: Int = 50
+        @Query("limit") limit: Int = 30
     ): Response<Busqueda>
 
     @GET("lookup")

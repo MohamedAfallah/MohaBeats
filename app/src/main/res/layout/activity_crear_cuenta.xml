@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrincipal"
-    android:fillViewport="true">
+    android:fillViewport="true"
+    android:fitsSystemWindows="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/main"
@@ -16,237 +18,268 @@
             android:id="@+id/imageView"
             android:layout_width="150dp"
             android:layout_height="65dp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="36dp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/moha_beats_removebg_preview" />
 
         <TextView
             android:id="@+id/lblCrear"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
             android:fontFamily="@font/abril_fatface"
             android:text="@string/crearCuenta"
             android:textColor="@color/colorDetalles"
             android:textSize="30sp"
-            app:layout_constraintTop_toBottomOf="@id/imageView"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="12dp" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/imageView" />
 
-        <!-- Nombre Completo -->
-        <TextView
-            android:id="@+id/lblNombreCompleto"
-            android:layout_width="wrap_content"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/layoutNombreCompleto"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/abril_fatface"
-            android:text="@string/nombreCompleto"
-            android:textColor="@color/blancoAgradables"
-            android:textSize="18sp"
+            android:layout_marginTop="32dp"
+            android:hint="@string/nombreCompleto"
+            android:textColorHint="@color/blancoAgradables"
+            app:boxBackgroundColor="@color/fondoEditText"
+            app:boxCornerRadiusBottomEnd="8dp"
+            app:boxCornerRadiusBottomStart="8dp"
+            app:boxCornerRadiusTopEnd="8dp"
+            app:boxCornerRadiusTopStart="8dp"
+            app:boxStrokeColor="@color/colorDetalles"
+            app:boxStrokeWidth="2dp"
+            app:hintTextColor="@color/colorDetalles"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/lblCrear"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="24dp" />
+            app:layout_constraintWidth_percent="0.85">
 
-        <EditText
-            android:id="@+id/txtNombreCompleto"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txtNombreCompleto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/abril_fatface"
+                android:inputType="textPersonName"
+                android:paddingVertical="16dp"
+                android:textColor="@color/blancoAgradables" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/layoutFechaNacimiento"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:background="@drawable/rounded_edittext"
-            android:ems="10"
-            android:fontFamily="@font/abril_fatface"
-            android:inputType="textPersonName"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:textColor="@color/blancoAgradables"
-            app:layout_constraintTop_toBottomOf="@id/lblNombreCompleto"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
-
-        <!-- Fecha de nacimiento -->
-        <TextView
-            android:id="@+id/lblFechaNacimiento"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/abril_fatface"
-            android:text="@string/fechaNacimiento"
-            android:textColor="@color/blancoAgradables"
-            android:textSize="18sp"
-            app:layout_constraintTop_toBottomOf="@id/txtNombreCompleto"
+            android:layout_marginTop="16dp"
+            android:hint="@string/fechaNacimiento"
+            android:textColorHint="@color/blancoAgradables"
+            app:boxBackgroundColor="@color/fondoEditText"
+            app:boxCornerRadiusBottomEnd="8dp"
+            app:boxCornerRadiusBottomStart="8dp"
+            app:boxCornerRadiusTopEnd="8dp"
+            app:boxCornerRadiusTopStart="8dp"
+            app:boxStrokeColor="@color/colorDetalles"
+            app:boxStrokeWidth="2dp"
+            app:hintTextColor="@color/colorDetalles"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="16dp" />
+            app:layout_constraintTop_toBottomOf="@id/layoutNombreCompleto"
+            app:layout_constraintWidth_percent="0.85">
 
-        <EditText
-            android:id="@+id/txtFechaNacimiento"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txtFechaNacimiento"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:drawableEnd="@drawable/ic_calendar_24"
+                android:drawableTint="@color/blancoAgradables"
+                android:focusable="false"
+                android:fontFamily="@font/abril_fatface"
+                android:inputType="date"
+                android:longClickable="false"
+                android:paddingVertical="16dp"
+                android:textColor="@color/blancoAgradables" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/layoutCorreo"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:background="@drawable/rounded_edittext"
-            android:ems="10"
-            android:fontFamily="@font/abril_fatface"
-            android:inputType="date"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:textColor="@color/blancoAgradables"
-            app:layout_constraintTop_toBottomOf="@id/lblFechaNacimiento"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
-
-        <!-- Correo -->
-        <TextView
-            android:id="@+id/lblCorreo"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/abril_fatface"
-            android:text="@string/correo"
-            android:textColor="@color/blancoAgradables"
-            android:textSize="18sp"
-            app:layout_constraintTop_toBottomOf="@id/txtFechaNacimiento"
+            android:layout_marginTop="16dp"
+            android:hint="@string/correo"
+            android:textColorHint="@color/blancoAgradables"
+            app:boxBackgroundColor="@color/fondoEditText"
+            app:boxCornerRadiusBottomEnd="8dp"
+            app:boxCornerRadiusBottomStart="8dp"
+            app:boxCornerRadiusTopEnd="8dp"
+            app:boxCornerRadiusTopStart="8dp"
+            app:boxStrokeColor="@color/colorDetalles"
+            app:boxStrokeWidth="2dp"
+            app:hintTextColor="@color/colorDetalles"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="16dp" />
+            app:layout_constraintTop_toBottomOf="@id/layoutFechaNacimiento"
+            app:layout_constraintWidth_percent="0.85">
 
-        <EditText
-            android:id="@+id/txtCorreo"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txtCorreo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/abril_fatface"
+                android:inputType="textEmailAddress"
+                android:paddingVertical="16dp"
+                android:textColor="@color/blancoAgradables" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/layoutUsuario"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:background="@drawable/rounded_edittext"
-            android:ems="10"
-            android:fontFamily="@font/abril_fatface"
-            android:inputType="textEmailAddress"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:textColor="@color/blancoAgradables"
-            app:layout_constraintTop_toBottomOf="@id/lblCorreo"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
-
-        <!-- Usuario -->
-        <TextView
-            android:id="@+id/lblUsuario"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/abril_fatface"
-            android:text="@string/lblUsuario"
-            android:textColor="@color/blancoAgradables"
-            android:textSize="18sp"
-            app:layout_constraintTop_toBottomOf="@id/txtCorreo"
+            android:layout_marginTop="16dp"
+            android:hint="@string/lblUsuario"
+            android:textColorHint="@color/blancoAgradables"
+            app:boxBackgroundColor="@color/fondoEditText"
+            app:boxCornerRadiusBottomEnd="8dp"
+            app:boxCornerRadiusBottomStart="8dp"
+            app:boxCornerRadiusTopEnd="8dp"
+            app:boxCornerRadiusTopStart="8dp"
+            app:boxStrokeColor="@color/colorDetalles"
+            app:boxStrokeWidth="2dp"
+            app:hintTextColor="@color/colorDetalles"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="16dp" />
+            app:layout_constraintTop_toBottomOf="@id/layoutCorreo"
+            app:layout_constraintWidth_percent="0.85">
 
-        <EditText
-            android:id="@+id/txtUsuario"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txtUsuario"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/abril_fatface"
+                android:inputType="text"
+                android:paddingVertical="16dp"
+                android:textColor="@color/blancoAgradables" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/layoutTelefono"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:background="@drawable/rounded_edittext"
-            android:ems="10"
-            android:fontFamily="@font/abril_fatface"
-            android:inputType="text"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:textColor="@color/blancoAgradables"
-            app:layout_constraintTop_toBottomOf="@id/lblUsuario"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
-
-        <!-- Teléfono -->
-        <TextView
-            android:id="@+id/lblTelefono"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/abril_fatface"
-            android:text="Teléfono"
-            android:textColor="@color/blancoAgradables"
-            android:textSize="18sp"
-            app:layout_constraintTop_toBottomOf="@id/txtUsuario"
+            android:layout_marginTop="16dp"
+            android:hint="@string/telefono"
+            android:textColorHint="@color/blancoAgradables"
+            app:boxBackgroundColor="@color/fondoEditText"
+            app:boxCornerRadiusBottomEnd="8dp"
+            app:boxCornerRadiusBottomStart="8dp"
+            app:boxCornerRadiusTopEnd="8dp"
+            app:boxCornerRadiusTopStart="8dp"
+            app:boxStrokeColor="@color/colorDetalles"
+            app:boxStrokeWidth="2dp"
+            app:hintTextColor="@color/colorDetalles"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="16dp" />
+            app:layout_constraintTop_toBottomOf="@id/layoutUsuario"
+            app:layout_constraintWidth_percent="0.85">
 
-        <EditText
-            android:id="@+id/txtTelefono"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txtTelefono"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/abril_fatface"
+                android:inputType="phone"
+                android:paddingVertical="16dp"
+                android:textColor="@color/blancoAgradables" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/layoutContrasena"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:background="@drawable/rounded_edittext"
-            android:ems="10"
-            android:fontFamily="@font/abril_fatface"
-            android:inputType="phone"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:textColor="@color/blancoAgradables"
-            app:layout_constraintTop_toBottomOf="@id/lblTelefono"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
-
-        <!-- Contraseña -->
-        <TextView
-            android:id="@+id/lblContrasena"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/abril_fatface"
-            android:text="@string/lblContrasena"
-            android:textColor="@color/blancoAgradables"
-            android:textSize="18sp"
-            app:layout_constraintTop_toBottomOf="@id/txtTelefono"
+            android:layout_marginTop="16dp"
+            android:hint="@string/lblContrasena"
+            android:textColorHint="@color/blancoAgradables"
+            app:boxBackgroundColor="@color/fondoEditText"
+            app:boxCornerRadiusBottomEnd="8dp"
+            app:boxCornerRadiusBottomStart="8dp"
+            app:boxCornerRadiusTopEnd="8dp"
+            app:boxCornerRadiusTopStart="8dp"
+            app:boxStrokeColor="@color/colorDetalles"
+            app:boxStrokeWidth="2dp"
+            app:hintTextColor="@color/colorDetalles"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="16dp" />
+            app:layout_constraintTop_toBottomOf="@id/layoutTelefono"
+            app:layout_constraintWidth_percent="0.85"
+            app:passwordToggleEnabled="true"
+            app:passwordToggleTint="@color/blancoAgradables">
 
-        <EditText
-            android:id="@+id/txtContrasena"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txtContrasena"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/abril_fatface"
+                android:inputType="textPassword"
+                android:paddingVertical="16dp"
+                android:textColor="@color/blancoAgradables" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/layoutConfirmarContrasena"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:background="@drawable/rounded_edittext"
-            android:ems="10"
-            android:fontFamily="@font/abril_fatface"
-            android:inputType="textPassword"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:textColor="@color/blancoAgradables"
-            app:layout_constraintTop_toBottomOf="@id/lblContrasena"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
-
-        <!-- Confirmar contraseña -->
-        <TextView
-            android:id="@+id/lblConfirmarContrasena"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/abril_fatface"
-            android:text="Confirmar contraseña"
-            android:textColor="@color/blancoAgradables"
-            android:textSize="18sp"
-            app:layout_constraintTop_toBottomOf="@id/txtContrasena"
+            android:layout_marginTop="16dp"
+            android:hint="@string/confirmarContrasena"
+            android:textColorHint="@color/blancoAgradables"
+            app:boxBackgroundColor="@color/fondoEditText"
+            app:boxCornerRadiusBottomEnd="8dp"
+            app:boxCornerRadiusBottomStart="8dp"
+            app:boxCornerRadiusTopEnd="8dp"
+            app:boxCornerRadiusTopStart="8dp"
+            app:boxStrokeColor="@color/colorDetalles"
+            app:boxStrokeWidth="2dp"
+            app:hintTextColor="@color/colorDetalles"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="16dp" />
+            app:layout_constraintTop_toBottomOf="@id/layoutContrasena"
+            app:layout_constraintWidth_percent="0.85"
+            app:passwordToggleEnabled="true"
+            app:passwordToggleTint="@color/blancoAgradables">
 
-        <EditText
-            android:id="@+id/txtConfirmarContrasena"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:background="@drawable/rounded_edittext"
-            android:ems="10"
-            android:fontFamily="@font/abril_fatface"
-            android:inputType="textPassword"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:textColor="@color/blancoAgradables"
-            app:layout_constraintTop_toBottomOf="@id/lblConfirmarContrasena"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txtConfirmarContrasena"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/abril_fatface"
+                android:inputType="textPassword"
+                android:paddingVertical="16dp"
+                android:textColor="@color/blancoAgradables" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Botón Crear Cuenta -->
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnCrearCuenta"
             android:layout_width="0dp"
-            android:layout_height="56dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="32dp"
             android:backgroundTint="@color/colorDetalles"
             android:fontFamily="@font/abril_fatface"
+            android:paddingVertical="12dp"
             android:text="@string/crearCuenta"
-            android:textSize="22sp"
             android:textColor="@color/white"
-            app:layout_constraintTop_toBottomOf="@id/txtConfirmarContrasena"
-            app:layout_constraintStart_toStartOf="parent"
+            android:textSize="22sp"
+            app:cornerRadius="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="24dp"
-            android:layout_marginBottom="24dp"
-            android:letterSpacing="0.05" />
-
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layoutConfirmarContrasena"
+            app:layout_constraintWidth_percent="0.85" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
-

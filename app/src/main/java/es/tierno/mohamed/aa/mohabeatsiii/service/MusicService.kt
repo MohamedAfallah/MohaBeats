@@ -8,13 +8,31 @@ import android.media.AudioManager
 import android.media.MediaPlayer
 import android.os.Binder
 import android.os.IBinder
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.google.firebase.auth.FirebaseAuth
+import dagger.hilt.android.AndroidEntryPoint
 import es.tierno.mohamed.aa.mohabeatsiii.domain.model.Musica
+import es.tierno.mohamed.aa.mohabeatsiii.domain.useCase.historial.InsertarHistorialUseCase
 import es.tierno.mohamed.aa.mohabeatsiii.ui.view.helper_views.NotificacionHelper
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
+import java.io.File
+import javax.inject.Inject
 
+//Clase que controla los reproductores y el control sobre las canciones en reproduccion
+@AndroidEntryPoint
 class MusicService : Service() {
+
+    @Inject
+    lateinit var insertarHistorialUseCase: InsertarHistorialUseCase
+
+    private val fbAuth = FirebaseAuth.getInstance()
+
+    private val serviceJob = SupervisorJob()
+    private val serviceScope = CoroutineScope(Dispatchers.IO + serviceJob)
 
     private val binder = MusicBinder()
     private var mediaPlayer: MediaPlayer? = null
@@ -22,6 +40,7 @@ class MusicService : Service() {
 
     private var playlist: List<Musica> = emptyList()
     private var currentIndex = 0
+    private var idUsuario: String = ""
 
     private var isPrepared = false
     private var isPaused = false
@@ -36,7 +55,6 @@ class MusicService : Service() {
 
     companion object {
         const val CHANNEL_ID = "MusicServiceChannel"
-        private const val TAG = "MusicService"
 
         const val ACTION_PLAY = "es.tierno.mohamed.aa.mohabeatsiii.ACTION_PLAY"
         const val ACTION_PAUSE = "es.tierno.mohamed.aa.mohabeatsiii.ACTION_PAUSE"
@@ -46,6 +64,7 @@ class MusicService : Service() {
         const val EXTRA_URL = "es.tierno.mohamed.aa.mohabeatsiii.EXTRA_URL"
         const val EXTRA_PLAYLIST = "es.tierno.mohamed.aa.mohabeatsiii.EXTRA_PLAYLIST"
         const val EXTRA_START_INDEX = "EXTRA_START_INDEX"
+        const val EXTRA_ID_USUARIO = "EXTRA_ID_USUARIO"
     }
 
     inner class MusicBinder : Binder() {
@@ -56,7 +75,6 @@ class MusicService : Service() {
 
     override fun onCreate() {
         super.onCreate()
-        Log.d(TAG, "Service created")
         notificacionHelper = NotificacionHelper(this, this)
         notificacionHelper.createNotificationChannel()
 
@@ -76,7 +94,8 @@ class MusicService : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         intent?.action?.let { action ->
-            Log.d(TAG, "Received action: $action")
+            idUsuario = intent.getStringExtra(EXTRA_ID_USUARIO) ?: ""
+
             when (action) {
                 ACTION_PLAY -> {
                     val list = intent.getParcelableArrayListExtra<Musica>(EXTRA_PLAYLIST)
@@ -108,7 +127,6 @@ class MusicService : Service() {
                 ACTION_PAUSE -> pause()
                 ACTION_NEXT -> next()
                 ACTION_PREVIOUS -> previous()
-                else -> Log.w(TAG, "Unknown action received: $action")
             }
         }
         return START_STICKY
@@ -122,19 +140,14 @@ class MusicService : Service() {
 
     private fun playCurrent() {
         val song = playlist.getOrNull(currentIndex)
-        if (song == null || song.urlPreview.isNullOrEmpty()) {
-            Log.w(TAG, "Invalid song or missing URL. Stopping playback.")
+        if (song == null || (song.urlPreview.isNullOrEmpty() && song.rutaLocalCancion.isNullOrEmpty())) {
             stop()
             return
         }
 
         _currentSongLiveData.postValue(song)
 
-        mediaPlayer?.apply {
-            stop()
-            reset()
-            release()
-        }
+        mediaPlayer?.release()
         mediaPlayer = null
         isPrepared = false
         isPaused = false
@@ -147,22 +160,45 @@ class MusicService : Service() {
                         .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
                         .build()
                 )
-                setDataSource(song.urlPreview)
+
+                val file = if (!song.rutaLocalCancion.isNullOrEmpty()) File(song.rutaLocalCancion!!) else null
+                if (file != null && file.exists()) {
+                    setDataSource(file.absolutePath)
+                } else if (!song.urlPreview.isNullOrEmpty()) {
+                    setDataSource(song.urlPreview)
+                } else {
+                    stop()
+                    return@apply
+                }
+
                 setOnPreparedListener {
                     isPrepared = true
                     start()
                     isPaused = false
                     _isPlayingLiveData.postValue(true)
                     notificacionHelper.startForegroundNotification(song, true)
+
+                    idUsuario = fbAuth.uid ?: ""
+
+
+                    if (idUsuario.isNotEmpty() && idUsuario != "invitado") {
+                        serviceScope.launch {
+                            insertarHistorialUseCase(idUsuario, song.idCancion)
+                        }
+                    }
                 }
+
                 setOnCompletionListener { next() }
-                setOnErrorListener { _, what, extra ->
-                    Log.e(TAG, "MediaPlayer error what=$what extra=$extra")
+
+                setOnErrorListener { _, _, _ ->
+                    reset()
+                    playCurrent()
                     true
                 }
+
                 prepareAsync()
             } catch (e: Exception) {
-                Log.e(TAG, "Error preparing MediaPlayer: ${e.message}")
+                stop()
             }
         }
     }
@@ -194,11 +230,7 @@ class MusicService : Service() {
     }
 
     fun stop() {
-        mediaPlayer?.apply {
-            if (isPlaying) stop()
-            reset()
-            release()
-        }
+        mediaPlayer?.release()
         mediaPlayer = null
         isPrepared = false
         isPaused = false
@@ -236,6 +268,7 @@ class MusicService : Service() {
     }
 
     override fun onDestroy() {
+        serviceJob.cancel()
         stop()
         super.onDestroy()
     }

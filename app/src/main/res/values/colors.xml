@@ -3,13 +3,13 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="colorPrincipal">#0D0D0D</color>
-    <color name="colorDetalles">#FF914D</color> <!-- Rosa/naranja fuerte -->
+    <color name="colorDetalles">#FF914D</color>
     <color name="fondosSecundarios">#2B2B2B</color>
     <color name="blancoAgradables">#F5F5F5</color>
     <color name="rojo">#FF0000</color>
     <color name="grisSuave">#D3D3D3</color>
     <color name="error_dark">#B00020</color>
     <color name="fondoEditText">#1A1A1A</color>
-    <color name="colorSecundario">#505050</color> <!-- por ejemplo -->
+    <color name="colorSecundario">#505050</color>
 
 </resources>

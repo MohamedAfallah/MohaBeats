@@ -8,6 +8,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import es.tierno.mohamed.aa.mohabeatsiii.data.db.MohaBeatsDataBase
+import es.tierno.mohamed.aa.mohabeatsiii.data.db.dao.CancionesDescargasDAO // Asegúrate de importar tu DAO
 import javax.inject.Singleton
 
 @Module
@@ -20,4 +21,9 @@ object RoomModule {
     fun provideRoom(@ApplicationContext context: Context) = Room.databaseBuilder(context,
         MohaBeatsDataBase::class.java, NOMBRE_DB).build()
 
+    @Singleton
+    @Provides
+    fun provideCancionesDescargasDAO(database: MohaBeatsDataBase): CancionesDescargasDAO {
+        return database.cancionDescargadaDao()
+    }
 }

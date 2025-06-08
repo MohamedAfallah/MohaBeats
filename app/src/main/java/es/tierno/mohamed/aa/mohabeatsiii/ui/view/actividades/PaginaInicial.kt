@@ -5,39 +5,43 @@ import android.os.Bundle
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.airbnb.lottie.LottieAnimationView
-import com.airbnb.lottie.LottieProperty
-import com.airbnb.lottie.model.KeyPath
-import com.airbnb.lottie.value.LottieValueCallback
+import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 import es.tierno.mohamed.aa.mohabeatsiii.R
 import es.tierno.mohamed.aa.mohabeatsiii.databinding.ActivityPaginaInicialBinding
 import es.tierno.mohamed.aa.mohabeatsiii.ui.view.bottom_sheet.BottomSheetInvitado
 import es.tierno.mohamed.aa.mohabeatsiii.ui.view.fragmentos.ChatBot
+import es.tierno.mohamed.aa.mohabeatsiii.ui.view.fragmentos.ContendorPostsPlaylist
+import es.tierno.mohamed.aa.mohabeatsiii.ui.view.fragmentos.DescargasFrag
 import es.tierno.mohamed.aa.mohabeatsiii.ui.view.fragmentos.FavoritosFrag
+import es.tierno.mohamed.aa.mohabeatsiii.ui.view.fragmentos.HistorialFrag
 import es.tierno.mohamed.aa.mohabeatsiii.ui.view.fragmentos.InicioFrag
+import es.tierno.mohamed.aa.mohabeatsiii.ui.view.fragmentos.MisPostsFrag
 import es.tierno.mohamed.aa.mohabeatsiii.ui.view.fragmentos.PerfilFrag
-import android.util.Log // Asegúrate de tener esta importación
+import es.tierno.mohamed.aa.mohabeatsiii.ui.view.helper_views.ErrorDialogFragment
+import es.tierno.mohamed.aa.mohabeatsiii.utils.ConexionInternet
+import es.tierno.mohamed.aa.mohabeatsiii.utils.MenuOpciones
 
 @AndroidEntryPoint
 class PaginaInicial : AppCompatActivity() {
 
     private lateinit var binding: ActivityPaginaInicialBinding
     private var usuarioId: String = ""
-    private var lastValidItemId = R.id.nav_home
-
+    private var ultimoItemIdSeleccionado = R.id.nav_home
+    private val fbAuth = FirebaseAuth.getInstance()
     private lateinit var lottieMenuHamburguesa: LottieAnimationView
-    private var isMenuOpen = false
+    private var menuEstaAbierto = false
+    private lateinit var animacionEntrada: Animation
+    private lateinit var animacionSalida: Animation
 
-    private lateinit var slideInAnimation: Animation
-    private lateinit var slideOutAnimation: Animation
-
-    private var colorIconoAbierto: Int = 0
-    private var colorIconoCerrado: Int = 0
+    companion object {
+        private const val INVITADO = "invitado"
+        private const val TAG = "PaginaInicial"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,218 +49,233 @@ class PaginaInicial : AppCompatActivity() {
         binding = ActivityPaginaInicialBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // AÑADE ESTA LÍNEA AQUÍ
-        Log.d("MenuDebug", "Visibilidad inicial de overlay_dimmer: ${if (binding.overlayDimmer.visibility == View.VISIBLE) "VISIBLE" else "GONE"}")
+        usuarioId = intent.getStringExtra("usuarioId") ?: INVITADO
 
-        usuarioId = intent.getStringExtra("usuarioId") ?: "invitado"
+        inicializarVistas()
+        configurarAnimaciones()
+        configurarListeners()
+        configurarNavegacionInferior()
+        configurarFragmentoInicial(savedInstanceState)
+        actualizarTextoCerrarSesion()
+    }
 
+    override fun onResume() {
+        super.onResume()
+        actualizarTextoCerrarSesion()
+    }
+
+    private fun inicializarVistas() {
         lottieMenuHamburguesa = binding.lottieMenuHamburguesa
+    }
 
-        slideInAnimation = AnimationUtils.loadAnimation(this, R.anim.anim_entrada)
-        slideOutAnimation = AnimationUtils.loadAnimation(this, R.anim.anim_salida)
+    private fun configurarAnimaciones() {
+        animacionEntrada = AnimationUtils.loadAnimation(this, R.anim.anim_entrada)
+        animacionSalida = AnimationUtils.loadAnimation(this, R.anim.anim_salida)
+    }
 
-        colorIconoAbierto = resources.getColor(R.color.colorPrincipal, theme)
-        colorIconoCerrado = resources.getColor(R.color.colorDetalles, theme)
-
+    private fun configurarListeners() {
         lottieMenuHamburguesa.setOnClickListener {
-            toggleMenuFlotante()
+            alternarMenuFlotante()
         }
 
         binding.btnCloseMenuFlotante.setOnClickListener {
-            toggleMenuFlotante()
+            alternarMenuFlotante()
         }
 
-        binding.menuItemMisPosts.setOnClickListener { handleMenuItemClick("Mis posts") }
-        binding.menuItemHistorial.setOnClickListener { handleMenuItemClick("Historial") }
-        binding.menuItemDescargas.setOnClickListener { handleMenuItemClick("Descargas") }
-        binding.menuItemCerrarSesion.setOnClickListener { handleMenuItemClick("Cerrar Sesión") }
+        binding.menuItemMisPosts.setOnClickListener { manejarClickMenuItem(MenuOpciones.MIS_POSTS) }
+        binding.menuItemHistorial.setOnClickListener { manejarClickMenuItem(MenuOpciones.HISTORIAL) }
+        binding.menuItemDescargas.setOnClickListener { manejarClickMenuItem(MenuOpciones.DESCARGAS) }
+        binding.menuItemCerrarSesion.setOnClickListener { manejarClickMenuItem(MenuOpciones.CERRAR_SESION) }
 
-        if (savedInstanceState == null) {
-            val inicioFrag = InicioFrag().apply {
-                arguments = Bundle().apply {
-                    putString("idUsuario", usuarioId)
-                }
-            }
-            replaceFragment(inicioFrag)
+        binding.reproductorMiniContainer.setOnClickListener {
+            binding.reproductorMiniContainer.visibility = View.GONE
         }
 
+        binding.overlayDimmer.setOnClickListener {
+            alternarMenuFlotante()
+        }
+    }
+
+    private fun configurarNavegacionInferior() {
         binding.bottomNav.setOnNavigationItemSelectedListener { item ->
-            val esInvitado = usuarioId == "invitado"
+            val esInvitado = esUsuarioInvitado()
+            val hayConexion = ConexionInternet.isNetworkAvailable(this)
 
             when (item.itemId) {
                 R.id.nav_home -> {
-                    val inicioFrag = InicioFrag().apply {
-                        arguments = Bundle().apply {
-                            putString("idUsuario", usuarioId)
-                        }
-                    }
-                    replaceFragment(inicioFrag)
-                    lastValidItemId = item.itemId
+                    abrirFragmento(InicioFrag().apply {
+                        arguments = Bundle().apply { putString("idUsuario", usuarioId) }
+                    })
+                    ultimoItemIdSeleccionado = item.itemId
                     true
-                }
-                R.id.nav_favoritos -> {
-                    if (esInvitado) {
-                        mostrarBottomSheetInvitado()
-                        binding.bottomNav.menu.findItem(lastValidItemId).isChecked = true
-                        false
-                    } else {
-                        val fragment = FavoritosFrag().apply {
-                            arguments = Bundle().apply {
-                                putString("idUsuario", usuarioId)
-                            }
-                        }
-                        replaceFragment(fragment)
-                        lastValidItemId = item.itemId
-                        true
-                    }
-                }
-                R.id.nav_perfil -> {
-                    if (esInvitado) {
-                        mostrarBottomSheetInvitado()
-                        binding.bottomNav.menu.findItem(lastValidItemId).isChecked = true
-                        false
-                    } else {
-                        val perfilFrag = PerfilFrag().apply {
-                            arguments = Bundle().apply {
-                                putString("idUsuario", usuarioId)
-                            }
-                        }
-                        replaceFragment(perfilFrag)
-                        lastValidItemId = item.itemId
-                        true
-                    }
                 }
                 R.id.nav_chat -> {
-                    replaceFragment(ChatBot())
-                    lastValidItemId = item.itemId
+                    abrirFragmento(ChatBot().apply {
+                        arguments = Bundle().apply { putString("idUsuario", usuarioId) }
+                    })
+                    ultimoItemIdSeleccionado = item.itemId
                     true
                 }
-                R.id.nav_playlist -> {
-                    if (esInvitado) {
-                        mostrarBottomSheetInvitado()
-                        binding.bottomNav.menu.findItem(lastValidItemId).isChecked = true
+                R.id.nav_favoritos, R.id.nav_perfil, R.id.nav_playlist -> {
+                    if (!hayConexion || esInvitado) {
+                        mostrarRestriccion(hayConexion, esInvitado)
+                        restablecerSeleccionNavegacionInferior()
                         false
                     } else {
-                        replaceFragment(ChatBot())
-                        lastValidItemId = item.itemId
+                        val fragment = when (item.itemId) {
+                            R.id.nav_favoritos -> FavoritosFrag().apply { arguments = Bundle().apply { putString("idUsuario", usuarioId) } }
+                            R.id.nav_perfil -> PerfilFrag().apply { arguments = Bundle().apply { putString("idUsuario", usuarioId) } }
+                            R.id.nav_playlist -> ContendorPostsPlaylist()
+                            else -> InicioFrag()
+                        }
+                        abrirFragmento(fragment)
+                        ultimoItemIdSeleccionado = item.itemId
                         true
                     }
                 }
                 else -> false
             }
         }
+    }
 
-        binding.reproductorMiniContainer.setOnClickListener {
-            binding.reproductorMiniContainer.visibility = View.GONE
-        }
-
-        lottieMenuHamburguesa.addLottieOnCompositionLoadedListener {
-            applyLottieColor(colorIconoCerrado)
-        }
-
-        binding.overlayDimmer.setOnClickListener {
-            Log.d("MenuDebug", "Click en overlay_dimmer detectado.")
-            toggleMenuFlotante()
-        }
-
-        if (usuarioId == "invitado") {
-            binding.menuItemCerrarSesion.text = "Iniciar Sesión"
-        } else {
-            binding.menuItemCerrarSesion.text = "Cerrar Sesión"
+    private fun configurarFragmentoInicial(savedInstanceState: Bundle?) {
+        if (savedInstanceState == null) {
+            abrirFragmento(InicioFrag().apply {
+                arguments = Bundle().apply {
+                    putString("idUsuario", usuarioId)
+                }
+            })
         }
     }
 
-    private fun replaceFragment(fragment: Fragment) {
+    private fun abrirFragmento(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
             .replace(binding.fragContainer.id, fragment)
             .commit()
     }
 
+    private fun restablecerSeleccionNavegacionInferior() {
+        binding.bottomNav.selectedItemId = ultimoItemIdSeleccionado
+    }
+
+    private fun esUsuarioInvitado() = usuarioId == INVITADO
+
+    private fun actualizarTextoCerrarSesion() {
+        binding.menuItemCerrarSesion.text = if (esUsuarioInvitado()) getString(R.string.lblIniciarSesion) else getString(R.string.menu_item_cerrar_sesion)
+    }
+
     fun mostrarBottomSheetInvitado() {
-        val bottomSheet = BottomSheetInvitado()
-        bottomSheet.show(supportFragmentManager, "BottomSheetInvitado")
+        BottomSheetInvitado().show(supportFragmentManager, "BottomSheetInvitado")
     }
 
-    private fun applyLottieColor(color: Int) {
-        lottieMenuHamburguesa.addValueCallback(
-            KeyPath("**", "Fill 1"),
-            LottieProperty.COLOR,
-            LottieValueCallback(color)
-        )
-        lottieMenuHamburguesa.invalidate()
+    private fun mostrarDialogoError(mensaje: String) {
+        val dialog = ErrorDialogFragment.newInstance(mensaje)
+        dialog.show(supportFragmentManager, "ErrorNetworkDialog")
     }
 
-    private fun toggleMenuFlotante() {
-        if (isMenuOpen) {
-            Log.d("MenuDebug", "Cerrando menú. overlay_dimmer VISIBLE. isMenuOpen: $isMenuOpen")
-            binding.menuFlotanteContainer.startAnimation(slideOutAnimation)
-            slideOutAnimation.setAnimationListener(object : Animation.AnimationListener {
-                override fun onAnimationStart(animation: Animation?) {}
-                override fun onAnimationEnd(animation: Animation?) {
-                    binding.menuFlotanteContainer.visibility = View.GONE
-                    binding.overlayDimmer.visibility = View.GONE
-                    Log.d("MenuDebug", "Menú cerrado. overlay_dimmer GONE. isMenuOpen: $isMenuOpen")
-                    lottieMenuHamburguesa.speed = -1f
-                    lottieMenuHamburguesa.playAnimation()
-                    applyLottieColor(colorIconoCerrado)
-                    isMenuOpen = false
-                }
-                override fun onAnimationRepeat(animation: Animation?) {}
-            })
+    private fun mostrarRestriccion(hayConexion: Boolean, esInvitado: Boolean) {
+        if (!hayConexion) {
+            mostrarDialogoError(getString(R.string.error_internet))
+        } else if (esInvitado) {
+            mostrarBottomSheetInvitado()
+        }
+    }
+
+    private fun alternarMenuFlotante() {
+        if (menuEstaAbierto) {
+            cerrarMenu()
         } else {
-            Log.d("MenuDebug", "Abriendo menú. overlay_dimmer GONE. isMenuOpen: $isMenuOpen")
-            binding.menuFlotanteContainer.visibility = View.VISIBLE
-            binding.overlayDimmer.visibility = View.VISIBLE
-            Log.d("MenuDebug", "Menú abierto. overlay_dimmer VISIBLE. isMenuOpen: $isMenuOpen")
-            binding.menuFlotanteContainer.startAnimation(slideInAnimation)
-            lottieMenuHamburguesa.speed = 1f
-            lottieMenuHamburguesa.playAnimation()
-            applyLottieColor(colorIconoAbierto)
-            isMenuOpen = true
+            abrirMenu()
         }
     }
 
-    private fun handleMenuItemClick(selectedItem: String) {
-        when (selectedItem) {
-            "Mis posts" -> {
-                if (usuarioId == "invitado") {
-                    mostrarBottomSheetInvitado()
-                } else {
-                    Toast.makeText(this, "Navegando a Mis posts", Toast.LENGTH_SHORT).show()
-                }
+    private fun cerrarMenu() {
+        binding.menuFlotanteContainer.startAnimation(animacionSalida)
+        animacionSalida.setAnimationListener(object : Animation.AnimationListener {
+            override fun onAnimationStart(animation: Animation?) {}
+            override fun onAnimationEnd(animation: Animation?) {
+                binding.menuFlotanteContainer.visibility = View.GONE
+                binding.overlayDimmer.visibility = View.GONE
+                lottieMenuHamburguesa.speed = -1f
+                lottieMenuHamburguesa.playAnimation()
+                menuEstaAbierto = false
             }
-            "Historial" -> {
-                if (usuarioId == "invitado") {
-                    mostrarBottomSheetInvitado()
+            override fun onAnimationRepeat(animation: Animation?) {}
+        })
+    }
+
+    private fun abrirMenu() {
+        binding.menuFlotanteContainer.visibility = View.VISIBLE
+        binding.overlayDimmer.visibility = View.VISIBLE
+        binding.menuFlotanteContainer.startAnimation(animacionEntrada)
+        lottieMenuHamburguesa.speed = 1f
+        lottieMenuHamburguesa.playAnimation()
+        menuEstaAbierto = true
+    }
+
+    private fun manejarClickMenuItem(itemSeleccionado: MenuOpciones) {
+        when (itemSeleccionado) {
+            MenuOpciones.MIS_POSTS -> navegarSeguro(itemSeleccionado, true, true)
+            MenuOpciones.HISTORIAL -> navegarSeguro(itemSeleccionado, true, true)
+            MenuOpciones.DESCARGAS -> navegarSeguro(itemSeleccionado, false, false)
+            MenuOpciones.CERRAR_SESION -> {
+                if (esUsuarioInvitado()) {
+                    val intent = Intent(this, MainActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    startActivity(intent)
+                    finish()
                 } else {
-                    Toast.makeText(this, "Navegando a Historial", Toast.LENGTH_SHORT).show()
+                    fbAuth.signOut()
+                    val intent = Intent(this, MainActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    startActivity(intent)
+                    finish()
                 }
-            }
-            "Descargas" -> {
-                if (usuarioId == "invitado") {
-                    mostrarBottomSheetInvitado()
-                } else {
-                    Toast.makeText(this, "Navegando a Descargas", Toast.LENGTH_SHORT).show()
-                }
-            }
-            "Cerrar Sesión" -> {
-                if (usuarioId == "invitado") {
-                    Toast.makeText(this, "Redirigiendo para iniciar sesión...", Toast.LENGTH_SHORT).show()
-                } else {
-                    Toast.makeText(this, "Cerrando Sesión...", Toast.LENGTH_SHORT).show()
-                }
-                val intent = Intent(this, MainActivity::class.java)
-                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                startActivity(intent)
-                finish()
             }
         }
-        toggleMenuFlotante()
+        alternarMenuFlotante()
+    }
+
+    private fun navegarSeguro(destino: MenuOpciones, requiereConexion: Boolean, requiereUsuario: Boolean) {
+        val hayConexion = ConexionInternet.isNetworkAvailable(this)
+        val esInvitado = esUsuarioInvitado()
+
+        if (requiereConexion && !hayConexion) {
+            mostrarDialogoError(getString(R.string.error_internet))
+            return
+        }
+
+        when (destino) {
+            MenuOpciones.MIS_POSTS -> {
+                if (requiereUsuario && esInvitado) {
+                    mostrarBottomSheetInvitado()
+                    return
+                }
+                abrirFragmento(MisPostsFrag().apply {
+                    arguments = Bundle().apply { putString("idUsuario", usuarioId) }
+                })
+            }
+            MenuOpciones.HISTORIAL -> {
+                if (requiereUsuario && esInvitado) {
+                    mostrarBottomSheetInvitado()
+                    return
+                }
+                abrirFragmento(HistorialFrag().apply {
+                    arguments = Bundle().apply { putString("idUsuario", usuarioId) }
+                })
+            }
+            MenuOpciones.DESCARGAS -> {
+                abrirFragmento(DescargasFrag())
+            }
+            MenuOpciones.CERRAR_SESION -> {
+
+            }
+        }
     }
 
     override fun onBackPressed() {
-        if (isMenuOpen) {
-            toggleMenuFlotante()
+        if (menuEstaAbierto) {
+            alternarMenuFlotante()
         } else {
             super.onBackPressed()
         }

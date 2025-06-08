@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,6 +20,7 @@ import es.tierno.mohamed.aa.mohabeatsiii.ui.view.fragmentos.ReproductorFrag
 import es.tierno.mohamed.aa.mohabeatsiii.ui.view.fragmentos.rv_canciones.AdapterCanciones
 import es.tierno.mohamed.aa.mohabeatsiii.ui.viewModel.ResultadoBusquedaViewModel
 import es.tierno.mohamed.aa.mohabeatsiii.R
+import es.tierno.mohamed.aa.mohabeatsiii.ui.view.bottom_sheet.BottomSheetPlaylist
 
 @AndroidEntryPoint
 class ResultadoBusquedaFrag : Fragment() {
@@ -52,7 +54,7 @@ class ResultadoBusquedaFrag : Fragment() {
 
     private var categoria: CategoriasModel? = null
     private var texto: String? = null
-    private var idUsuario: String = "" // Añadido para el ID de usuario
+    private var idUsuario: String = ""
 
     private val viewModel: ResultadoBusquedaViewModel by lazy {
         ViewModelProvider(this)[ResultadoBusquedaViewModel::class.java]
@@ -79,7 +81,6 @@ class ResultadoBusquedaFrag : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         adapter = AdapterCanciones(
-            idUsuario = idUsuario,
             onReproducirClick = { cancion -> reproducirCancion(cancion) },
             onFavoritoClick = { cancion, esFavoritoActual ->
                 if (idUsuario.isEmpty() || idUsuario == "invitado") {
@@ -91,12 +92,25 @@ class ResultadoBusquedaFrag : Fragment() {
                         viewModel.anadirAFavoritos(idUsuario, cancion.idCancion)
                     }
                 }
-            }
+            },
+            onDescargarClick = { cancion ->
+
+            },
+            onAnadirClick = { cancion ->
+                val bottomSheet = BottomSheetPlaylist.newInstance(cancion)
+                bottomSheet.show(childFragmentManager, BottomSheetPlaylist.TAG)
+            }, onEliminarClick = { cancion ->
+
+            },
+            mostrarFavorito = true,
+            mostrarDescargar = true,
+            mostrarAnadir = true,
+            mostrarEliminar = false
         )
+
         binding.recyclerViewCancionesBusqueda.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerViewCancionesBusqueda.adapter = adapter
 
-        // Llamada a onCreate del ViewModel para inicializar el ID de usuario y cargar favoritos
         viewModel.onCreate(idUsuario)
 
         if (categoria != null) {

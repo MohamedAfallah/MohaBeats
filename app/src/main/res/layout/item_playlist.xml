@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="12dp"
+    app:cardBackgroundColor="@color/fondosSecundarios"
     app:cardCornerRadius="16dp"
-    app:cardElevation="6dp"
-    app:cardBackgroundColor="@color/fondosSecundarios">
+    app:cardElevation="6dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -18,42 +17,68 @@
             android:id="@+id/imgPlaylist"
             android:layout_width="76dp"
             android:layout_height="76dp"
+            android:contentDescription="@string/descripcionImg"
             android:scaleType="fitCenter"
             android:src="@drawable/moha_beats_removebg_preview"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/btnEliminar"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:contentDescription="Eliminar canción"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:lottie_autoPlay="false"
+            app:lottie_fileName="borrar_animation.json"
+            app:lottie_loop="false" />
+
+        <ImageButton
+            android:id="@+id/btnAgregarPost"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginEnd="8dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_anadir"
+            android:scaleType="fitCenter"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btnEliminar"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/blancoAgradables" />
 
         <TextView
             android:id="@+id/txtNombrePlaylist"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
-            android:text="Mi Playlist"
-            android:textColor="@color/blancoAgradables"
-            android:textSize="18sp"
-            android:maxLines="1"
             android:ellipsize="end"
             android:fontFamily="@font/abril_fatface"
+            android:maxLines="1"
+            android:textColor="@color/blancoAgradables"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toStartOf="@+id/btnAgregarPost"
             app:layout_constraintStart_toEndOf="@id/imgPlaylist"
-            app:layout_constraintTop_toTopOf="@id/imgPlaylist"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintTop_toTopOf="@id/imgPlaylist" />
 
         <TextView
             android:id="@+id/txtCantidadCanciones"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
-            android:text="15 canciones"
-            android:textColor="@color/colorDetalles"
-            android:textSize="14sp"
-            android:maxLines="1"
             android:ellipsize="end"
             android:fontFamily="@font/abril_fatface"
+            android:maxLines="1"
+            android:textColor="@color/colorDetalles"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@id/imgPlaylist"
+            app:layout_constraintEnd_toStartOf="@+id/btnAgregarPost"
             app:layout_constraintStart_toEndOf="@id/imgPlaylist"
-            app:layout_constraintTop_toBottomOf="@id/txtNombrePlaylist"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="@id/imgPlaylist" />
+            app:layout_constraintTop_toBottomOf="@id/txtNombrePlaylist" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

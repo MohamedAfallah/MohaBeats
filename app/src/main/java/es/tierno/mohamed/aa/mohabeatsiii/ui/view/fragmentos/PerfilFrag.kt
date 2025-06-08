@@ -14,9 +14,8 @@ import com.google.android.material.textfield.TextInputEditText
 import dagger.hilt.android.AndroidEntryPoint
 import es.tierno.mohamed.aa.mohabeatsiii.R
 import es.tierno.mohamed.aa.mohabeatsiii.databinding.FragmentPerfilBinding
-import es.tierno.mohamed.aa.mohabeatsiii.domain.model.Usuario
 import es.tierno.mohamed.aa.mohabeatsiii.ui.viewModel.PerfilViewModel
-import com.google.firebase.auth.FirebaseAuth // Añadir para obtener el ID de usuario si no viene en argumentos
+import com.google.firebase.auth.FirebaseAuth
 
 @AndroidEntryPoint
 class PerfilFrag : Fragment() {
@@ -79,7 +78,6 @@ class PerfilFrag : Fragment() {
         perfilViewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
             binding.btnEditar.isEnabled = !isLoading
             binding.switchEditar.isEnabled = !isLoading
-            // Puedes añadir aquí la visibilidad de un ProgressBar si tienes uno
         }
 
         perfilViewModel.saveSuccess.observe(viewLifecycleOwner) { isSuccess ->
@@ -100,6 +98,26 @@ class PerfilFrag : Fragment() {
             binding.btnEditar.visibility = if (isChecked) View.VISIBLE else View.GONE
         }
 
+        binding.edtCorreo.apply {
+            isEnabled = true
+            isFocusable = false
+            isFocusableInTouchMode = false
+            setCursorVisible(false)
+            setOnClickListener {
+                Toast.makeText(requireContext(), getString(R.string.campo_no_editable), Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        binding.edtFecha.apply {
+            isEnabled = true
+            isFocusable = false
+            isFocusableInTouchMode = false
+            setCursorVisible(false)
+            setOnClickListener {
+                Toast.makeText(requireContext(), getString(R.string.campo_no_editable), Toast.LENGTH_SHORT).show()
+            }
+        }
+
         setEditMode(false)
         binding.btnEditar.visibility = View.GONE
 
@@ -113,8 +131,7 @@ class PerfilFrag : Fragment() {
                 val newFechaNacimiento = binding.edtFecha.text.toString()
                 val newTelefono = binding.edtTelefono.text.toString()
                 val newUsuarioDisplayName = binding.edtUsuario.text.toString()
-                val newPassword: String? = null // Asume que no hay campo de contraseña para editar.
-                // Si lo añades, léelo de tu TextInputEditText de contraseña.
+                val newPassword: String? = null
 
                 perfilViewModel.guardarCambiosPerfil(
                     newEmail = newCorreo,
@@ -132,15 +149,13 @@ class PerfilFrag : Fragment() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun setEditMode(isEditable: Boolean) {
-        val editTexts = listOf<TextInputEditText>(
+        val editTextsEditables = listOf<TextInputEditText>(
             binding.edtNombre,
-            binding.edtCorreo,
-            binding.edtFecha,
             binding.edtTelefono,
             binding.edtUsuario
         )
 
-        editTexts.forEach { editText ->
+        editTextsEditables.forEach { editText ->
             editText.isEnabled = isEditable
             editText.isFocusable = isEditable
             editText.isFocusableInTouchMode = isEditable

@@ -6,6 +6,7 @@ import android.util.Log
 
 class FbAuth {
 
+    // clase que maneja la creacion de Firebase auth
     private val auth = FirebaseAuth.getInstance()
 
     suspend fun crearUsuario(email: String, password: String): String {
@@ -20,6 +21,12 @@ class FbAuth {
             Log.e("FbAuth", "Error al crear usuario en Firebase Auth: ${e.message}", e)
             ""
         }
+    }
+
+    suspend fun estaCorreoVerificado(): Boolean {
+        val user = auth.currentUser
+        user?.reload()?.await() // Refresca el estado del usuario
+        return user?.isEmailVerified == true
     }
 
     suspend fun updateUserEmail(newEmail: String): Boolean {

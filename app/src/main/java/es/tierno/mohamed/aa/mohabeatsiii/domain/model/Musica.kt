@@ -27,6 +27,8 @@ data class Musica(
     @SerializedName("trackTimeMillis")
     val duracionMillis: Long,
     @SerializedName("releaseDate")
-    val fechaLanzamiento: String
+    val fechaLanzamiento: String,
+    var rutaLocalCancion: String? = null,
+    var rutaLocalImg: String? = null
 ) : Parcelable
 

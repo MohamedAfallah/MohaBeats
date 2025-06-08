@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MohaBeatsIII</string>
+    <string name="lblUsuario">Username</string>
+    <string name="lblContrasena">Password</string>
+    <string name="lblIniciarSesion">Log In</string>
+    <string name="favoritos">Favorites</string>
+    <string name="canciones">Songs</string>
+    <string name="perfil">Profile</string>
+    <string name="lblRegistrarse">Create an account!</string>
+    <string name="nombreCompleto">Full Name</string>
+    <string name="correo">Email</string>
+    <string name="fechaNacimiento">Date of Birth</string>
+    <string name="crearCuenta">Create Account</string>
+    <string name="lblNoInicio" translatable="false">Continue as Guest</string>
+    <string name="explorar" translatable="false">Explore</string>
+    <string name="buscarTexto" translatable="false">Search for a song or category…</string>
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
+    <string name="chat_bot" translatable="false">Chat Bot</string>
+    <string name="enviar_mensaje" translatable="false">Send message</string>
+    <string name="escribe_un_mensaje" translatable="false">Type a message…</string>
+    <string name="app_logo" translatable="false">Logo</string>
+    <string name="descripcionImg" translatable="false">This is an image</string>
+    <string name="telefono" translatable="false">Phone</string>
+    <string name="nombre_usuario" translatable="false">User Name</string>
+    <string name="editar_perfil" translatable="false">Edit Profile</string>
+    <string name="notificaciones" translatable="false">Notifications</string>
+    <string name="mensaje_invitado" translatable="false">To enjoy all features, please log in or create an account.</string>
+    <string name="bienvenido_invitado" translatable="false">Welcome, Guest</string>
+    <string name="loading_crear" translatable="false">Please verify your email to finish account creation</string>
+    <string name="editar" translatable="false">Edit</string>
+    <string name="txtHistorial" translatable="false">History</string>
+    <string name="txtDescargas" translatable="false">Downloads</string>
+    <string name="confirmarContrasena" translatable="false">Confirm Password</string>
+    <string name="playlist" translatable="false">Playlist</string>
+    <string name="menu_item_mis_posts" translatable="false">My Posts</string>
+    <string name="menu_item_historial" translatable="false">History</string>
+    <string name="menu_item_descargas" translatable="false">Downloads</string>
+    <string name="menu_item_cerrar_sesion" translatable="false">Log Out</string>
+    <string name="opciones_de_perfil" translatable="false">Profile Options</string>
+    <string name="crear_nueva_playlist" translatable="false">Create New Playlist</string>
+    <string name="nombre_de_la_playlist" translatable="false">Playlist Name</string>
+    <string name="cancelar" translatable="false">Cancel</string>
+    <string name="crear" translatable="false">Create</string>
+    <string name="error" translatable="false">Error</string>
+    <string name="ok" translatable="false">OK</string>
+    <string name="posts" translatable="false">Posts</string>
+    <string name="error_internet" translatable="false">Please connect to the internet to continue.</string>
+    <string name="error_credenciales_vacias" translatable="false">Please enter email and password.</string>
+    <string name="error_credenciales_incorrectas" translatable="false">Incorrect username or password.</string>
+    <string name="error_campo_requerido" translatable="false">The %1$s is required.</string>
+    <string name="error_correo_requerido" translatable="false">Email is required.</string>
+    <string name="error_correo_invalido" translatable="false">Invalid email format.</string>
+    <string name="error_contrasena_requerida" translatable="false">Password is required.</string>
+    <string name="error_contrasena_corta" translatable="false">Password must be at least 6 characters long.</string>
+    <string name="error_confirmar_contrasena_requerida" translatable="false">Confirm your password.</string>
+    <string name="error_contrasenas_no_coinciden" translatable="false">Passwords do not match.</string>
+    <string name="error_corregir_formulario" translatable="false">Please correct the errors in the form.</string>
+    <string name="loadingCrear" translatable="false">Creating user…</string>
+    <string name="loading_enviando_verificacion" translatable="false">Sending email verification…</string>
+    <string name="loading_esperando_verificacion" translatable="false">Awaiting email verification…</string>
+    <string name="success_correo_verificado" translatable="false">Email verified successfully.</string>
+    <string name="publicar" translatable="false">Publish</string>
+    <string name="campo_no_editable">Field is not editable.</string>
+    <string name="error_telefono_invalido">The phone number must have 9 digits.</string>
+    <string name="error_fecha_nacimiento_invalida">You must have been born in 2010 or earlier.</string>
+
+    <string-array name="menu_opciones">
+        <item>My Posts</item>
+        <item>History</item>
+        <item>Downloads</item>
+        <item>Log Out</item>
+    </string-array>
+</resources>

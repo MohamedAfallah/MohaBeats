@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import es.tierno.mohamed.aa.mohabeatsiii.R
 import es.tierno.mohamed.aa.mohabeatsiii.databinding.ActivityMainBinding
 import com.google.firebase.auth.FirebaseAuth
 
@@ -28,11 +29,11 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.btnIniciar.setOnClickListener {
-            val email = binding.txtUsuario.text.toString().trim()
+            val email = binding.txtEmail.text.toString().trim()
             val password = binding.txtContrasena.text.toString().trim()
 
             if (email.isEmpty() || password.isEmpty()) {
-                binding.lblDenegado.text = "Por favor, ingrese correo y contraseña."
+                binding.lblDenegado.text = getString(R.string.error_credenciales_vacias) // Replaced hardcoded string
                 return@setOnClickListener
             }
 
@@ -42,7 +43,7 @@ class MainActivity : AppCompatActivity() {
                         val user = auth.currentUser
                         irAPaginaInicial(user?.uid)
                     } else {
-                        binding.lblDenegado.text = "Usuario o contraseña incorrectos."
+                        binding.lblDenegado.text = getString(R.string.error_credenciales_incorrectas) // Replaced hardcoded string
                     }
                 }
         }

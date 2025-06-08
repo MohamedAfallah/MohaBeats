@@ -31,6 +31,40 @@
     <string name="editar">Editar</string>
     <string name="txtHistorial">Historial</string>
     <string name="txtDescargas">Descargas</string>
+    <string name="confirmarContrasena">Confirmar Contraseña</string>
+    <string name="playlist">Playlist</string>
+    <string name="menu_item_mis_posts">Mis posts</string>
+    <string name="menu_item_historial">Historial</string>
+    <string name="menu_item_descargas">Descargas</string>
+    <string name="menu_item_cerrar_sesion">Cerrar Sesión</string>
+    <string name="opciones_de_perfil">Opciones de Perfil</string>
+    <string name="crear_nueva_playlist">Crear nueva playlist</string>
+    <string name="nombre_de_la_playlist">Nombre de la playlist</string>
+    <string name="cancelar">Cancelar</string>
+    <string name="crear">Crear</string>
+    <string name="error">Error</string>
+    <string name="ok">OK</string>
+    <string name="posts">Posts</string>
+    <string name="error_internet">Por favor, conectese a internet para poder continuar</string>
+    <string name="error_credenciales_vacias">Por favor, ingrese correo y contraseña.</string>
+    <string name="error_credenciales_incorrectas">Usuario o contraseña incorrectos.</string>
+    <string name="error_campo_requerido">El %1$s es requerido.</string>
+    <string name="error_correo_requerido">El correo electrónico es requerido.</string>
+    <string name="error_correo_invalido">Formato de correo electrónico inválido.</string>
+    <string name="error_contrasena_requerida">La contraseña es requerida.</string>
+    <string name="error_contrasena_corta">La contraseña debe tener al menos 6 caracteres.</string>
+    <string name="error_confirmar_contrasena_requerida">Confirma tu contraseña.</string>
+    <string name="error_contrasenas_no_coinciden">Las contraseñas no coinciden.</string>
+    <string name="error_corregir_formulario">Por favor, corrija los errores en el formulario.</string>
+    <string name="loadingCrear">Creando usuario...</string>
+    <string name="loading_enviando_verificacion">Enviando verificación de correo...</string>
+    <string name="loading_esperando_verificacion">Esperando verificación de correo...</string>
+    <string name="success_correo_verificado">Correo verificado con éxito.</string>
+    <string name="publicar">Publicar</string>
+    <string name="campo_no_editable">Campo no editable.</string>
+    <string name="error_telefono_invalido">El teléfono debe tener 9 cifras.</string>
+    <string name="error_fecha_nacimiento_invalida">Debes haber nacido en el año 2010 o antes.</string>
+
 
     <string-array name="menu_opciones">
         <item>Mis posts</item>

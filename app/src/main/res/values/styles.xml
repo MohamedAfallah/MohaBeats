@@ -25,4 +25,16 @@
         <item name="android:textAllCaps">false</item>
     </style>
 
+    <style name="DatePickerDialogTheme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">@color/colorDetalles</item> <item name="android:datePickerStyle">@style/MyDatePickerStyle</item>
+    </style>
+
+    <style name="MyDatePickerStyle" parent="@android:style/Widget.Material.DatePicker">
+        <item name="android:datePickerMode">spinner</item> </style>
+
+    <style name="MyDatePickerStyleLegacy" parent="@android:style/Widget.DeviceDefault.DatePicker">
+        <item name="android:calendarViewShown">false</item>
+        <item name="android:spinnersShown">true</item>
+    </style>
+
 </resources>

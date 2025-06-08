@@ -9,6 +9,7 @@ import java.util.concurrent.TimeUnit
 object RetrofitCreator {
     private const val BASE_URL = "https://itunes.apple.com/"
 
+    // para acceder a la API que devuelve canciones es de ITunes es publica
     fun getRetrofit(): Retrofit {
         val client = OkHttpClient.Builder()
             .connectTimeout(15, TimeUnit.SECONDS)
