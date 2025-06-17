@@ -1,8 +1,6 @@
 [GITHUB](https://github.com/rifi45/MohaBeats)
 
 # **Mohamed Afallah**
-## **2ª DAM**
-## **Proyecto Final**
 
 ### Índice
 - [Título](#título)
